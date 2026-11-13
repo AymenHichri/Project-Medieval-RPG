@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="UIPalette" format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/ui_palette.gd" id="1_qr2t1"]
+
+[resource]
+script = ExtResource("1_qr2t1")

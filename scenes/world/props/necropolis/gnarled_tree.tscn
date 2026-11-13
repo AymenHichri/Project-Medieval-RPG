@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/gnarled-tree.png" id="1_ach3b"]
+
+[node name="GnarledTree" type="Node2D" unique_id=1350104899]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=2088407288]
+texture = ExtResource("1_ach3b")
+centered = false
+offset = Vector2(-200.5, -400)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1201177514]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1491207588]
+polygon = PackedVector2Array(166.5, -36, 142.5, -14, 73.5, -1, -79.5, -2, -166.5, -25, -153.5, -36)

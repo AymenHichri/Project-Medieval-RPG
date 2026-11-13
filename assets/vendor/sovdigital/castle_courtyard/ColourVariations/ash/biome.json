@@ -1,0 +1,747 @@
+{
+  "schema": 1,
+  "biome": "castle-courtyard",
+  "title": "Free Castle Courtyard \u2013 Top-Down Tileset & Props (HD)",
+  "version": "1.1.0",
+  "tile_px": 128,
+  "half_tile_px": 64,
+  "full_tile_px": 128,
+  "camera": "three-quarter top-down, ~30 deg, square grid",
+  "scale_note": "humanoid ~158 px at full size = 1.23 tiles; our full character sheets at 50 % match the 64 px tree",
+  "pivot_rule": "atlas pieces: placed at cell c (bottom-left of the base row), pivot on the bottom edge of that row, centred over size_tiles[0] cells; scene tiles (breakables, animated): pivot at the scene origin = cell centre",
+  "custom_data": {
+    "surface": "String",
+    "breakable": "bool",
+    "hazard": "String"
+  },
+  "physics_layers": {
+    "world_solid": 1,
+    "water": 2
+  },
+  "atlas_padding": {
+    "margin": 4,
+    "separation": 8,
+    "note": "edge pixels extruded; ground blocks have no padding (continuous)"
+  },
+  "grounds": {
+    "courtyard-flagstones": {
+      "file": "grounds/courtyard-flagstones/courtyard-flagstones.png",
+      "versions": "grounds/courtyard-flagstones/courtyard-flagstones_single_tiles.png",
+      "block_tiles": 8,
+      "surface": "stone",
+      "hazard": null
+    },
+    "rutted-road": {
+      "file": "grounds/rutted-road/rutted-road.png",
+      "versions": "grounds/rutted-road/rutted-road_single_tiles.png",
+      "block_tiles": 8,
+      "surface": "dirt",
+      "hazard": null
+    }
+  },
+  "water": null,
+  "terrain": {
+    "flagstones-road": {
+      "terrains": [
+        "courtyard-flagstones",
+        "rutted-road"
+      ],
+      "corners16": "terrain/flagstones-road/flagstones-road_corners16.png",
+      "overlay16": "terrain/flagstones-road/flagstones-road_overlay16.png",
+      "versions": 3,
+      "frames": 1,
+      "code_rule": "code = NW*8 + NE*4 + SW*2 + SE, 1 = terrain B (rutted-road)",
+      "atlas_row": 0
+    }
+  },
+  "surfaces": {
+    "stone": {
+      "hazard": "none"
+    },
+    "dirt": {
+      "hazard": "none"
+    }
+  },
+  "pieces": [
+    {
+      "id": "corner-front-right",
+      "file": "walls/corner-front-right.png",
+      "category": "walls",
+      "size_px": [
+        384,
+        334
+      ],
+      "size_tiles": [
+        3,
+        3
+      ],
+      "pivot": [
+        192.0,
+        330.0
+      ],
+      "footprint": [
+        [
+          363.0,
+          322.0
+        ],
+        [
+          356.0,
+          329.0
+        ],
+        [
+          288.0,
+          329.0
+        ],
+        [
+          10.0,
+          317.0
+        ],
+        [
+          7.0,
+          312.0
+        ],
+        [
+          6.0,
+          210.0
+        ],
+        [
+          366.0,
+          210.0
+        ],
+        [
+          366.0,
+          278.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "curtain-wall",
+      "file": "walls/curtain-wall.png",
+      "category": "walls",
+      "size_px": [
+        384,
+        245
+      ],
+      "size_tiles": [
+        3,
+        2
+      ],
+      "pivot": [
+        192.0,
+        240.0
+      ],
+      "footprint": [
+        [
+          383.0,
+          239.0
+        ],
+        [
+          0.0,
+          239.0
+        ],
+        [
+          0.0,
+          176.0
+        ],
+        [
+          383.0,
+          176.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": true
+    },
+    {
+      "id": "bucket",
+      "file": "props/scatter/bucket.png",
+      "category": "props/scatter",
+      "size_px": [
+        48,
+        52
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        23.5,
+        50.0
+      ],
+      "footprint": [
+        [
+          39.0,
+          40.0
+        ],
+        [
+          31.0,
+          48.0
+        ],
+        [
+          20.0,
+          49.0
+        ],
+        [
+          10.0,
+          44.0
+        ],
+        [
+          8.0,
+          34.0
+        ],
+        [
+          39.0,
+          34.0
+        ]
+      ],
+      "collision": "none",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "firewood",
+      "file": "props/scatter/firewood.png",
+      "category": "props/scatter",
+      "size_px": [
+        66,
+        58
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        32.0,
+        55.0
+      ],
+      "footprint": [
+        [
+          61.0,
+          37.0
+        ],
+        [
+          46.0,
+          47.0
+        ],
+        [
+          28.0,
+          54.0
+        ],
+        [
+          24.0,
+          54.0
+        ],
+        [
+          3.0,
+          39.0
+        ],
+        [
+          3.0,
+          37.0
+        ]
+      ],
+      "collision": "none",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "grain-sack",
+      "file": "props/scatter/grain-sack.png",
+      "category": "props/scatter",
+      "size_px": [
+        54,
+        60
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        26.0,
+        57.0
+      ],
+      "footprint": [
+        [
+          50.0,
+          52.0
+        ],
+        [
+          39.0,
+          56.0
+        ],
+        [
+          23.0,
+          56.0
+        ],
+        [
+          5.0,
+          52.0
+        ],
+        [
+          2.0,
+          49.0
+        ],
+        [
+          6.0,
+          38.0
+        ],
+        [
+          46.0,
+          38.0
+        ]
+      ],
+      "collision": "none",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "rubble-stones",
+      "file": "props/scatter/rubble-stones.png",
+      "category": "props/scatter",
+      "size_px": [
+        88,
+        72
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        40.0,
+        69.0
+      ],
+      "footprint": [
+        [
+          77.0,
+          56.0
+        ],
+        [
+          61.0,
+          65.0
+        ],
+        [
+          45.0,
+          68.0
+        ],
+        [
+          20.0,
+          59.0
+        ],
+        [
+          3.0,
+          46.0
+        ],
+        [
+          76.0,
+          46.0
+        ]
+      ],
+      "collision": "none",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "barrel-stack",
+      "file": "props/setpieces/barrel-stack.png",
+      "category": "props/setpieces",
+      "size_px": [
+        163,
+        169
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        80.0,
+        160.0
+      ],
+      "footprint": [
+        [
+          158.0,
+          124.0
+        ],
+        [
+          153.0,
+          144.0
+        ],
+        [
+          144.0,
+          153.0
+        ],
+        [
+          125.0,
+          159.0
+        ],
+        [
+          38.0,
+          159.0
+        ],
+        [
+          19.0,
+          154.0
+        ],
+        [
+          10.0,
+          147.0
+        ],
+        [
+          3.0,
+          129.0
+        ],
+        [
+          2.0,
+          109.0
+        ],
+        [
+          3.0,
+          105.0
+        ],
+        [
+          157.0,
+          105.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "hay-bales",
+      "file": "props/setpieces/hay-bales.png",
+      "category": "props/setpieces",
+      "size_px": [
+        194,
+        136
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        95.5,
+        133.0
+      ],
+      "footprint": [
+        [
+          187.0,
+          125.0
+        ],
+        [
+          180.0,
+          131.0
+        ],
+        [
+          34.0,
+          132.0
+        ],
+        [
+          11.0,
+          130.0
+        ],
+        [
+          5.0,
+          124.0
+        ],
+        [
+          3.0,
+          94.0
+        ],
+        [
+          8.0,
+          88.0
+        ],
+        [
+          188.0,
+          88.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "weapon-rack",
+      "file": "props/setpieces/weapon-rack.png",
+      "category": "props/setpieces",
+      "size_px": [
+        143,
+        169
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        68.5,
+        166.0
+      ],
+      "footprint": [
+        [
+          133.0,
+          165.0
+        ],
+        [
+          5.0,
+          165.0
+        ],
+        [
+          3.0,
+          145.0
+        ],
+        [
+          9.0,
+          109.0
+        ],
+        [
+          129.0,
+          109.0
+        ],
+        [
+          134.0,
+          145.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "well",
+      "file": "props/setpieces/well.png",
+      "category": "props/setpieces",
+      "size_px": [
+        173,
+        169
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        83.5,
+        166.0
+      ],
+      "footprint": [
+        [
+          160.0,
+          127.0
+        ],
+        [
+          154.0,
+          139.0
+        ],
+        [
+          141.0,
+          151.0
+        ],
+        [
+          130.0,
+          157.0
+        ],
+        [
+          101.0,
+          165.0
+        ],
+        [
+          68.0,
+          165.0
+        ],
+        [
+          43.0,
+          159.0
+        ],
+        [
+          27.0,
+          151.0
+        ],
+        [
+          10.0,
+          133.0
+        ],
+        [
+          7.0,
+          120.0
+        ],
+        [
+          8.0,
+          109.0
+        ],
+        [
+          159.0,
+          109.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crate",
+      "file": "destructibles/crate/crate_intact.png",
+      "category": "breakable",
+      "size_px": [
+        86,
+        88
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        42.0,
+        84.0
+      ],
+      "footprint": [
+        [
+          76.0,
+          82.0
+        ],
+        [
+          9.0,
+          83.0
+        ],
+        [
+          8.0,
+          56.0
+        ],
+        [
+          76.0,
+          56.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": true,
+      "hazard": null,
+      "states": [
+        "intact",
+        "cracked",
+        "broken"
+      ],
+      "state_files": [
+        "destructibles/crate/crate_intact.png",
+        "destructibles/crate/crate_cracked.png",
+        "destructibles/crate/crate_broken.png"
+      ],
+      "strip": "destructibles/crate/crate_strip.png",
+      "godot_scene": "destructibles/crate/godot/crate.tscn",
+      "godot_spriteframes": "destructibles/crate/godot/crate_spriteframes.tres"
+    },
+    {
+      "id": "brazier",
+      "file": "animated/brazier/frames/00.png",
+      "category": "animated",
+      "size_px": [
+        126,
+        201
+      ],
+      "size_tiles": [
+        1,
+        2
+      ],
+      "pivot": [
+        63.0,
+        192.0
+      ],
+      "footprint": [
+        [
+          113.0,
+          188.0
+        ],
+        [
+          109.0,
+          191.0
+        ],
+        [
+          14.0,
+          190.0
+        ],
+        [
+          13.0,
+          184.0
+        ],
+        [
+          19.0,
+          140.0
+        ],
+        [
+          106.0,
+          140.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": "burn",
+      "frames": 9,
+      "fps": 10,
+      "strip": "animated/brazier/brazier_strip.png",
+      "godot_scene": "animated/brazier/godot/brazier.tscn",
+      "godot_spriteframes": "animated/brazier/godot/brazier_spriteframes.tres"
+    },
+    {
+      "id": "cracks",
+      "file": "decals/cracks.png",
+      "category": "decal",
+      "size_px": [
+        224,
+        222
+      ],
+      "collision": "none"
+    },
+    {
+      "id": "hoof-prints",
+      "file": "decals/hoof-prints.png",
+      "category": "decal",
+      "size_px": [
+        204,
+        207
+      ],
+      "collision": "none"
+    }
+  ],
+  "godot_tileset": "godot/castle-courtyard_tileset.tres",
+  "tiled": "tiled/examples/castle-courtyard_courtyard.tmx",
+  "colour_variations": [
+    "amber",
+    "slate",
+    "moss",
+    "ash"
+  ]
+}

@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/props/setpieces/bird-bath.png" id="1_f3clw"]
+
+[node name="BirdBath" type="Node2D" unique_id=1340660167]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1714754711]
+texture = ExtResource("1_f3clw")
+centered = false
+offset = Vector2(-39.5, -102)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1916911013]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=351895658]
+polygon = PackedVector2Array(23.5, -9, 11.5, -2, -5.5, -1, -21.5, -7, -23.5, -15, -21.5, -22, -11.5, -35, 11.5, -35, 23.5, -20)

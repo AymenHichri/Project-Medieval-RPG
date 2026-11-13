@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="SpriteFrames" path="cottage-smoke_spriteframes.tres" id="1"]
+
+[node name="CottageSmoke" type="Node2D"]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1")
+animation = &"loop"
+centered = false
+offset = Vector2(-295, -880)
+autoplay = "loop"
+
+[node name="Body" type="StaticBody2D" parent="."]
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body"]
+polygon = PackedVector2Array(293, -146, 289, -101, 251, -56, 182, -24, 87, -1, -115, -6, -254, -62, -265, -72, -286, -107, -293, -162, -275, -219, -256, -249, 256, -249, 278, -225)

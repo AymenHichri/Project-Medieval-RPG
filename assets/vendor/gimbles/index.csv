@@ -1,0 +1,47 @@
+name,type,file,from_pack
+Worn Longsword,Item icon,001_worn_longsword.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Battle Axe,Item icon,015_battle_axe.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Longbow,Item icon,025_longbow.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Iron Helm,Item icon,037_iron_helm.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Kite Shield,Item icon,048_kite_shield.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Health Potion,Item icon,052_health_potion.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Mana Potion,Item icon,053_mana_potion.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Holy Water,Item icon,058_holy_water.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Grimoire,Item icon,066_grimoire.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Soul Gem,Item icon,073_soul_gem.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Skull Key,Item icon,081_skull_key.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Old Map,Item icon,087_old_map.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Silver Stake,Item icon,096_silver_stake.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Gold Coins,Item icon,133_gold_coins.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Torch,Item icon,143_torch.png,Dark Fantasy Item Icons — Gimble's Dark Fantasy Kit
+Bleeding,Status & HUD icon,01_bleeding.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Burning,Status & HUD icon,03_burning.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Cursed,Status & HUD icon,05_cursed.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Blessed,Status & HUD icon,22_blessed.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Fire,Status & HUD icon,32_fire.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Talk,Status & HUD icon,39_talk.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Locked,Status & HUD icon,43_locked.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Quest,Status & HUD icon,51_quest.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Health,Status & HUD icon,63_health.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Gold,Status & HUD icon,66_gold.png,Dark Fantasy Status & HUD Icons — Gimble's Dark Fantasy Kit
+Knight,Portrait,01_knight.png,Dark Fantasy Portraits — Gimble's Dark Fantasy Kit
+Witch Hunter,Portrait,11_witch_hunter.png,Dark Fantasy Portraits — Gimble's Dark Fantasy Kit
+Witch,Portrait,35_witch.png,Dark Fantasy Portraits — Gimble's Dark Fantasy Kit
+Vampire Lord,Portrait,43_vampire_lord.png,Dark Fantasy Portraits — Gimble's Dark Fantasy Kit
+Skeleton Warrior,Portrait,46_skeleton_warrior.png,Dark Fantasy Portraits — Gimble's Dark Fantasy Kit
+Werewolf,Portrait,50_werewolf.png,Dark Fantasy Portraits — Gimble's Dark Fantasy Kit
+Haunted Forest,Battle background,04_haunted_forest.png,Dark Fantasy Battle Backgrounds — Gimble's Dark Fantasy Kit
+Graveyard,Battle background,08_graveyard.png,Dark Fantasy Battle Backgrounds — Gimble's Dark Fantasy Kit
+panel_iron_9slice,UI kit piece,panels/panel_iron_9slice.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+panel_iron_tooltip_9slice,UI kit piece,panels/panel_iron_tooltip_9slice.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+button_red_normal_9slice,UI kit piece,buttons/button_red_normal_9slice.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+button_red_hover_9slice,UI kit piece,buttons/button_red_hover_9slice.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+button_red_pressed_9slice,UI kit piece,buttons/button_red_pressed_9slice.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+button_red_disabled_9slice,UI kit piece,buttons/button_red_disabled_9slice.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+bar_frame_9slice,UI kit piece,bars/bar_frame_9slice.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+fill_red_segmented,UI kit piece,bars/fill_red_segmented.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+fill_red_empty,UI kit piece,bars/fill_red_empty.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+slot_normal_36x36,UI kit piece,slots/slot_normal_36x36.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+slot_selected_36x36,UI kit piece,slots/slot_selected_36x36.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+cursor_gauntlet_16,UI kit piece,cursors/cursor_gauntlet_16.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit
+cursor_sword_16,UI kit piece,cursors/cursor_sword_16.png,Dark Fantasy UI Kit — Gimble's Dark Fantasy Kit

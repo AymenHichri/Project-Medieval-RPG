@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/small-obelisk.png" id="1_82imv"]
+
+[node name="SmallObelisk" type="Node2D" unique_id=1515053238]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=889130232]
+texture = ExtResource("1_82imv")
+centered = false
+offset = Vector2(-51, -151)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=543117151]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=660704604]
+polygon = PackedVector2Array(47, -19, 16, -1, 4, -2, -47, -15, -39, -40, -33, -45, 38, -45)

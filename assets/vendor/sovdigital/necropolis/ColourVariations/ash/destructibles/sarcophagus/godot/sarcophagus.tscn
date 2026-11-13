@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="SpriteFrames" path="sarcophagus_spriteframes.tres" id="1"]
+
+[node name="Sarcophagus" type="Node2D"]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1")
+animation = &"closed"
+centered = false
+offset = Vector2(-69.5, -94)
+
+[node name="Body" type="StaticBody2D" parent="."]
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body"]
+polygon = PackedVector2Array(56.5, -2, -56.5, -1, -55.5, -31, 54.5, -31)

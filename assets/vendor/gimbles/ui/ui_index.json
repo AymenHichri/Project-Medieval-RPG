@@ -1,0 +1,175 @@
+{
+ "note": "Sizes, margins, offsets and hotspots are for the 1x files; multiply by 2 or 4 for the 2x / 4x folders. Pieces with tile=true should use TILE (repeat) for their middle parts, not stretch.",
+ "pieces": {
+  "panels/panel_iron_9slice.png": {
+   "size": [
+    128,
+    128
+   ],
+   "nine_slice": {
+    "left": 16,
+    "right": 16,
+    "top": 16,
+    "bottom": 16
+   },
+   "tile": true
+  },
+  "panels/panel_iron_tooltip_9slice.png": {
+   "size": [
+    112,
+    112
+   ],
+   "nine_slice": {
+    "left": 8,
+    "right": 8,
+    "top": 8,
+    "bottom": 8
+   },
+   "tile": true
+  },
+  "buttons/button_red_normal_9slice.png": {
+   "size": [
+    96,
+    24
+   ],
+   "nine_slice": {
+    "left": 8,
+    "right": 8,
+    "top": 0,
+    "bottom": 0
+   },
+   "tile": true,
+   "text_area_y": [
+    8,
+    16
+   ]
+  },
+  "buttons/button_red_hover_9slice.png": {
+   "size": [
+    96,
+    24
+   ],
+   "nine_slice": {
+    "left": 8,
+    "right": 8,
+    "top": 0,
+    "bottom": 0
+   },
+   "tile": true,
+   "text_area_y": [
+    8,
+    16
+   ]
+  },
+  "buttons/button_red_pressed_9slice.png": {
+   "size": [
+    96,
+    24
+   ],
+   "nine_slice": {
+    "left": 8,
+    "right": 8,
+    "top": 0,
+    "bottom": 0
+   },
+   "tile": true,
+   "text_area_y": [
+    9,
+    17
+   ]
+  },
+  "buttons/button_red_disabled_9slice.png": {
+   "size": [
+    96,
+    24
+   ],
+   "nine_slice": {
+    "left": 8,
+    "right": 8,
+    "top": 0,
+    "bottom": 0
+   },
+   "tile": true,
+   "text_area_y": [
+    8,
+    16
+   ]
+  },
+  "bars/bar_frame_9slice.png": {
+   "size": [
+    96,
+    12
+   ],
+   "nine_slice": {
+    "left": 4,
+    "right": 4,
+    "top": 0,
+    "bottom": 0
+   },
+   "tile": true,
+   "fill_area": {
+    "x": 3,
+    "y": 3,
+    "right": 3,
+    "height": 6
+   },
+   "note": "fill tiles go 3 px in from the left/right and 3 px down; inner height 6"
+  },
+  "bars/fill_red_segmented.png": {
+   "size": [
+    8,
+    6
+   ],
+   "tile": true
+  },
+  "bars/fill_red_empty.png": {
+   "size": [
+    8,
+    6
+   ],
+   "tile": true
+  },
+  "slots/slot_normal_36x36.png": {
+   "size": [
+    36,
+    36
+   ],
+   "icon_offset": [
+    2,
+    2
+   ],
+   "note": "sized for the 32x32 Dark Fantasy Kit icons"
+  },
+  "slots/slot_selected_36x36.png": {
+   "size": [
+    36,
+    36
+   ],
+   "icon_offset": [
+    2,
+    2
+   ],
+   "note": "sized for the 32x32 Dark Fantasy Kit icons"
+  },
+  "cursors/cursor_gauntlet_16.png": {
+   "size": [
+    16,
+    16
+   ],
+   "hotspot": [
+    5,
+    0
+   ]
+  },
+  "cursors/cursor_sword_16.png": {
+   "size": [
+    16,
+    16
+   ],
+   "hotspot": [
+    0,
+    0
+   ]
+  }
+ }
+}

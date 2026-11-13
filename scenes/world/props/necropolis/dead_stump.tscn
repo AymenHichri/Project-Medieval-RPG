@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/dead-stump.png" id="1_xil2y"]
+
+[node name="DeadStump" type="Node2D" unique_id=957645829]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=550947771]
+texture = ExtResource("1_xil2y")
+centered = false
+offset = Vector2(-51, -71)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1612487283]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=54595125]
+polygon = PackedVector2Array(49, -18, 46, -14, 34, -8, 8, -1, -40, -4, -49, -22, -42, -24, 34, -24)

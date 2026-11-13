@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/props/setpieces/rain-barrel.png" id="1_1xtv0"]
+
+[node name="RainBarrel" type="Node2D" unique_id=1121369662]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=467845390]
+texture = ExtResource("1_1xtv0")
+centered = false
+offset = Vector2(-32, -102)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1100235920]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=539981953]
+polygon = PackedVector2Array(29, -29, 30, -14, 24, -1, -30, -5, -28, -29)

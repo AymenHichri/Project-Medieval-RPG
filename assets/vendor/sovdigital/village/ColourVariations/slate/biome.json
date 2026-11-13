@@ -1,0 +1,1839 @@
+{
+  "schema": 1,
+  "biome": "medieval-village-free",
+  "title": "Free Medieval Village \u2013 Top-Down Tileset & Props (HD)",
+  "version": "1.0.0",
+  "tile_px": 128,
+  "half_tile_px": 64,
+  "full_tile_px": 128,
+  "camera": "three-quarter top-down, ~30 deg, square grid",
+  "scale_note": "humanoid ~158 px at full size = 1.23 tiles; our full character sheets at 50 % match the 64 px tree",
+  "pivot_rule": "atlas pieces: placed at cell c (bottom-left of the base row), pivot on the bottom edge of that row, centred over size_tiles[0] cells; scene tiles (breakables, animated): pivot at the scene origin = cell centre",
+  "custom_data": {
+    "surface": "String",
+    "breakable": "bool",
+    "hazard": "String"
+  },
+  "physics_layers": {
+    "world_solid": 1,
+    "water": 2
+  },
+  "atlas_padding": {
+    "margin": 4,
+    "separation": 8,
+    "note": "edge pixels extruded; ground blocks have no padding (continuous)"
+  },
+  "grounds": {
+    "village-grass": {
+      "file": "grounds/village-grass/village-grass.png",
+      "versions": "grounds/village-grass/village-grass_single_tiles.png",
+      "block_tiles": 8,
+      "surface": "grass",
+      "hazard": null
+    },
+    "mud-street": {
+      "file": "grounds/mud-street/mud-street.png",
+      "versions": "grounds/mud-street/mud-street_single_tiles.png",
+      "block_tiles": 8,
+      "surface": "mud",
+      "hazard": "slow"
+    }
+  },
+  "water": null,
+  "terrain": {
+    "grass-mud": {
+      "terrains": [
+        "village-grass",
+        "mud-street"
+      ],
+      "corners16": "terrain/grass-mud/grass-mud_corners16.png",
+      "overlay16": "terrain/grass-mud/grass-mud_overlay16.png",
+      "versions": 3,
+      "frames": 1,
+      "code_rule": "code = NW*8 + NE*4 + SW*2 + SE, 1 = terrain B (mud-street)",
+      "atlas_row": 0
+    }
+  },
+  "surfaces": {
+    "grass": {
+      "hazard": "none"
+    },
+    "mud": {
+      "hazard": "slow"
+    }
+  },
+  "pieces": [
+    {
+      "id": "picket-fence",
+      "file": "walls/picket-fence.png",
+      "category": "walls",
+      "size_px": [
+        384,
+        175
+      ],
+      "size_tiles": [
+        3,
+        2
+      ],
+      "pivot": [
+        187.5,
+        174.0
+      ],
+      "footprint": [
+        [
+          371.0,
+          144.0
+        ],
+        [
+          368.0,
+          166.0
+        ],
+        [
+          359.0,
+          173.0
+        ],
+        [
+          15.0,
+          173.0
+        ],
+        [
+          8.0,
+          169.0
+        ],
+        [
+          4.0,
+          144.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "picket-gate-closed",
+      "file": "walls/picket-gate-closed.png",
+      "category": "walls",
+      "size_px": [
+        355,
+        215
+      ],
+      "size_tiles": [
+        3,
+        2
+      ],
+      "pivot": [
+        169.0,
+        212.0
+      ],
+      "footprint": [
+        [
+          330.0,
+          204.0
+        ],
+        [
+          319.0,
+          211.0
+        ],
+        [
+          14.0,
+          210.0
+        ],
+        [
+          8.0,
+          206.0
+        ],
+        [
+          8.0,
+          182.0
+        ],
+        [
+          327.0,
+          182.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "wall-corner-ne",
+      "file": "walls/wall-corner-ne.png",
+      "category": "walls",
+      "size_px": [
+        318,
+        294
+      ],
+      "size_tiles": [
+        3,
+        3
+      ],
+      "pivot": [
+        177.0,
+        292.0
+      ],
+      "footprint": [
+        [
+          277.0,
+          247.0
+        ],
+        [
+          257.0,
+          279.0
+        ],
+        [
+          238.0,
+          291.0
+        ],
+        [
+          141.0,
+          287.0
+        ],
+        [
+          77.0,
+          246.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "wall-corner-nw",
+      "file": "walls/wall-corner-nw.png",
+      "category": "walls",
+      "size_px": [
+        287,
+        277
+      ],
+      "size_tiles": [
+        3,
+        3
+      ],
+      "pivot": [
+        132.5,
+        273.0
+      ],
+      "footprint": [
+        [
+          219.0,
+          227.0
+        ],
+        [
+          100.0,
+          272.0
+        ],
+        [
+          88.0,
+          272.0
+        ],
+        [
+          78.0,
+          265.0
+        ],
+        [
+          46.0,
+          227.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "wall-north",
+      "file": "walls/wall-north.png",
+      "category": "walls",
+      "size_px": [
+        384,
+        211
+      ],
+      "size_tiles": [
+        3,
+        2
+      ],
+      "pivot": [
+        187.5,
+        210.0
+      ],
+      "footprint": [
+        [
+          368.0,
+          201.0
+        ],
+        [
+          366.0,
+          206.0
+        ],
+        [
+          360.0,
+          209.0
+        ],
+        [
+          18.0,
+          209.0
+        ],
+        [
+          7.0,
+          206.0
+        ],
+        [
+          9.0,
+          164.0
+        ],
+        [
+          362.0,
+          164.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-damaged",
+      "file": "buildings/cottage-damaged.png",
+      "category": "buildings",
+      "size_px": [
+        593,
+        587
+      ],
+      "size_tiles": [
+        5,
+        5
+      ],
+      "pivot": [
+        298.5,
+        581.0
+      ],
+      "footprint": [
+        [
+          589.0,
+          432.0
+        ],
+        [
+          585.0,
+          480.0
+        ],
+        [
+          546.0,
+          524.0
+        ],
+        [
+          476.0,
+          560.0
+        ],
+        [
+          378.0,
+          580.0
+        ],
+        [
+          337.0,
+          580.0
+        ],
+        [
+          178.0,
+          572.0
+        ],
+        [
+          65.0,
+          531.0
+        ],
+        [
+          44.0,
+          518.0
+        ],
+        [
+          14.0,
+          480.0
+        ],
+        [
+          11.0,
+          471.0
+        ],
+        [
+          8.0,
+          431.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-e",
+      "file": "buildings/cottage-e.png",
+      "category": "buildings",
+      "size_px": [
+        491,
+        615
+      ],
+      "size_tiles": [
+        4,
+        5
+      ],
+      "pivot": [
+        245.0,
+        611.0
+      ],
+      "footprint": [
+        [
+          488.0,
+          513.0
+        ],
+        [
+          485.0,
+          521.0
+        ],
+        [
+          464.0,
+          546.0
+        ],
+        [
+          433.0,
+          574.0
+        ],
+        [
+          382.0,
+          601.0
+        ],
+        [
+          358.0,
+          607.0
+        ],
+        [
+          327.0,
+          609.0
+        ],
+        [
+          241.0,
+          610.0
+        ],
+        [
+          121.0,
+          595.0
+        ],
+        [
+          90.0,
+          587.0
+        ],
+        [
+          51.0,
+          569.0
+        ],
+        [
+          8.0,
+          524.0
+        ],
+        [
+          2.0,
+          515.0
+        ],
+        [
+          6.0,
+          461.0
+        ],
+        [
+          483.0,
+          461.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-n",
+      "file": "buildings/cottage-n.png",
+      "category": "buildings",
+      "size_px": [
+        612,
+        633
+      ],
+      "size_tiles": [
+        5,
+        5
+      ],
+      "pivot": [
+        305.5,
+        629.0
+      ],
+      "footprint": [
+        [
+          608.0,
+          493.0
+        ],
+        [
+          601.0,
+          513.0
+        ],
+        [
+          553.0,
+          566.0
+        ],
+        [
+          405.0,
+          622.0
+        ],
+        [
+          243.0,
+          628.0
+        ],
+        [
+          228.0,
+          625.0
+        ],
+        [
+          86.0,
+          575.0
+        ],
+        [
+          44.0,
+          547.0
+        ],
+        [
+          9.0,
+          503.0
+        ],
+        [
+          3.0,
+          493.0
+        ],
+        [
+          3.0,
+          485.0
+        ],
+        [
+          5.0,
+          479.0
+        ],
+        [
+          603.0,
+          479.0
+        ],
+        [
+          608.0,
+          488.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-ne",
+      "file": "buildings/cottage-ne.png",
+      "category": "buildings",
+      "size_px": [
+        581,
+        629
+      ],
+      "size_tiles": [
+        5,
+        5
+      ],
+      "pivot": [
+        289.0,
+        622.0
+      ],
+      "footprint": [
+        [
+          575.0,
+          472.0
+        ],
+        [
+          572.0,
+          482.0
+        ],
+        [
+          517.0,
+          540.0
+        ],
+        [
+          444.0,
+          584.0
+        ],
+        [
+          396.0,
+          602.0
+        ],
+        [
+          297.0,
+          621.0
+        ],
+        [
+          247.0,
+          621.0
+        ],
+        [
+          149.0,
+          597.0
+        ],
+        [
+          84.0,
+          565.0
+        ],
+        [
+          41.0,
+          529.0
+        ],
+        [
+          6.0,
+          490.0
+        ],
+        [
+          3.0,
+          484.0
+        ],
+        [
+          6.0,
+          472.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-nw",
+      "file": "buildings/cottage-nw.png",
+      "category": "buildings",
+      "size_px": [
+        564,
+        649
+      ],
+      "size_tiles": [
+        5,
+        6
+      ],
+      "pivot": [
+        278.5,
+        645.0
+      ],
+      "footprint": [
+        [
+          545.0,
+          496.0
+        ],
+        [
+          496.0,
+          553.0
+        ],
+        [
+          457.0,
+          580.0
+        ],
+        [
+          431.0,
+          593.0
+        ],
+        [
+          340.0,
+          632.0
+        ],
+        [
+          264.0,
+          643.0
+        ],
+        [
+          234.0,
+          644.0
+        ],
+        [
+          220.0,
+          641.0
+        ],
+        [
+          124.0,
+          607.0
+        ],
+        [
+          66.0,
+          559.0
+        ],
+        [
+          12.0,
+          495.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-ruined",
+      "file": "buildings/cottage-ruined.png",
+      "category": "buildings",
+      "size_px": [
+        595,
+        588
+      ],
+      "size_tiles": [
+        5,
+        5
+      ],
+      "pivot": [
+        297.5,
+        584.0
+      ],
+      "footprint": [
+        [
+          591.0,
+          478.0
+        ],
+        [
+          589.0,
+          487.0
+        ],
+        [
+          551.0,
+          529.0
+        ],
+        [
+          489.0,
+          560.0
+        ],
+        [
+          387.0,
+          583.0
+        ],
+        [
+          188.0,
+          582.0
+        ],
+        [
+          62.0,
+          541.0
+        ],
+        [
+          40.0,
+          530.0
+        ],
+        [
+          30.0,
+          520.0
+        ],
+        [
+          7.0,
+          483.0
+        ],
+        [
+          4.0,
+          434.0
+        ],
+        [
+          589.0,
+          434.0
+        ],
+        [
+          591.0,
+          439.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-se",
+      "file": "buildings/cottage-se.png",
+      "category": "buildings",
+      "size_px": [
+        585,
+        624
+      ],
+      "size_tiles": [
+        5,
+        5
+      ],
+      "pivot": [
+        292.0,
+        620.0
+      ],
+      "footprint": [
+        [
+          577.0,
+          495.0
+        ],
+        [
+          575.0,
+          503.0
+        ],
+        [
+          555.0,
+          526.0
+        ],
+        [
+          442.0,
+          590.0
+        ],
+        [
+          346.0,
+          619.0
+        ],
+        [
+          241.0,
+          619.0
+        ],
+        [
+          114.0,
+          572.0
+        ],
+        [
+          95.0,
+          557.0
+        ],
+        [
+          7.0,
+          470.0
+        ],
+        [
+          567.0,
+          470.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-stage-1",
+      "file": "buildings/cottage-stage-1.png",
+      "category": "buildings",
+      "size_px": [
+        584,
+        376
+      ],
+      "size_tiles": [
+        5,
+        3
+      ],
+      "pivot": [
+        296.0,
+        372.0
+      ],
+      "footprint": [
+        [
+          534.0,
+          312.0
+        ],
+        [
+          491.0,
+          333.0
+        ],
+        [
+          384.0,
+          371.0
+        ],
+        [
+          312.0,
+          371.0
+        ],
+        [
+          179.0,
+          364.0
+        ],
+        [
+          86.0,
+          330.0
+        ],
+        [
+          58.0,
+          312.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-stage-2",
+      "file": "buildings/cottage-stage-2.png",
+      "category": "buildings",
+      "size_px": [
+        608,
+        556
+      ],
+      "size_tiles": [
+        5,
+        5
+      ],
+      "pivot": [
+        306.0,
+        551.0
+      ],
+      "footprint": [
+        [
+          605.0,
+          402.0
+        ],
+        [
+          602.0,
+          439.0
+        ],
+        [
+          566.0,
+          490.0
+        ],
+        [
+          558.0,
+          498.0
+        ],
+        [
+          483.0,
+          529.0
+        ],
+        [
+          381.0,
+          550.0
+        ],
+        [
+          336.0,
+          550.0
+        ],
+        [
+          186.0,
+          540.0
+        ],
+        [
+          74.0,
+          495.0
+        ],
+        [
+          42.0,
+          479.0
+        ],
+        [
+          7.0,
+          438.0
+        ],
+        [
+          13.0,
+          401.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-sw",
+      "file": "buildings/cottage-sw.png",
+      "category": "buildings",
+      "size_px": [
+        646,
+        604
+      ],
+      "size_tiles": [
+        6,
+        5
+      ],
+      "pivot": [
+        324.0,
+        599.0
+      ],
+      "footprint": [
+        [
+          642.0,
+          450.0
+        ],
+        [
+          634.0,
+          468.0
+        ],
+        [
+          587.0,
+          524.0
+        ],
+        [
+          464.0,
+          583.0
+        ],
+        [
+          404.0,
+          597.0
+        ],
+        [
+          305.0,
+          598.0
+        ],
+        [
+          194.0,
+          595.0
+        ],
+        [
+          178.0,
+          590.0
+        ],
+        [
+          105.0,
+          558.0
+        ],
+        [
+          52.0,
+          506.0
+        ],
+        [
+          6.0,
+          449.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage-w",
+      "file": "buildings/cottage-w.png",
+      "category": "buildings",
+      "size_px": [
+        488,
+        649
+      ],
+      "size_tiles": [
+        4,
+        6
+      ],
+      "pivot": [
+        244.0,
+        645.0
+      ],
+      "footprint": [
+        [
+          484.0,
+          540.0
+        ],
+        [
+          480.0,
+          551.0
+        ],
+        [
+          460.0,
+          577.0
+        ],
+        [
+          431.0,
+          605.0
+        ],
+        [
+          382.0,
+          633.0
+        ],
+        [
+          352.0,
+          643.0
+        ],
+        [
+          244.0,
+          644.0
+        ],
+        [
+          129.0,
+          631.0
+        ],
+        [
+          93.0,
+          621.0
+        ],
+        [
+          54.0,
+          602.0
+        ],
+        [
+          12.0,
+          556.0
+        ],
+        [
+          4.0,
+          543.0
+        ],
+        [
+          7.0,
+          495.0
+        ],
+        [
+          475.0,
+          495.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "cottage",
+      "file": "buildings/cottage.png",
+      "category": "buildings",
+      "size_px": [
+        591,
+        584
+      ],
+      "size_tiles": [
+        5,
+        5
+      ],
+      "pivot": [
+        298.5,
+        580.0
+      ],
+      "footprint": [
+        [
+          588.0,
+          430.0
+        ],
+        [
+          584.0,
+          479.0
+        ],
+        [
+          546.0,
+          524.0
+        ],
+        [
+          477.0,
+          556.0
+        ],
+        [
+          382.0,
+          579.0
+        ],
+        [
+          180.0,
+          574.0
+        ],
+        [
+          41.0,
+          518.0
+        ],
+        [
+          30.0,
+          508.0
+        ],
+        [
+          9.0,
+          473.0
+        ],
+        [
+          14.0,
+          430.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "bird-bath",
+      "file": "props/setpieces/bird-bath.png",
+      "category": "props/setpieces",
+      "size_px": [
+        80,
+        104
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        39.5,
+        102.0
+      ],
+      "footprint": [
+        [
+          63.0,
+          93.0
+        ],
+        [
+          51.0,
+          100.0
+        ],
+        [
+          34.0,
+          101.0
+        ],
+        [
+          18.0,
+          95.0
+        ],
+        [
+          16.0,
+          87.0
+        ],
+        [
+          18.0,
+          80.0
+        ],
+        [
+          28.0,
+          67.0
+        ],
+        [
+          51.0,
+          67.0
+        ],
+        [
+          63.0,
+          82.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "flower-planter",
+      "file": "props/setpieces/flower-planter.png",
+      "category": "props/setpieces",
+      "size_px": [
+        134,
+        89
+      ],
+      "size_tiles": [
+        2,
+        1
+      ],
+      "pivot": [
+        67.0,
+        87.0
+      ],
+      "footprint": [
+        [
+          130.0,
+          58.0
+        ],
+        [
+          117.0,
+          86.0
+        ],
+        [
+          8.0,
+          80.0
+        ],
+        [
+          4.0,
+          64.0
+        ],
+        [
+          4.0,
+          58.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "laundry-line",
+      "file": "props/setpieces/laundry-line.png",
+      "category": "props/setpieces",
+      "size_px": [
+        254,
+        170
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        126.5,
+        167.0
+      ],
+      "footprint": [
+        [
+          249.0,
+          159.0
+        ],
+        [
+          242.0,
+          165.0
+        ],
+        [
+          14.0,
+          166.0
+        ],
+        [
+          6.0,
+          164.0
+        ],
+        [
+          4.0,
+          160.0
+        ],
+        [
+          17.0,
+          109.0
+        ],
+        [
+          238.0,
+          109.0
+        ]
+      ],
+      "collision": "none",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "market-stall",
+      "file": "props/setpieces/market-stall.png",
+      "category": "props/setpieces",
+      "size_px": [
+        234,
+        200
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        115.0,
+        198.0
+      ],
+      "footprint": [
+        [
+          222.0,
+          196.0
+        ],
+        [
+          10.0,
+          197.0
+        ],
+        [
+          8.0,
+          194.0
+        ],
+        [
+          13.0,
+          130.0
+        ],
+        [
+          217.0,
+          130.0
+        ],
+        [
+          221.0,
+          152.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "notice-board",
+      "file": "props/setpieces/notice-board.png",
+      "category": "props/setpieces",
+      "size_px": [
+        159,
+        164
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        78.0,
+        162.0
+      ],
+      "footprint": [
+        [
+          150.0,
+          159.0
+        ],
+        [
+          148.0,
+          161.0
+        ],
+        [
+          6.0,
+          160.0
+        ],
+        [
+          11.0,
+          106.0
+        ],
+        [
+          145.0,
+          106.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "public-bench",
+      "file": "props/setpieces/public-bench.png",
+      "category": "props/setpieces",
+      "size_px": [
+        164,
+        103
+      ],
+      "size_tiles": [
+        2,
+        1
+      ],
+      "pivot": [
+        79.5,
+        101.0
+      ],
+      "footprint": [
+        [
+          156.0,
+          98.0
+        ],
+        [
+          150.0,
+          100.0
+        ],
+        [
+          3.0,
+          99.0
+        ],
+        [
+          4.0,
+          67.0
+        ],
+        [
+          154.0,
+          67.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "rain-barrel",
+      "file": "props/setpieces/rain-barrel.png",
+      "category": "props/setpieces",
+      "size_px": [
+        70,
+        104
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        32.0,
+        102.0
+      ],
+      "footprint": [
+        [
+          61.0,
+          73.0
+        ],
+        [
+          62.0,
+          88.0
+        ],
+        [
+          56.0,
+          101.0
+        ],
+        [
+          2.0,
+          97.0
+        ],
+        [
+          4.0,
+          73.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "apple-cart",
+      "file": "destructibles/apple-cart/apple-cart_intact.png",
+      "category": "breakable",
+      "size_px": [
+        211,
+        158
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        116.0,
+        153.0
+      ],
+      "footprint": [
+        [
+          205.0,
+          127.0
+        ],
+        [
+          160.0,
+          152.0
+        ],
+        [
+          53.0,
+          149.0
+        ],
+        [
+          43.0,
+          146.0
+        ],
+        [
+          33.0,
+          134.0
+        ],
+        [
+          27.0,
+          119.0
+        ],
+        [
+          26.0,
+          105.0
+        ],
+        [
+          27.0,
+          101.0
+        ],
+        [
+          193.0,
+          101.0
+        ],
+        [
+          206.0,
+          115.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": true,
+      "hazard": null,
+      "states": [
+        "intact",
+        "cracked",
+        "broken"
+      ],
+      "state_files": [
+        "destructibles/apple-cart/apple-cart_intact.png",
+        "destructibles/apple-cart/apple-cart_cracked.png",
+        "destructibles/apple-cart/apple-cart_broken.png"
+      ],
+      "strip": "destructibles/apple-cart/apple-cart_strip.png",
+      "godot_scene": "destructibles/apple-cart/godot/apple-cart.tscn",
+      "godot_spriteframes": "destructibles/apple-cart/godot/apple-cart_spriteframes.tres"
+    },
+    {
+      "id": "oak-tree",
+      "file": "destructibles/oak-tree/oak-tree_standing.png",
+      "category": "breakable",
+      "size_px": [
+        437,
+        439
+      ],
+      "size_tiles": [
+        4,
+        4
+      ],
+      "pivot": [
+        231.0,
+        433.0
+      ],
+      "footprint": [
+        [
+          390.0,
+          284.0
+        ],
+        [
+          323.0,
+          418.0
+        ],
+        [
+          271.0,
+          432.0
+        ],
+        [
+          157.0,
+          430.0
+        ],
+        [
+          120.0,
+          412.0
+        ],
+        [
+          72.0,
+          302.0
+        ],
+        [
+          74.0,
+          292.0
+        ],
+        [
+          85.0,
+          284.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "states": [
+        "standing",
+        "felled",
+        "stump"
+      ],
+      "state_files": [
+        "destructibles/oak-tree/oak-tree_standing.png",
+        "destructibles/oak-tree/oak-tree_felled.png",
+        "destructibles/oak-tree/oak-tree_stump.png"
+      ],
+      "strip": "destructibles/oak-tree/oak-tree_strip.png",
+      "godot_scene": "destructibles/oak-tree/godot/oak-tree.tscn",
+      "godot_spriteframes": "destructibles/oak-tree/godot/oak-tree_spriteframes.tres"
+    },
+    {
+      "id": "cottage-smoke",
+      "file": "animated/cottage-smoke/frames/00.png",
+      "category": "animated",
+      "size_px": [
+        591,
+        884
+      ],
+      "size_tiles": [
+        5,
+        6
+      ],
+      "pivot": [
+        295.0,
+        880.0
+      ],
+      "footprint": [
+        [
+          588.0,
+          734.0
+        ],
+        [
+          584.0,
+          779.0
+        ],
+        [
+          546.0,
+          824.0
+        ],
+        [
+          477.0,
+          856.0
+        ],
+        [
+          382.0,
+          879.0
+        ],
+        [
+          180.0,
+          874.0
+        ],
+        [
+          41.0,
+          818.0
+        ],
+        [
+          30.0,
+          808.0
+        ],
+        [
+          9.0,
+          773.0
+        ],
+        [
+          2.0,
+          718.0
+        ],
+        [
+          20.0,
+          661.0
+        ],
+        [
+          39.0,
+          631.0
+        ],
+        [
+          551.0,
+          631.0
+        ],
+        [
+          573.0,
+          655.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "frames": 8,
+      "fps": 8,
+      "strip": "animated/cottage-smoke/cottage-smoke_strip.png",
+      "godot_scene": "animated/cottage-smoke/godot/cottage-smoke.tscn",
+      "godot_spriteframes": "animated/cottage-smoke/godot/cottage-smoke_spriteframes.tres"
+    },
+    {
+      "id": "oak-tree-sway",
+      "file": "animated/oak-tree-sway/frames/00.png",
+      "category": "animated",
+      "size_px": [
+        437,
+        439
+      ],
+      "size_tiles": [
+        4,
+        4
+      ],
+      "pivot": [
+        231.5,
+        433.0
+      ],
+      "footprint": [
+        [
+          391.0,
+          284.0
+        ],
+        [
+          323.0,
+          418.0
+        ],
+        [
+          271.0,
+          432.0
+        ],
+        [
+          157.0,
+          430.0
+        ],
+        [
+          119.0,
+          412.0
+        ],
+        [
+          72.0,
+          303.0
+        ],
+        [
+          73.0,
+          292.0
+        ],
+        [
+          84.0,
+          284.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "frames": 8,
+      "fps": 6,
+      "strip": "animated/oak-tree-sway/oak-tree-sway_strip.png",
+      "godot_scene": "animated/oak-tree-sway/godot/oak-tree-sway.tscn",
+      "godot_spriteframes": "animated/oak-tree-sway/godot/oak-tree-sway_spriteframes.tres"
+    },
+    {
+      "id": "cart-ruts",
+      "file": "decals/cart-ruts.png",
+      "category": "decal",
+      "size_px": [
+        238,
+        254
+      ],
+      "collision": "none"
+    },
+    {
+      "id": "straw",
+      "file": "decals/straw.png",
+      "category": "decal",
+      "size_px": [
+        214,
+        215
+      ],
+      "collision": "none"
+    }
+  ],
+  "godot_tileset": "godot/medieval-village-free_tileset.tres",
+  "tiled": "tiled/examples/medieval-village-free_courtyard.tmx",
+  "colour_variations": [
+    "amber",
+    "slate",
+    "moss",
+    "ash"
+  ]
+}

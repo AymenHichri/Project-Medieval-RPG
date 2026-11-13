@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/gargoyle-plinth.png" id="1_qmdu6"]
+
+[node name="GargoylePlinth" type="Node2D" unique_id=1554249599]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1100201460]
+texture = ExtResource("1_qmdu6")
+centered = false
+offset = Vector2(-61.5, -172)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1140563842]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1780777799]
+polygon = PackedVector2Array(47.5, -3, 33.5, -1, -47.5, -2, -47.5, -19, -37.5, -57, 36.5, -57, 46.5, -19)

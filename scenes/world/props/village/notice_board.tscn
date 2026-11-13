@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/props/setpieces/notice-board.png" id="1_gr8yt"]
+
+[node name="NoticeBoard" type="Node2D" unique_id=490876163]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=681900689]
+texture = ExtResource("1_gr8yt")
+centered = false
+offset = Vector2(-78, -162)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1353920209]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1131541848]
+polygon = PackedVector2Array(72, -3, 70, -1, -72, -2, -67, -56, 67, -56)

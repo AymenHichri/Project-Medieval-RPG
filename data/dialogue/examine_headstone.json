@@ -1,0 +1,7 @@
+{
+	"id": "examine_headstone",
+	"lines": [
+		{ "text": "The name has been chiselled away, stroke by careful stroke." },
+		{ "text": "Someone has left fresh ash at the foot of the stone." }
+	]
+}

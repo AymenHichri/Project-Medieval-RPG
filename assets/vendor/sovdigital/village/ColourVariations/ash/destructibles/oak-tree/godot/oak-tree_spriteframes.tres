@@ -1,0 +1,56 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://3n14en4j1yaj"]
+
+[ext_resource type="Texture2D" uid="uid://oo0ntp7ifvt2" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/destructibles/oak-tree/oak-tree_strip.png" id="1"]
+
+[sub_resource type="AtlasTexture" id="f1"]
+atlas = ExtResource("1")
+region = Rect2(437, 0, 437, 439)
+
+[sub_resource type="AtlasTexture" id="f0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 437, 439)
+
+[sub_resource type="AtlasTexture" id="f2"]
+atlas = ExtResource("1")
+region = Rect2(874, 0, 437, 439)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("f1")
+}],
+"loop": 0,
+"name": &"felled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("f0")
+}],
+"loop": 0,
+"name": &"standing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("f0")
+}, {
+"duration": 1.0,
+"texture": SubResource("f1")
+}, {
+"duration": 1.0,
+"texture": SubResource("f2")
+}],
+"loop": 0,
+"name": &"states",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("f2")
+}],
+"loop": 0,
+"name": &"stump",
+"speed": 5.0
+}]

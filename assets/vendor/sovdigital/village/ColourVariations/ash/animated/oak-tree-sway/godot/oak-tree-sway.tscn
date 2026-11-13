@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="SpriteFrames" path="oak-tree-sway_spriteframes.tres" id="1"]
+
+[node name="OakTreeSway" type="Node2D"]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1")
+animation = &"loop"
+centered = false
+offset = Vector2(-231.5, -433)
+autoplay = "loop"
+
+[node name="Body" type="StaticBody2D" parent="."]
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body"]
+polygon = PackedVector2Array(159.5, -149, 91.5, -15, 39.5, -1, -74.5, -3, -112.5, -21, -159.5, -130, -158.5, -141, -147.5, -149)

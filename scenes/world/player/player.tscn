@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/player/player_controller.gd" id="1_ctrl"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/godot/knight_spriteframes.tres" id="2_frames"]
+[ext_resource type="Script" path="res://scenes/world/player/follow_camera.gd" id="3_cam"]
+[ext_resource type="Script" path="res://scenes/world/player/interaction_probe.gd" id="4_probe"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_feet"]
+radius = 14.0
+height = 60.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_probe"]
+radius = 36.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_ctrl")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = ExtResource("2_frames")
+animation = &"idle_S"
+offset = Vector2(0, -83)
+
+[node name="FeetCollider" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_feet")
+
+[node name="Camera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -60)
+process_callback = 0
+script = ExtResource("3_cam")
+
+[node name="InteractionProbe" type="Area2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, 56)
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("4_probe")
+
+[node name="Shape" type="CollisionShape2D" parent="InteractionProbe"]
+shape = SubResource("CircleShape2D_probe")
+debug_color = Color(0.95, 0.8, 0.3, 0.3)

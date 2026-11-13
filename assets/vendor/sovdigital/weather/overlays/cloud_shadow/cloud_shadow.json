@@ -1,0 +1,24 @@
+{
+  "name": "cloud shadow",
+  "description": "cloud shadows passing over the ground",
+  "size": [
+    1024,
+    1024
+  ],
+  "seamless": true,
+  "blend": "normal",
+  "tint": [
+    10,
+    12,
+    22
+  ],
+  "speed_tiles_per_second": [
+    0.015,
+    0.004
+  ],
+  "files": {
+    "colour": "cloud_shadow.png",
+    "mask": "cloud_shadow_mask.png",
+    "godot_material": "godot/cloud_shadow_material.tres"
+  }
+}

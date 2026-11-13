@@ -1,0 +1,24 @@
+{
+  "name": "rain far",
+  "description": "fine, dense rain (back layer)",
+  "size": [
+    1024,
+    1024
+  ],
+  "seamless": true,
+  "blend": "normal",
+  "tint": [
+    220,
+    232,
+    248
+  ],
+  "speed_tiles_per_second": [
+    -0.09,
+    0.5
+  ],
+  "files": {
+    "colour": "rain_far.png",
+    "mask": "rain_far_mask.png",
+    "godot_material": "godot/rain_far_material.tres"
+  }
+}

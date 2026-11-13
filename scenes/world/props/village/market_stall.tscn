@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/props/setpieces/market-stall.png" id="1_0nbrq"]
+
+[node name="MarketStall" type="Node2D" unique_id=299502724]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1613142757]
+texture = ExtResource("1_0nbrq")
+centered = false
+offset = Vector2(-115, -198)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=2006740323]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=2121595169]
+polygon = PackedVector2Array(107, -2, -105, -1, -107, -4, -102, -68, 102, -68, 106, -46)

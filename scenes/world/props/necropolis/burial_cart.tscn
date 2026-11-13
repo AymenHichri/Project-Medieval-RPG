@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/burial-cart.png" id="1_r3oi3"]
+
+[node name="BurialCart" type="Node2D" unique_id=258432803]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1360617686]
+texture = ExtResource("1_r3oi3")
+centered = false
+offset = Vector2(-96, -130)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=534812123]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1865415392]
+polygon = PackedVector2Array(94, -44, 86, -11, 77, -6, 2, -1, -78, -8, -88, -18, -94, -36, -92, -44)

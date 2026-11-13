@@ -1,0 +1,21 @@
+{
+  "name": "lightning strike forked",
+  "description": "a forked bolt with branches, flashes and fades",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        320,
+        672
+      ],
+      "frames": 6,
+      "fps": 14,
+      "loop": false,
+      "pivot": [
+        176,
+        639
+      ]
+    }
+  },
+  "pivot_note": "Pivot (x, y in pixels inside each frame): the point to place on the ground or at the source of the effect."
+}

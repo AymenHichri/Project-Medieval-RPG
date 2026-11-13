@@ -1,0 +1,24 @@
+{
+  "name": "rain near",
+  "description": "big, fast rain streaks (front layer)",
+  "size": [
+    1024,
+    1024
+  ],
+  "seamless": true,
+  "blend": "normal",
+  "tint": [
+    236,
+    244,
+    255
+  ],
+  "speed_tiles_per_second": [
+    -0.16,
+    0.9
+  ],
+  "files": {
+    "colour": "rain_near.png",
+    "mask": "rain_near_mask.png",
+    "godot_material": "godot/rain_near_material.tres"
+  }
+}

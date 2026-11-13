@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/walls/wall-north.png" id="1_di26c"]
+
+[node name="WallNorth" type="Node2D" unique_id=50625463]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1535938044]
+texture = ExtResource("1_di26c")
+centered = false
+offset = Vector2(-188.5, -220)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=2125467409]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=15302258]
+polygon = PackedVector2Array(183.5, -6, 176.5, -2, -178.5, -1, -183.5, -5, -183.5, -25, -179.5, -46, 175.5, -46, 183.5, -14)

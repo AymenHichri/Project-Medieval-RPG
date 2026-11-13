@@ -1,0 +1,30 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3]
+
+[ext_resource type="Texture2D" path="../sheets/appearance.png" id="appearance"]
+
+[sub_resource type="AtlasTexture" id="frame_1"]
+atlas = ExtResource("appearance")
+region = Rect2(0, 0, 397, 732)
+
+[sub_resource type="AtlasTexture" id="frame_2"]
+atlas = ExtResource("appearance")
+region = Rect2(397, 0, 397, 732)
+
+[sub_resource type="AtlasTexture" id="frame_3"]
+atlas = ExtResource("appearance")
+region = Rect2(794, 0, 397, 732)
+
+[sub_resource type="AtlasTexture" id="frame_4"]
+atlas = ExtResource("appearance")
+region = Rect2(1191, 0, 397, 732)
+
+[sub_resource type="AtlasTexture" id="frame_5"]
+atlas = ExtResource("appearance")
+region = Rect2(1588, 0, 397, 732)
+
+[sub_resource type="AtlasTexture" id="frame_6"]
+atlas = ExtResource("appearance")
+region = Rect2(1985, 0, 397, 732)
+
+[resource]
+animations = [{"name": &"appearance_event", "speed": 12, "loop": false, "frames": [{"duration": 1.0, "texture": SubResource("frame_1")},{"duration": 1.0, "texture": SubResource("frame_2")},{"duration": 1.0, "texture": SubResource("frame_3")},{"duration": 1.0, "texture": SubResource("frame_4")},{"duration": 1.0, "texture": SubResource("frame_5")},{"duration": 1.0, "texture": SubResource("frame_6")}]}]

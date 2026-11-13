@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/components/interactable.gd" id="1_inter"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_reach"]
+resource_local_to_scene = true
+radius = 64.0
+
+[node name="Interactable" type="Area2D"]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_inter")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_reach")
+debug_color = Color(0.3, 0.8, 0.5, 0.3)
+
+[node name="Prompt" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 50
+offset_right = 400.0
+offset_bottom = 48.0
+theme_type_variation = &"BodyLabel"
+theme_override_colors/font_outline_color = Color(0.0706, 0.0588, 0.0784, 1)
+theme_override_constants/outline_size = 10
+text = "▲ Examine"
+horizontal_alignment = 1
+vertical_alignment = 1

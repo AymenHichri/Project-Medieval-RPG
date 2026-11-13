@@ -1,0 +1,21 @@
+{
+  "name": "lightning strike",
+  "description": "a bolt draws down from the sky, flashes and fades",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        320,
+        672
+      ],
+      "frames": 6,
+      "fps": 14,
+      "loop": false,
+      "pivot": [
+        161,
+        617
+      ]
+    }
+  },
+  "pivot_note": "Pivot (x, y in pixels inside each frame): the point to place on the ground or at the source of the effect."
+}

@@ -1,0 +1,21 @@
+{
+  "name": "lightning ground hit",
+  "description": "where the bolt lands: a flash, sparks thrown out and a rising scorch plume",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        256,
+        256
+      ],
+      "frames": 6,
+      "fps": 12,
+      "loop": false,
+      "pivot": [
+        128,
+        222
+      ]
+    }
+  },
+  "pivot_note": "Pivot (x, y in pixels inside each frame): the point to place on the ground or at the source of the effect."
+}

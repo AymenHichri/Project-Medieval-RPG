@@ -1,0 +1,24 @@
+{
+  "name": "fog",
+  "description": "thin drifting fog banks",
+  "size": [
+    1024,
+    1024
+  ],
+  "seamless": true,
+  "blend": "normal",
+  "tint": [
+    232,
+    234,
+    238
+  ],
+  "speed_tiles_per_second": [
+    0.02,
+    0.0
+  ],
+  "files": {
+    "colour": "fog.png",
+    "mask": "fog_mask.png",
+    "godot_material": "godot/fog_material.tres"
+  }
+}

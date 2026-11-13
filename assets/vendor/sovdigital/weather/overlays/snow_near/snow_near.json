@@ -1,0 +1,24 @@
+{
+  "name": "snow near",
+  "description": "big soft snowflakes (front layer)",
+  "size": [
+    1024,
+    1024
+  ],
+  "seamless": true,
+  "blend": "normal",
+  "tint": [
+    255,
+    255,
+    255
+  ],
+  "speed_tiles_per_second": [
+    0.03,
+    0.14
+  ],
+  "files": {
+    "colour": "snow_near.png",
+    "mask": "snow_near_mask.png",
+    "godot_material": "godot/snow_near_material.tres"
+  }
+}

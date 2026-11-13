@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/headstone-cross.png" id="1_f7223"]
+
+[node name="HeadstoneCross" type="Node2D" unique_id=1293738438]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1146390752]
+texture = ExtResource("1_f7223")
+centered = false
+offset = Vector2(-32, -102)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1696140564]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1777548337]
+polygon = PackedVector2Array(27, -3, -27, -2, -26, -19, -19, -28, 17, -28, 23, -21)

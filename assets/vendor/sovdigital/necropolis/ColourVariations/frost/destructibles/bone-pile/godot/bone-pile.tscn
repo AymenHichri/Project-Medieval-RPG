@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="SpriteFrames" path="bone-pile_spriteframes.tres" id="1"]
+
+[node name="BonePile" type="Node2D"]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1")
+animation = &"intact"
+centered = false
+offset = Vector2(-71.5, -104)
+
+[node name="Body" type="StaticBody2D" parent="."]
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body"]
+polygon = PackedVector2Array(67.5, -35, 64.5, -22, 54.5, -10, 41.5, -4, 18.5, -1, -43.5, -3, -64.5, -17, -67.5, -24, -64.5, -35)

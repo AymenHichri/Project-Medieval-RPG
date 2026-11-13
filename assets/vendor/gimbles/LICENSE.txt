@@ -1,0 +1,19 @@
+Gimble's Dark Fantasy Kit Sampler (Free) — License
+Copyright (c) 2026 Gimble's Games
+
+This pack is free. By downloading it you may:
+  - Use the assets in any number of personal and commercial projects (games, apps, videos, tabletop/VTT use).
+  - Modify, recolour, resize and combine the assets for use in those projects.
+  - Ship the assets inside your compiled or packaged project.
+
+You may not:
+  - Resell, redistribute, sublicense or share the assets, modified or not, as standalone assets
+    or as part of another asset pack, template, or collection. Link to the itch.io page instead.
+  - Use the assets, or any part of this pack, to train, fine-tune or evaluate machine learning / AI models,
+    or include them in datasets for that purpose.
+  - Claim the assets as your own original artwork, or register them as a trademark or logo.
+  - Use the assets in NFTs or other blockchain-based tokens.
+
+Credit is appreciated but not required ("Art by Gimble's Games").
+
+The pack is provided "as is", without warranty of any kind.

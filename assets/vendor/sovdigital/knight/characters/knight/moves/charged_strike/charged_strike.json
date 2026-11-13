@@ -1,0 +1,79 @@
+{
+  "name": "Knight: Charged Strike",
+  "move": "charged_strike",
+  "sheet": "charged_strike.png",
+  "directions": [
+    "S",
+    "SE",
+    "E",
+    "NE",
+    "N",
+    "NW",
+    "W",
+    "SW"
+  ],
+  "frame_size": [
+    348,
+    274
+  ],
+  "frames": 14,
+  "fps": 12,
+  "loop": false,
+  "rows": 8,
+  "direction_rows": "Row order top to bottom: S, SE, E, NE, N, NW, W, SW",
+  "pivot": {
+    "S": [
+      167.7,
+      216.0
+    ],
+    "SE": [
+      168.2,
+      216.0
+    ],
+    "E": [
+      162.7,
+      216.0
+    ],
+    "NE": [
+      167.6,
+      216.0
+    ],
+    "N": [
+      171.7,
+      215.0
+    ],
+    "NW": [
+      161.5,
+      215.0
+    ],
+    "W": [
+      184.0,
+      215.0
+    ],
+    "SW": [
+      185.0,
+      216.0
+    ]
+  },
+  "clip_frame_size": [
+    232,
+    246
+  ],
+  "cell_offset": [
+    58,
+    14
+  ],
+  "hit_frames": [
+    11
+  ],
+  "pivot_note": "Feet point per direction (x, y in pixels inside each frame).",
+  "cell_note": "This move uses a 348x274 cell; the character's normal 232x246 cell sits at cell_offset inside it, so the feet line up with idle.",
+  "hit_frames_note": "Frames (0-based) where the strike lands.",
+  "layers": {
+    "fx_back": "layers/charged_strike_fx_back.png",
+    "body": "layers/charged_strike_body.png",
+    "fx_front": "layers/charged_strike_fx_front.png"
+  },
+  "layers_note": "Same cell and frames as charged_strike.png. Draw fx_back, then body, then fx_front for the full move, or body alone for the move without its effects.",
+  "godot": "godot/charged_strike_spriteframes.tres (animations charged_strike_<direction>)"
+}

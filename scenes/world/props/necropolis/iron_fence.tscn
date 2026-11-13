@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/iron-fence.png" id="1_6b7kl"]
+
+[node name="IronFence" type="Node2D" unique_id=1552050309]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1680069272]
+texture = ExtResource("1_6b7kl")
+centered = false
+offset = Vector2(-75.5, -111)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1773207457]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=442108883]
+polygon = PackedVector2Array(70.5, -2, -70.5, -1, -70.5, -23, -65.5, -38, 65.5, -38, 69.5, -24)

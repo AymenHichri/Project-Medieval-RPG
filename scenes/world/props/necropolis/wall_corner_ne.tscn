@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/walls/wall-corner-ne.png" id="1_ban1f"]
+
+[node name="WallCornerNe" type="Node2D" unique_id=1125466652]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=155465203]
+texture = ExtResource("1_ban1f")
+centered = false
+offset = Vector2(-159, -316)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1518424954]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1589762980]
+polygon = PackedVector2Array(154, -8, 151, -4, 140, -1, -151, -2, -154, -5, -154, -26, -150, -46, 151, -46)

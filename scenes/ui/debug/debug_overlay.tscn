@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/debug/debug_overlay.gd" id="1_dbg"]
+
+[node name="DebugOverlay" type="CanvasLayer"]
+layer = 90
+script = ExtResource("1_dbg")
+
+[node name="Panel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 504.0
+offset_bottom = 224.0
+mouse_filter = 2
+theme_type_variation = &"TooltipPanelContainer"
+
+[node name="Info" type="Label" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "FPS"

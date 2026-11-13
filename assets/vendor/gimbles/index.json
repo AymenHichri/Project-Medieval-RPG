@@ -1,0 +1,282 @@
+{
+ "pack": "Gimble's Dark Fantasy Kit Sampler (Free)",
+ "version": "1.0",
+ "assets": [
+  {
+   "name": "Worn Longsword",
+   "type": "Item icon",
+   "file": "001_worn_longsword.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Battle Axe",
+   "type": "Item icon",
+   "file": "015_battle_axe.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Longbow",
+   "type": "Item icon",
+   "file": "025_longbow.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Iron Helm",
+   "type": "Item icon",
+   "file": "037_iron_helm.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Kite Shield",
+   "type": "Item icon",
+   "file": "048_kite_shield.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Health Potion",
+   "type": "Item icon",
+   "file": "052_health_potion.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Mana Potion",
+   "type": "Item icon",
+   "file": "053_mana_potion.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Holy Water",
+   "type": "Item icon",
+   "file": "058_holy_water.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Grimoire",
+   "type": "Item icon",
+   "file": "066_grimoire.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Soul Gem",
+   "type": "Item icon",
+   "file": "073_soul_gem.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Skull Key",
+   "type": "Item icon",
+   "file": "081_skull_key.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Old Map",
+   "type": "Item icon",
+   "file": "087_old_map.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Silver Stake",
+   "type": "Item icon",
+   "file": "096_silver_stake.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Gold Coins",
+   "type": "Item icon",
+   "file": "133_gold_coins.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Torch",
+   "type": "Item icon",
+   "file": "143_torch.png",
+   "from_pack": "Dark Fantasy Item Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Bleeding",
+   "type": "Status & HUD icon",
+   "file": "01_bleeding.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Burning",
+   "type": "Status & HUD icon",
+   "file": "03_burning.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Cursed",
+   "type": "Status & HUD icon",
+   "file": "05_cursed.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Blessed",
+   "type": "Status & HUD icon",
+   "file": "22_blessed.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Fire",
+   "type": "Status & HUD icon",
+   "file": "32_fire.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Talk",
+   "type": "Status & HUD icon",
+   "file": "39_talk.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Locked",
+   "type": "Status & HUD icon",
+   "file": "43_locked.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Quest",
+   "type": "Status & HUD icon",
+   "file": "51_quest.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Health",
+   "type": "Status & HUD icon",
+   "file": "63_health.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Gold",
+   "type": "Status & HUD icon",
+   "file": "66_gold.png",
+   "from_pack": "Dark Fantasy Status & HUD Icons \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Knight",
+   "type": "Portrait",
+   "file": "01_knight.png",
+   "from_pack": "Dark Fantasy Portraits \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Witch Hunter",
+   "type": "Portrait",
+   "file": "11_witch_hunter.png",
+   "from_pack": "Dark Fantasy Portraits \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Witch",
+   "type": "Portrait",
+   "file": "35_witch.png",
+   "from_pack": "Dark Fantasy Portraits \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Vampire Lord",
+   "type": "Portrait",
+   "file": "43_vampire_lord.png",
+   "from_pack": "Dark Fantasy Portraits \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Skeleton Warrior",
+   "type": "Portrait",
+   "file": "46_skeleton_warrior.png",
+   "from_pack": "Dark Fantasy Portraits \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Werewolf",
+   "type": "Portrait",
+   "file": "50_werewolf.png",
+   "from_pack": "Dark Fantasy Portraits \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Haunted Forest",
+   "type": "Battle background",
+   "file": "04_haunted_forest.png",
+   "from_pack": "Dark Fantasy Battle Backgrounds \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "Graveyard",
+   "type": "Battle background",
+   "file": "08_graveyard.png",
+   "from_pack": "Dark Fantasy Battle Backgrounds \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "panel_iron_9slice",
+   "type": "UI kit piece",
+   "file": "panels/panel_iron_9slice.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "panel_iron_tooltip_9slice",
+   "type": "UI kit piece",
+   "file": "panels/panel_iron_tooltip_9slice.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "button_red_normal_9slice",
+   "type": "UI kit piece",
+   "file": "buttons/button_red_normal_9slice.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "button_red_hover_9slice",
+   "type": "UI kit piece",
+   "file": "buttons/button_red_hover_9slice.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "button_red_pressed_9slice",
+   "type": "UI kit piece",
+   "file": "buttons/button_red_pressed_9slice.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "button_red_disabled_9slice",
+   "type": "UI kit piece",
+   "file": "buttons/button_red_disabled_9slice.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "bar_frame_9slice",
+   "type": "UI kit piece",
+   "file": "bars/bar_frame_9slice.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "fill_red_segmented",
+   "type": "UI kit piece",
+   "file": "bars/fill_red_segmented.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "fill_red_empty",
+   "type": "UI kit piece",
+   "file": "bars/fill_red_empty.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "slot_normal_36x36",
+   "type": "UI kit piece",
+   "file": "slots/slot_normal_36x36.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "slot_selected_36x36",
+   "type": "UI kit piece",
+   "file": "slots/slot_selected_36x36.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "cursor_gauntlet_16",
+   "type": "UI kit piece",
+   "file": "cursors/cursor_gauntlet_16.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  },
+  {
+   "name": "cursor_sword_16",
+   "type": "UI kit piece",
+   "file": "cursors/cursor_sword_16.png",
+   "from_pack": "Dark Fantasy UI Kit \u2014 Gimble's Dark Fantasy Kit"
+  }
+ ]
+}

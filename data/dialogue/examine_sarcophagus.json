@@ -1,0 +1,7 @@
+{
+	"id": "examine_sarcophagus",
+	"lines": [
+		{ "text": "A stone sarcophagus, its lid split by a crack that runs end to end." },
+		{ "text": "The edges of the crack are clean. It is not old." }
+	]
+}

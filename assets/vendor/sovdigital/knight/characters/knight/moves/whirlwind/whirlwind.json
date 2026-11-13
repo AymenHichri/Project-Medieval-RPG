@@ -1,0 +1,80 @@
+{
+  "name": "Knight: Whirlwind",
+  "move": "whirlwind",
+  "sheet": "whirlwind.png",
+  "directions": [
+    "S",
+    "SE",
+    "E",
+    "NE",
+    "N",
+    "NW",
+    "W",
+    "SW"
+  ],
+  "frame_size": [
+    268,
+    246
+  ],
+  "frames": 11,
+  "fps": 12,
+  "loop": false,
+  "rows": 8,
+  "direction_rows": "Row order top to bottom: S, SE, E, NE, N, NW, W, SW",
+  "pivot": {
+    "S": [
+      127.7,
+      202.0
+    ],
+    "SE": [
+      128.2,
+      202.0
+    ],
+    "E": [
+      122.7,
+      202.0
+    ],
+    "NE": [
+      127.6,
+      202.0
+    ],
+    "N": [
+      131.7,
+      201.0
+    ],
+    "NW": [
+      121.5,
+      201.0
+    ],
+    "W": [
+      144.0,
+      201.0
+    ],
+    "SW": [
+      145.0,
+      202.0
+    ]
+  },
+  "clip_frame_size": [
+    232,
+    246
+  ],
+  "cell_offset": [
+    18,
+    0
+  ],
+  "hit_frames": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "pivot_note": "Feet point per direction (x, y in pixels inside each frame).",
+  "cell_note": "This move uses a 268x246 cell; the character's normal 232x246 cell sits at cell_offset inside it, so the feet line up with idle.",
+  "hit_frames_note": "Frames (0-based) where the strike lands.",
+  "godot": "godot/whirlwind_spriteframes.tres (animations whirlwind_<direction>)"
+}

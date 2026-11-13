@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/buildings/crypt-barracks.png" id="1_som48"]
+
+[node name="CryptBarracks" type="Node2D" unique_id=892182760]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1261621978]
+texture = ExtResource("1_som48")
+centered = false
+offset = Vector2(-280.5, -322)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=2114339021]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1467217761]
+polygon = PackedVector2Array(278.5, 49, 273.5, 71, 259.5, 90, 233.5, 108, 169.5, 133, 104.5, 148, -42.5, 149, -140.5, 136, -176.5, 129, -253.5, 94, -277.5, 73, -278.5, 20, -263.5, 0, 262.5, 0, 273.5, 6)
+
+[node name="HouseBlock" type="CollisionPolygon2D" parent="Body" unique_id=1660731749]
+polygon = PackedVector2Array(-278.5, -192, 278.5, -192, 278.5, 8, -278.5, 8)

@@ -1,0 +1,70 @@
+{
+  "name": "Knight: Three-Hit Combo",
+  "move": "combo",
+  "sheet": "combo.png",
+  "directions": [
+    "S",
+    "SE",
+    "E",
+    "NE",
+    "N",
+    "NW",
+    "W",
+    "SW"
+  ],
+  "frame_size": [
+    232,
+    246
+  ],
+  "frames": 17,
+  "fps": 12,
+  "loop": false,
+  "rows": 8,
+  "direction_rows": "Row order top to bottom: S, SE, E, NE, N, NW, W, SW",
+  "pivot": {
+    "S": [
+      109.7,
+      202.0
+    ],
+    "SE": [
+      110.2,
+      202.0
+    ],
+    "E": [
+      104.7,
+      202.0
+    ],
+    "NE": [
+      109.6,
+      202.0
+    ],
+    "N": [
+      113.7,
+      201.0
+    ],
+    "NW": [
+      103.5,
+      201.0
+    ],
+    "W": [
+      126.0,
+      201.0
+    ],
+    "SW": [
+      127.0,
+      202.0
+    ]
+  },
+  "clip_frame_size": [
+    232,
+    246
+  ],
+  "hit_frames": [
+    3,
+    8,
+    13
+  ],
+  "pivot_note": "Feet point per direction (x, y in pixels inside each frame).",
+  "hit_frames_note": "Frames (0-based) where the strike lands.",
+  "godot": "godot/combo_spriteframes.tres (animations combo_<direction>)"
+}

@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/grave-mound.png" id="1_3kgec"]
+
+[node name="GraveMound" type="Node2D" unique_id=785450164]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1096160009]
+texture = ExtResource("1_3kgec")
+centered = false
+offset = Vector2(-56, -79)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1582891926]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=529417224]
+polygon = PackedVector2Array(54, -24, 54, -14, 51, -9, 25, -2, -45, -2, -54, -13, -48, -26, 49, -27)

@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/necropolis/ColourVariations/ash/props/setpieces/lantern-post.png" id="1_8djct"]
+
+[node name="LanternPost" type="Node2D" unique_id=1685508261]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1259895668]
+texture = ExtResource("1_8djct")
+centered = false
+offset = Vector2(-51.5, -191)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1531015783]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=860026556]
+polygon = PackedVector2Array(45.5, -18, 34.5, -4, 15.5, -1, -30.5, -2, -43.5, -8, -45.5, -11, -32.5, -45, 15.5, -45, 23.5, -42)

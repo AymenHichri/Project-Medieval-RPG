@@ -1,0 +1,2181 @@
+{
+  "schema": 1,
+  "biome": "necropolis-free",
+  "title": "Free Necropolis \u2013 Top-Down Tileset & Props (HD)",
+  "version": "1.0.0",
+  "tile_px": 128,
+  "half_tile_px": 64,
+  "full_tile_px": 128,
+  "camera": "three-quarter top-down, ~30 deg, square grid",
+  "scale_note": "humanoid ~158 px at full size = 1.23 tiles; our full character sheets at 50 % match the 64 px tree",
+  "pivot_rule": "atlas pieces: placed at cell c (bottom-left of the base row), pivot on the bottom edge of that row, centred over size_tiles[0] cells; scene tiles (breakables, animated): pivot at the scene origin = cell centre",
+  "custom_data": {
+    "surface": "String",
+    "breakable": "bool",
+    "hazard": "String"
+  },
+  "physics_layers": {
+    "world_solid": 1,
+    "water": 2
+  },
+  "atlas_padding": {
+    "margin": 4,
+    "separation": 8,
+    "note": "edge pixels extruded; ground blocks have no padding (continuous)"
+  },
+  "grounds": {
+    "bone-flags": {
+      "file": "grounds/bone-flags/bone-flags.png",
+      "versions": "grounds/bone-flags/bone-flags_single_tiles.png",
+      "block_tiles": 8,
+      "surface": "stone",
+      "hazard": null
+    },
+    "ash-soil": {
+      "file": "grounds/ash-soil/ash-soil.png",
+      "versions": "grounds/ash-soil/ash-soil_single_tiles.png",
+      "block_tiles": 8,
+      "surface": "ash",
+      "hazard": null
+    }
+  },
+  "water": null,
+  "terrain": {
+    "flags-ash": {
+      "terrains": [
+        "bone-flags",
+        "ash-soil"
+      ],
+      "corners16": "terrain/flags-ash/flags-ash_corners16.png",
+      "overlay16": "terrain/flags-ash/flags-ash_overlay16.png",
+      "versions": 3,
+      "frames": 1,
+      "code_rule": "code = NW*8 + NE*4 + SW*2 + SE, 1 = terrain B (ash-soil)",
+      "atlas_row": 0
+    }
+  },
+  "surfaces": {
+    "stone": {
+      "hazard": "none"
+    },
+    "ash": {
+      "hazard": "none"
+    }
+  },
+  "pieces": [
+    {
+      "id": "wall-corner-ne",
+      "file": "walls/wall-corner-ne.png",
+      "category": "walls",
+      "size_px": [
+        330,
+        319
+      ],
+      "size_tiles": [
+        3,
+        3
+      ],
+      "pivot": [
+        159.0,
+        316.0
+      ],
+      "footprint": [
+        [
+          313.0,
+          308.0
+        ],
+        [
+          310.0,
+          312.0
+        ],
+        [
+          299.0,
+          315.0
+        ],
+        [
+          8.0,
+          314.0
+        ],
+        [
+          5.0,
+          311.0
+        ],
+        [
+          5.0,
+          290.0
+        ],
+        [
+          9.0,
+          270.0
+        ],
+        [
+          310.0,
+          270.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "wall-corner-nw",
+      "file": "walls/wall-corner-nw.png",
+      "category": "walls",
+      "size_px": [
+        317,
+        312
+      ],
+      "size_tiles": [
+        3,
+        3
+      ],
+      "pivot": [
+        153.5,
+        308.0
+      ],
+      "footprint": [
+        [
+          302.0,
+          299.0
+        ],
+        [
+          301.0,
+          303.0
+        ],
+        [
+          296.0,
+          306.0
+        ],
+        [
+          11.0,
+          307.0
+        ],
+        [
+          5.0,
+          303.0
+        ],
+        [
+          5.0,
+          280.0
+        ],
+        [
+          8.0,
+          262.0
+        ],
+        [
+          294.0,
+          262.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "wall-north",
+      "file": "walls/wall-north.png",
+      "category": "walls",
+      "size_px": [
+        384,
+        222
+      ],
+      "size_tiles": [
+        3,
+        2
+      ],
+      "pivot": [
+        188.5,
+        220.0
+      ],
+      "footprint": [
+        [
+          372.0,
+          214.0
+        ],
+        [
+          365.0,
+          218.0
+        ],
+        [
+          10.0,
+          219.0
+        ],
+        [
+          5.0,
+          215.0
+        ],
+        [
+          5.0,
+          195.0
+        ],
+        [
+          9.0,
+          174.0
+        ],
+        [
+          364.0,
+          174.0
+        ],
+        [
+          372.0,
+          206.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-e",
+      "file": "buildings/crypt-barracks-e.png",
+      "category": "buildings",
+      "size_px": [
+        546,
+        493
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        273.5,
+        489.0
+      ],
+      "footprint": [
+        [
+          543.0,
+          372.0
+        ],
+        [
+          541.0,
+          401.0
+        ],
+        [
+          529.0,
+          423.0
+        ],
+        [
+          511.0,
+          441.0
+        ],
+        [
+          473.0,
+          458.0
+        ],
+        [
+          400.0,
+          479.0
+        ],
+        [
+          349.0,
+          487.0
+        ],
+        [
+          252.0,
+          488.0
+        ],
+        [
+          198.0,
+          484.0
+        ],
+        [
+          127.0,
+          472.0
+        ],
+        [
+          40.0,
+          441.0
+        ],
+        [
+          17.0,
+          424.0
+        ],
+        [
+          8.0,
+          411.0
+        ],
+        [
+          4.0,
+          391.0
+        ],
+        [
+          6.0,
+          360.0
+        ],
+        [
+          16.0,
+          349.0
+        ],
+        [
+          27.0,
+          341.0
+        ],
+        [
+          34.0,
+          339.0
+        ],
+        [
+          520.0,
+          339.0
+        ],
+        [
+          538.0,
+          355.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-n",
+      "file": "buildings/crypt-barracks-n.png",
+      "category": "buildings",
+      "size_px": [
+        563,
+        492
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        281.5,
+        488.0
+      ],
+      "footprint": [
+        [
+          560.0,
+          391.0
+        ],
+        [
+          554.0,
+          412.0
+        ],
+        [
+          541.0,
+          430.0
+        ],
+        [
+          510.0,
+          449.0
+        ],
+        [
+          443.0,
+          472.0
+        ],
+        [
+          381.0,
+          486.0
+        ],
+        [
+          245.0,
+          487.0
+        ],
+        [
+          111.0,
+          467.0
+        ],
+        [
+          30.0,
+          435.0
+        ],
+        [
+          5.0,
+          414.0
+        ],
+        [
+          3.0,
+          360.0
+        ],
+        [
+          18.0,
+          338.0
+        ],
+        [
+          542.0,
+          338.0
+        ],
+        [
+          554.0,
+          346.0
+        ],
+        [
+          558.0,
+          362.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-ne",
+      "file": "buildings/crypt-barracks-ne.png",
+      "category": "buildings",
+      "size_px": [
+        586,
+        503
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        291.5,
+        497.0
+      ],
+      "footprint": [
+        [
+          580.0,
+          352.0
+        ],
+        [
+          569.0,
+          372.0
+        ],
+        [
+          555.0,
+          388.0
+        ],
+        [
+          508.0,
+          424.0
+        ],
+        [
+          476.0,
+          441.0
+        ],
+        [
+          379.0,
+          480.0
+        ],
+        [
+          353.0,
+          487.0
+        ],
+        [
+          293.0,
+          496.0
+        ],
+        [
+          234.0,
+          496.0
+        ],
+        [
+          188.0,
+          492.0
+        ],
+        [
+          145.0,
+          483.0
+        ],
+        [
+          119.0,
+          474.0
+        ],
+        [
+          49.0,
+          441.0
+        ],
+        [
+          24.0,
+          425.0
+        ],
+        [
+          11.0,
+          409.0
+        ],
+        [
+          3.0,
+          373.0
+        ],
+        [
+          16.0,
+          347.0
+        ],
+        [
+          576.0,
+          347.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-nw",
+      "file": "buildings/crypt-barracks-nw.png",
+      "category": "buildings",
+      "size_px": [
+        588,
+        518
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        292.5,
+        514.0
+      ],
+      "footprint": [
+        [
+          579.0,
+          375.0
+        ],
+        [
+          565.0,
+          396.0
+        ],
+        [
+          540.0,
+          425.0
+        ],
+        [
+          503.0,
+          448.0
+        ],
+        [
+          461.0,
+          467.0
+        ],
+        [
+          369.0,
+          500.0
+        ],
+        [
+          299.0,
+          511.0
+        ],
+        [
+          268.0,
+          513.0
+        ],
+        [
+          221.0,
+          513.0
+        ],
+        [
+          159.0,
+          501.0
+        ],
+        [
+          131.0,
+          490.0
+        ],
+        [
+          103.0,
+          475.0
+        ],
+        [
+          42.0,
+          433.0
+        ],
+        [
+          23.0,
+          415.0
+        ],
+        [
+          6.0,
+          392.0
+        ],
+        [
+          7.0,
+          369.0
+        ],
+        [
+          14.0,
+          364.0
+        ],
+        [
+          577.0,
+          364.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-ruined",
+      "file": "buildings/crypt-barracks-ruined.png",
+      "category": "buildings",
+      "size_px": [
+        563,
+        452
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        280.5,
+        449.0
+      ],
+      "footprint": [
+        [
+          559.0,
+          357.0
+        ],
+        [
+          554.0,
+          376.0
+        ],
+        [
+          540.0,
+          394.0
+        ],
+        [
+          515.0,
+          411.0
+        ],
+        [
+          453.0,
+          434.0
+        ],
+        [
+          389.0,
+          448.0
+        ],
+        [
+          238.0,
+          448.0
+        ],
+        [
+          101.0,
+          430.0
+        ],
+        [
+          26.0,
+          397.0
+        ],
+        [
+          4.0,
+          378.0
+        ],
+        [
+          2.0,
+          330.0
+        ],
+        [
+          16.0,
+          308.0
+        ],
+        [
+          25.0,
+          299.0
+        ],
+        [
+          549.0,
+          299.0
+        ],
+        [
+          558.0,
+          332.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-se",
+      "file": "buildings/crypt-barracks-se.png",
+      "category": "buildings",
+      "size_px": [
+        599,
+        506
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        299.0,
+        502.0
+      ],
+      "footprint": [
+        [
+          594.0,
+          366.0
+        ],
+        [
+          550.0,
+          425.0
+        ],
+        [
+          516.0,
+          454.0
+        ],
+        [
+          479.0,
+          474.0
+        ],
+        [
+          447.0,
+          487.0
+        ],
+        [
+          404.0,
+          496.0
+        ],
+        [
+          321.0,
+          501.0
+        ],
+        [
+          246.0,
+          500.0
+        ],
+        [
+          134.0,
+          474.0
+        ],
+        [
+          66.0,
+          443.0
+        ],
+        [
+          40.0,
+          427.0
+        ],
+        [
+          8.0,
+          388.0
+        ],
+        [
+          4.0,
+          370.0
+        ],
+        [
+          13.0,
+          352.0
+        ],
+        [
+          581.0,
+          352.0
+        ],
+        [
+          590.0,
+          358.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-stage-1",
+      "file": "buildings/crypt-barracks-stage-1.png",
+      "category": "buildings",
+      "size_px": [
+        554,
+        348
+      ],
+      "size_tiles": [
+        5,
+        3
+      ],
+      "pivot": [
+        284.5,
+        345.0
+      ],
+      "footprint": [
+        [
+          543.0,
+          287.0
+        ],
+        [
+          512.0,
+          307.0
+        ],
+        [
+          453.0,
+          330.0
+        ],
+        [
+          405.0,
+          341.0
+        ],
+        [
+          382.0,
+          344.0
+        ],
+        [
+          238.0,
+          344.0
+        ],
+        [
+          136.0,
+          332.0
+        ],
+        [
+          100.0,
+          325.0
+        ],
+        [
+          26.0,
+          293.0
+        ],
+        [
+          27.0,
+          285.0
+        ],
+        [
+          541.0,
+          285.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-stage-2",
+      "file": "buildings/crypt-barracks-stage-2.png",
+      "category": "buildings",
+      "size_px": [
+        563,
+        479
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        281.0,
+        476.0
+      ],
+      "footprint": [
+        [
+          560.0,
+          384.0
+        ],
+        [
+          555.0,
+          403.0
+        ],
+        [
+          540.0,
+          421.0
+        ],
+        [
+          511.0,
+          439.0
+        ],
+        [
+          453.0,
+          461.0
+        ],
+        [
+          407.0,
+          472.0
+        ],
+        [
+          383.0,
+          475.0
+        ],
+        [
+          238.0,
+          475.0
+        ],
+        [
+          101.0,
+          457.0
+        ],
+        [
+          26.0,
+          424.0
+        ],
+        [
+          3.0,
+          405.0
+        ],
+        [
+          2.0,
+          356.0
+        ],
+        [
+          22.0,
+          326.0
+        ],
+        [
+          548.0,
+          326.0
+        ],
+        [
+          558.0,
+          359.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-sw",
+      "file": "buildings/crypt-barracks-sw.png",
+      "category": "buildings",
+      "size_px": [
+        598,
+        515
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        300.0,
+        510.0
+      ],
+      "footprint": [
+        [
+          594.0,
+          378.0
+        ],
+        [
+          583.0,
+          400.0
+        ],
+        [
+          549.0,
+          435.0
+        ],
+        [
+          504.0,
+          462.0
+        ],
+        [
+          397.0,
+          496.0
+        ],
+        [
+          312.0,
+          508.0
+        ],
+        [
+          259.0,
+          509.0
+        ],
+        [
+          212.0,
+          507.0
+        ],
+        [
+          172.0,
+          502.0
+        ],
+        [
+          120.0,
+          488.0
+        ],
+        [
+          56.0,
+          440.0
+        ],
+        [
+          17.0,
+          405.0
+        ],
+        [
+          6.0,
+          382.0
+        ],
+        [
+          6.0,
+          360.0
+        ],
+        [
+          591.0,
+          360.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks-w",
+      "file": "buildings/crypt-barracks-w.png",
+      "category": "buildings",
+      "size_px": [
+        548,
+        492
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        273.5,
+        488.0
+      ],
+      "footprint": [
+        [
+          543.0,
+          392.0
+        ],
+        [
+          526.0,
+          430.0
+        ],
+        [
+          500.0,
+          448.0
+        ],
+        [
+          462.0,
+          463.0
+        ],
+        [
+          393.0,
+          480.0
+        ],
+        [
+          368.0,
+          484.0
+        ],
+        [
+          323.0,
+          487.0
+        ],
+        [
+          240.0,
+          487.0
+        ],
+        [
+          126.0,
+          471.0
+        ],
+        [
+          94.0,
+          462.0
+        ],
+        [
+          40.0,
+          441.0
+        ],
+        [
+          13.0,
+          417.0
+        ],
+        [
+          4.0,
+          391.0
+        ],
+        [
+          4.0,
+          378.0
+        ],
+        [
+          12.0,
+          350.0
+        ],
+        [
+          30.0,
+          338.0
+        ],
+        [
+          515.0,
+          338.0
+        ],
+        [
+          532.0,
+          350.0
+        ],
+        [
+          539.0,
+          365.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "crypt-barracks",
+      "file": "buildings/crypt-barracks.png",
+      "category": "buildings",
+      "size_px": [
+        564,
+        476
+      ],
+      "size_tiles": [
+        5,
+        4
+      ],
+      "pivot": [
+        280.5,
+        472.0
+      ],
+      "footprint": [
+        [
+          559.0,
+          371.0
+        ],
+        [
+          554.0,
+          393.0
+        ],
+        [
+          540.0,
+          412.0
+        ],
+        [
+          514.0,
+          430.0
+        ],
+        [
+          450.0,
+          455.0
+        ],
+        [
+          385.0,
+          470.0
+        ],
+        [
+          238.0,
+          471.0
+        ],
+        [
+          140.0,
+          458.0
+        ],
+        [
+          104.0,
+          451.0
+        ],
+        [
+          27.0,
+          416.0
+        ],
+        [
+          3.0,
+          395.0
+        ],
+        [
+          2.0,
+          342.0
+        ],
+        [
+          17.0,
+          322.0
+        ],
+        [
+          543.0,
+          322.0
+        ],
+        [
+          554.0,
+          328.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": "footprint",
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "bone-pyre",
+      "file": "props/setpieces/bone-pyre.png",
+      "category": "props/setpieces",
+      "size_px": [
+        154,
+        153
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        75.5,
+        150.0
+      ],
+      "footprint": [
+        [
+          148.0,
+          128.0
+        ],
+        [
+          146.0,
+          133.0
+        ],
+        [
+          126.0,
+          142.0
+        ],
+        [
+          77.0,
+          149.0
+        ],
+        [
+          29.0,
+          142.0
+        ],
+        [
+          9.0,
+          136.0
+        ],
+        [
+          3.0,
+          125.0
+        ],
+        [
+          13.0,
+          103.0
+        ],
+        [
+          18.0,
+          99.0
+        ],
+        [
+          130.0,
+          99.0
+        ],
+        [
+          138.0,
+          102.0
+        ],
+        [
+          147.0,
+          114.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "burial-cart",
+      "file": "props/setpieces/burial-cart.png",
+      "category": "props/setpieces",
+      "size_px": [
+        194,
+        132
+      ],
+      "size_tiles": [
+        2,
+        1
+      ],
+      "pivot": [
+        96.0,
+        130.0
+      ],
+      "footprint": [
+        [
+          190.0,
+          86.0
+        ],
+        [
+          182.0,
+          119.0
+        ],
+        [
+          173.0,
+          124.0
+        ],
+        [
+          98.0,
+          129.0
+        ],
+        [
+          18.0,
+          122.0
+        ],
+        [
+          8.0,
+          112.0
+        ],
+        [
+          2.0,
+          94.0
+        ],
+        [
+          4.0,
+          86.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "dead-stump",
+      "file": "props/setpieces/dead-stump.png",
+      "category": "props/setpieces",
+      "size_px": [
+        104,
+        74
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        51.0,
+        71.0
+      ],
+      "footprint": [
+        [
+          100.0,
+          53.0
+        ],
+        [
+          97.0,
+          57.0
+        ],
+        [
+          85.0,
+          63.0
+        ],
+        [
+          59.0,
+          70.0
+        ],
+        [
+          11.0,
+          67.0
+        ],
+        [
+          2.0,
+          49.0
+        ],
+        [
+          9.0,
+          47.0
+        ],
+        [
+          85.0,
+          47.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "gargoyle-plinth",
+      "file": "props/setpieces/gargoyle-plinth.png",
+      "category": "props/setpieces",
+      "size_px": [
+        124,
+        174
+      ],
+      "size_tiles": [
+        1,
+        2
+      ],
+      "pivot": [
+        61.5,
+        172.0
+      ],
+      "footprint": [
+        [
+          109.0,
+          169.0
+        ],
+        [
+          95.0,
+          171.0
+        ],
+        [
+          14.0,
+          170.0
+        ],
+        [
+          14.0,
+          153.0
+        ],
+        [
+          24.0,
+          115.0
+        ],
+        [
+          98.0,
+          115.0
+        ],
+        [
+          108.0,
+          153.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "gnarled-tree",
+      "file": "props/setpieces/gnarled-tree.png",
+      "category": "props/setpieces",
+      "size_px": [
+        408,
+        404
+      ],
+      "size_tiles": [
+        4,
+        4
+      ],
+      "pivot": [
+        200.5,
+        400.0
+      ],
+      "footprint": [
+        [
+          367.0,
+          364.0
+        ],
+        [
+          343.0,
+          386.0
+        ],
+        [
+          274.0,
+          399.0
+        ],
+        [
+          121.0,
+          398.0
+        ],
+        [
+          34.0,
+          375.0
+        ],
+        [
+          47.0,
+          364.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "grave-mound",
+      "file": "props/setpieces/grave-mound.png",
+      "category": "props/setpieces",
+      "size_px": [
+        114,
+        82
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        56.0,
+        79.0
+      ],
+      "footprint": [
+        [
+          110.0,
+          55.0
+        ],
+        [
+          110.0,
+          65.0
+        ],
+        [
+          107.0,
+          70.0
+        ],
+        [
+          81.0,
+          77.0
+        ],
+        [
+          11.0,
+          77.0
+        ],
+        [
+          2.0,
+          66.0
+        ],
+        [
+          8.0,
+          53.0
+        ],
+        [
+          105.0,
+          52.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "headstone-cross",
+      "file": "props/setpieces/headstone-cross.png",
+      "category": "props/setpieces",
+      "size_px": [
+        67,
+        104
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        32.0,
+        102.0
+      ],
+      "footprint": [
+        [
+          59.0,
+          99.0
+        ],
+        [
+          5.0,
+          100.0
+        ],
+        [
+          6.0,
+          83.0
+        ],
+        [
+          13.0,
+          74.0
+        ],
+        [
+          49.0,
+          74.0
+        ],
+        [
+          55.0,
+          81.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "headstone-round",
+      "file": "props/setpieces/headstone-round.png",
+      "category": "props/setpieces",
+      "size_px": [
+        84,
+        104
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        40.0,
+        102.0
+      ],
+      "footprint": [
+        [
+          77.0,
+          99.0
+        ],
+        [
+          3.0,
+          100.0
+        ],
+        [
+          3.0,
+          85.0
+        ],
+        [
+          10.0,
+          67.0
+        ],
+        [
+          70.0,
+          67.0
+        ],
+        [
+          76.0,
+          84.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "iron-fence",
+      "file": "props/setpieces/iron-fence.png",
+      "category": "props/setpieces",
+      "size_px": [
+        154,
+        113
+      ],
+      "size_tiles": [
+        2,
+        1
+      ],
+      "pivot": [
+        75.5,
+        111.0
+      ],
+      "footprint": [
+        [
+          146.0,
+          109.0
+        ],
+        [
+          5.0,
+          110.0
+        ],
+        [
+          5.0,
+          88.0
+        ],
+        [
+          10.0,
+          73.0
+        ],
+        [
+          141.0,
+          73.0
+        ],
+        [
+          145.0,
+          87.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "lantern-post",
+      "file": "props/setpieces/lantern-post.png",
+      "category": "props/setpieces",
+      "size_px": [
+        103,
+        194
+      ],
+      "size_tiles": [
+        1,
+        2
+      ],
+      "pivot": [
+        51.5,
+        191.0
+      ],
+      "footprint": [
+        [
+          97.0,
+          173.0
+        ],
+        [
+          86.0,
+          187.0
+        ],
+        [
+          67.0,
+          190.0
+        ],
+        [
+          21.0,
+          189.0
+        ],
+        [
+          8.0,
+          183.0
+        ],
+        [
+          6.0,
+          180.0
+        ],
+        [
+          19.0,
+          146.0
+        ],
+        [
+          67.0,
+          146.0
+        ],
+        [
+          75.0,
+          149.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "small-obelisk",
+      "file": "props/setpieces/small-obelisk.png",
+      "category": "props/setpieces",
+      "size_px": [
+        106,
+        154
+      ],
+      "size_tiles": [
+        1,
+        2
+      ],
+      "pivot": [
+        51.0,
+        151.0
+      ],
+      "footprint": [
+        [
+          98.0,
+          132.0
+        ],
+        [
+          67.0,
+          150.0
+        ],
+        [
+          55.0,
+          149.0
+        ],
+        [
+          4.0,
+          136.0
+        ],
+        [
+          12.0,
+          111.0
+        ],
+        [
+          18.0,
+          106.0
+        ],
+        [
+          89.0,
+          106.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "weapon-rack",
+      "file": "props/setpieces/weapon-rack.png",
+      "category": "props/setpieces",
+      "size_px": [
+        134,
+        144
+      ],
+      "size_tiles": [
+        1,
+        2
+      ],
+      "pivot": [
+        64.5,
+        142.0
+      ],
+      "footprint": [
+        [
+          127.0,
+          128.0
+        ],
+        [
+          125.0,
+          141.0
+        ],
+        [
+          4.0,
+          141.0
+        ],
+        [
+          2.0,
+          122.0
+        ],
+        [
+          8.0,
+          93.0
+        ],
+        [
+          121.0,
+          93.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "repeat_x": false
+    },
+    {
+      "id": "bone-pile",
+      "file": "destructibles/bone-pile/bone-pile_intact.png",
+      "category": "breakable",
+      "size_px": [
+        151,
+        109
+      ],
+      "size_tiles": [
+        2,
+        1
+      ],
+      "pivot": [
+        71.5,
+        104.0
+      ],
+      "footprint": [
+        [
+          139.0,
+          69.0
+        ],
+        [
+          136.0,
+          82.0
+        ],
+        [
+          126.0,
+          94.0
+        ],
+        [
+          113.0,
+          100.0
+        ],
+        [
+          90.0,
+          103.0
+        ],
+        [
+          28.0,
+          101.0
+        ],
+        [
+          7.0,
+          87.0
+        ],
+        [
+          4.0,
+          80.0
+        ],
+        [
+          7.0,
+          69.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": true,
+      "hazard": null,
+      "states": [
+        "intact",
+        "cracked",
+        "broken"
+      ],
+      "state_files": [
+        "destructibles/bone-pile/bone-pile_intact.png",
+        "destructibles/bone-pile/bone-pile_cracked.png",
+        "destructibles/bone-pile/bone-pile_broken.png"
+      ],
+      "strip": "destructibles/bone-pile/bone-pile_strip.png",
+      "godot_scene": "destructibles/bone-pile/godot/bone-pile.tscn",
+      "godot_spriteframes": "destructibles/bone-pile/godot/bone-pile_spriteframes.tres"
+    },
+    {
+      "id": "sarcophagus",
+      "file": "destructibles/sarcophagus/sarcophagus_closed.png",
+      "category": "breakable",
+      "size_px": [
+        133,
+        99
+      ],
+      "size_tiles": [
+        1,
+        1
+      ],
+      "pivot": [
+        69.5,
+        94.0
+      ],
+      "footprint": [
+        [
+          126.0,
+          92.0
+        ],
+        [
+          13.0,
+          93.0
+        ],
+        [
+          14.0,
+          63.0
+        ],
+        [
+          124.0,
+          63.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "states": [
+        "closed",
+        "half",
+        "open"
+      ],
+      "state_files": [
+        "destructibles/sarcophagus/sarcophagus_closed.png",
+        "destructibles/sarcophagus/sarcophagus_half.png",
+        "destructibles/sarcophagus/sarcophagus_open.png"
+      ],
+      "strip": "destructibles/sarcophagus/sarcophagus_strip.png",
+      "godot_scene": "destructibles/sarcophagus/godot/sarcophagus.tscn",
+      "godot_spriteframes": "destructibles/sarcophagus/godot/sarcophagus_spriteframes.tres"
+    },
+    {
+      "id": "bone-pyre-lit",
+      "file": "animated/bone-pyre-lit/frames/00.png",
+      "category": "animated",
+      "size_px": [
+        154,
+        193
+      ],
+      "size_tiles": [
+        2,
+        2
+      ],
+      "pivot": [
+        75.5,
+        190.0
+      ],
+      "footprint": [
+        [
+          148.0,
+          168.0
+        ],
+        [
+          146.0,
+          173.0
+        ],
+        [
+          126.0,
+          182.0
+        ],
+        [
+          77.0,
+          189.0
+        ],
+        [
+          29.0,
+          182.0
+        ],
+        [
+          9.0,
+          176.0
+        ],
+        [
+          3.0,
+          165.0
+        ],
+        [
+          13.0,
+          143.0
+        ],
+        [
+          18.0,
+          139.0
+        ],
+        [
+          130.0,
+          139.0
+        ],
+        [
+          138.0,
+          142.0
+        ],
+        [
+          147.0,
+          154.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": "burn",
+      "frames": 8,
+      "fps": 10,
+      "strip": "animated/bone-pyre-lit/bone-pyre-lit_strip.png",
+      "godot_scene": "animated/bone-pyre-lit/godot/bone-pyre-lit.tscn",
+      "godot_spriteframes": "animated/bone-pyre-lit/godot/bone-pyre-lit_spriteframes.tres"
+    },
+    {
+      "id": "gnarled-tree-sway",
+      "file": "animated/gnarled-tree-sway/frames/00.png",
+      "category": "animated",
+      "size_px": [
+        408,
+        404
+      ],
+      "size_tiles": [
+        4,
+        4
+      ],
+      "pivot": [
+        215.5,
+        400.0
+      ],
+      "footprint": [
+        [
+          405.0,
+          288.0
+        ],
+        [
+          368.0,
+          363.0
+        ],
+        [
+          343.0,
+          386.0
+        ],
+        [
+          274.0,
+          399.0
+        ],
+        [
+          121.0,
+          398.0
+        ],
+        [
+          34.0,
+          375.0
+        ],
+        [
+          26.0,
+          286.0
+        ],
+        [
+          28.0,
+          275.0
+        ],
+        [
+          46.0,
+          261.0
+        ],
+        [
+          377.0,
+          261.0
+        ],
+        [
+          392.0,
+          272.0
+        ]
+      ],
+      "collision": "footprint",
+      "occluder": null,
+      "surface": null,
+      "breakable": false,
+      "hazard": null,
+      "frames": 8,
+      "fps": 6,
+      "strip": "animated/gnarled-tree-sway/gnarled-tree-sway_strip.png",
+      "godot_scene": "animated/gnarled-tree-sway/godot/gnarled-tree-sway.tscn",
+      "godot_spriteframes": "animated/gnarled-tree-sway/godot/gnarled-tree-sway_spriteframes.tres"
+    },
+    {
+      "id": "bone-dust",
+      "file": "decals/bone-dust.png",
+      "category": "decal",
+      "size_px": [
+        264,
+        257
+      ],
+      "collision": "none"
+    },
+    {
+      "id": "grave-soil",
+      "file": "decals/grave-soil.png",
+      "category": "decal",
+      "size_px": [
+        264,
+        279
+      ],
+      "collision": "none"
+    }
+  ],
+  "godot_tileset": "godot/necropolis-free_tileset.tres",
+  "tiled": "tiled/examples/necropolis-free_courtyard.tmx",
+  "colour_variations": [
+    "frost",
+    "crimson",
+    "moss",
+    "ash"
+  ]
+}

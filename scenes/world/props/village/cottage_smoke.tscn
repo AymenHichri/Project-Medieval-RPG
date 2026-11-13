@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/animated/cottage-smoke/godot/cottage-smoke_spriteframes.tres" id="1_n0fwd"]
+
+[node name="CottageSmoke" type="Node2D" unique_id=125702880]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=767118512]
+sprite_frames = ExtResource("1_n0fwd")
+animation = &"loop"
+autoplay = "loop"
+centered = false
+offset = Vector2(-295, -631)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=484678971]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1459808469]
+polygon = PackedVector2Array(293, 103, 289, 148, 251, 193, 182, 225, 87, 248, -115, 243, -254, 187, -265, 177, -286, 142, -293, 87, -275, 30, -256, 0, 256, 0, 278, 24)
+
+[node name="HouseBlock" type="CollisionPolygon2D" parent="Body" unique_id=1216520087]
+polygon = PackedVector2Array(-293, -192, 293, -192, 293, 8, -293, 8)

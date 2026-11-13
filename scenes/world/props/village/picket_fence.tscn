@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/walls/picket-fence.png" id="1_3c3y3"]
+
+[node name="PicketFence" type="Node2D" unique_id=2094095262]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=637275497]
+texture = ExtResource("1_3c3y3")
+centered = false
+offset = Vector2(-187.5, -174)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1247352838]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=1702982701]
+polygon = PackedVector2Array(183.5, -30, 180.5, -8, 171.5, -1, -172.5, -1, -179.5, -5, -183.5, -30)

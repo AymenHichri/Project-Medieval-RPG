@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/buildings/cottage-w.png" id="1_mllly"]
+
+[node name="CottageW" type="Node2D" unique_id=327238576]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=752499940]
+texture = ExtResource("1_mllly")
+centered = false
+offset = Vector2(-244, -495)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=741322511]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=837778736]
+polygon = PackedVector2Array(240, 45, 236, 56, 216, 82, 187, 110, 138, 138, 108, 148, 0, 149, -115, 136, -151, 126, -190, 107, -232, 61, -240, 48, -237, 0, 231, 0)
+
+[node name="HouseBlock" type="CollisionPolygon2D" parent="Body" unique_id=1084965529]
+polygon = PackedVector2Array(-240, -192, 240, -192, 240, 8, -240, 8)
