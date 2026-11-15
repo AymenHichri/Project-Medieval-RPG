@@ -1,5 +1,9 @@
 # The First Heresy
 
+<p align="center">
+  <img src="docs/The%20first%20heresy.jpg" alt="The First Heresy cover art: a ruined gothic cathedral under a black eclipse ringed by watching eyes, with a lone lantern-bearer on the path" width="420">
+</p>
+
 **The First Heresy** is a dark fantasy 2D JRPG built in **Godot 4** with **GDScript**. It follows the structure of classic JRPGs: towns, dangerous regions, random encounters and turn-based battles. That structure carries a world of cosmic horror, body horror and fragmented history, where what people believe about the past is not always what happened.
 
 The game is in early development. This README describes the intended direction and the current state of the project, and keeps the two clearly apart.
