@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="StatusEffectData" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/hud_icons/64px/22_blessed.png" id="1_urfe7"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="2_iwlyv"]
+
+[resource]
+script = ExtResource("2_iwlyv")
+id = &"blessed"
+display_name = "Blessed"
+kind = 3
+icon = ExtResource("1_urfe7")
+duration_turns = 3
+regen_percent = 0.03
+stat_mult = Dictionary[StringName, float]({
+&"defense": 1.25,
+&"spirit": 1.25
+})
+tag_color = Color(0.8901961, 0.7607843, 0.41960785, 1)

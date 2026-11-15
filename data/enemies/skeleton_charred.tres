@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/ai_profile.gd" id="1_iqan3"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_7qndk"]
+[ext_resource type="Script" path="res://scripts/resources/drop_entry.gd" id="3_8u7bh"]
+[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="4_aau6k"]
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="5_4ir0w"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="6_2rt4a"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="7_7wqu5"]
+[ext_resource type="Resource" path="res://data/status_effects/bleed.tres" id="8_7epsb"]
+[ext_resource type="Resource" path="res://data/status_effects/sleep.tres" id="9_yft6o"]
+[ext_resource type="Resource" path="res://data/status_effects/burn.tres" id="10_uh7hw"]
+[ext_resource type="Resource" path="res://data/visuals/skeleton_charred.tres" id="11_p6r3x"]
+
+[sub_resource type="Resource" id="Resource_451o1"]
+script = ExtResource("1_iqan3")
+
+[sub_resource type="Resource" id="Resource_wlptq"]
+script = ExtResource("3_8u7bh")
+item = ExtResource("4_aau6k")
+chance = 0.6
+
+[sub_resource type="Resource" id="Resource_kptw0"]
+script = ExtResource("6_2rt4a")
+max_hp = 80
+attack = 30
+defense = 18
+spirit = 8
+agility = 9
+luck = 8
+
+[resource]
+script = ExtResource("5_4ir0w")
+id = &"skeleton_charred"
+display_name = "Charred Skeleton"
+stats = SubResource("Resource_kptw0")
+affinities = Dictionary[int, float]({
+1: 0.0,
+4: 2.0,
+5: 0.5
+})
+ai = SubResource("Resource_451o1")
+xp = 30
+gold = 25
+drops = Array[ExtResource("3_8u7bh")]([SubResource("Resource_wlptq")])
+visual = ExtResource("11_p6r3x")
+status_immunities = Array[ExtResource("7_7wqu5")]([ExtResource("8_7epsb"), ExtResource("9_yft6o"), ExtResource("10_uh7hw")])

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bmw4hasktx1ll"]
+
+[ext_resource type="Script" uid="uid://hkjgh07yo84w" path="res://scenes/battle/debug_battle.gd" id="1_duce5"]
+[ext_resource type="PackedScene" path="res://scenes/battle/backgrounds/graveyard_bg.tscn" id="2_lskrd"]
+[ext_resource type="Script" uid="uid://dl3r35uf2aaj1" path="res://scripts/resources/enemy_data.gd" id="3_y4kg6"]
+[ext_resource type="Resource" path="res://data/enemies/wolf.tres" id="4_d8c8w"]
+[ext_resource type="Resource" path="res://data/enemies/goblin_scout.tres" id="5_7ajb2"]
+[ext_resource type="Script" uid="uid://berji52rbxgu5" path="res://scripts/battle/battle_setup.gd" id="6_ao0s8"]
+[ext_resource type="Script" uid="uid://cnmfy63jny52f" path="res://scripts/resources/character_data.gd" id="7_w7tru"]
+[ext_resource type="Resource" path="res://data/characters/knight.tres" id="8_88d7d"]
+[ext_resource type="Script" uid="uid://brvsf4ijwjkpy" path="res://scripts/resources/skill_data.gd" id="9_xweb3"]
+[ext_resource type="Resource" path="res://data/skills/charged_strike.tres" id="10_ag01p"]
+[ext_resource type="Script" uid="uid://cbr0qgphk1x83" path="res://scripts/resources/item_data.gd" id="11_ukius"]
+[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="12_5i52b"]
+
+[sub_resource type="Resource" id="Resource_4kpne"]
+script = ExtResource("6_ao0s8")
+enemies = Array[ExtResource("3_y4kg6")]([ExtResource("4_d8c8w"), ExtResource("5_7ajb2")])
+background = ExtResource("2_lskrd")
+
+[node name="DebugBattle" type="Node" unique_id=1763194176]
+script = ExtResource("1_duce5")
+setup = SubResource("Resource_4kpne")
+party = Array[ExtResource("7_w7tru")]([ExtResource("8_88d7d")])
+extra_skills = Array[ExtResource("9_xweb3")]([ExtResource("10_ag01p")])
+items = Dictionary[ExtResource("11_ukius"), int]({
+ExtResource("12_5i52b"): 3
+})

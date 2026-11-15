@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CombatantVisual" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="1_mg1tl"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/skeleton/characters/skeleton/godot/skeleton_spriteframes.tres" id="2_odc20"]
+
+[resource]
+script = ExtResource("1_mg1tl")
+sprite_frames = ExtResource("2_odc20")
+battle_scale = 1.2
+offset = Vector2(0, -78)
+anim_map = Dictionary[StringName, StringName]({
+&"attack": &"attack_W",
+&"death": &"death_W",
+&"hurt": &"hurt_W",
+&"idle": &"idle_W",
+&"move": &"run_W"
+})
+hit_frame = 3
+height = 157.0

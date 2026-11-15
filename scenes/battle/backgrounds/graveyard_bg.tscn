@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/backgrounds/1920x1080/08_graveyard.png" id="1_jc1ni"]
+[ext_resource type="Shader" path="res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader" id="2_toee6"]
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png" id="3_mhu1k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ykl26"]
+shader = ExtResource("2_toee6")
+shader_parameter/mask = ExtResource("3_mhu1k")
+shader_parameter/tint = Color(0.74, 0.78, 0.86, 0.6)
+shader_parameter/tiles = Vector2(1.875, 1.0546875)
+shader_parameter/speed = Vector2(0.02, 0)
+shader_parameter/strength = 0.55
+
+[node name="GraveyardBg" type="Node2D" unique_id=365183826]
+
+[node name="Backdrop" type="Sprite2D" parent="." unique_id=199746512]
+texture_filter = 1
+texture = ExtResource("1_jc1ni")
+centered = false
+
+[node name="Fog" type="CanvasLayer" parent="." unique_id=2129173558]
+
+[node name="FogOverlay" type="ColorRect" parent="Fog" unique_id=256129068]
+material = SubResource("ShaderMaterial_ykl26")
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2

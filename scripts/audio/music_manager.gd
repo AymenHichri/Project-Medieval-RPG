@@ -1,45 +1,187 @@
 class_name MusicManager
 extends Node
-## Plays music on the "Music" bus with a crossfading pair of players.
-## Phase 1: players exist and the API is defined. Behaviour (crossfade, push/pop, jingles) arrives in Phase 6.
+## Plays music on the "Music" bus with a crossfading pair of players (AUDIO_GUIDELINES.md §5).
+## `push()` interrupts the current track (a battle) and remembers where it was; `pop()` goes back
+## to it at that position. Jingles (victory, level up) play on their own player.
+## Every fade time of 0 is applied at once (tests).
 
 signal jingle_finished
 
 const BUS: StringName = &"Music"
+## Volume treated as silent; faded-out players stop.
+const SILENT_DB: float = -80.0
+## Fade applied to the music under a jingle.
+const JINGLE_DUCK_FADE: float = 0.2
 
 var player_a: AudioStreamPlayer
 var player_b: AudioStreamPlayer
+var jingle_player: AudioStreamPlayer
 var current_track: MusicTrack
+
+## The player of `current_track` (null when stopped).
+var _active: AudioStreamPlayer
+## Interrupted tracks: {"track": MusicTrack, "position": float}.
+var _stack: Array[Dictionary] = []
+var _tweens: Dictionary[AudioStreamPlayer, Tween] = {}
+## Bumped by every jingle start/stop, so a stale finish never emits `jingle_finished`.
+var _jingle_token: int = 0
 
 
 func _init() -> void:
 	name = "MusicManager"
 	player_a = _make_player("PlayerA")
 	player_b = _make_player("PlayerB")
+	jingle_player = _make_player("Jingle")
+	jingle_player.finished.connect(_on_jingle_player_finished)
 
 
-## Crossfade to `track`. Implemented in Phase 6.
-func play(track: MusicTrack, _fade: float = 1.0) -> void:
+## Crossfades to `track`, starting at `from_position` seconds. The track already playing is
+## not restarted. Null stops the music.
+func play(track: MusicTrack, fade: float = 1.0, from_position: float = 0.0) -> void:
+	if track == null:
+		stop(fade)
+		return
+	if track == current_track and _active != null and _active.playing:
+		return
+	var outgoing: AudioStreamPlayer = _active
+	var incoming: AudioStreamPlayer = player_b if outgoing == player_a else player_a
 	current_track = track
+	_active = incoming
+	_kill_tween(incoming)
+	incoming.stream = track.stream
+	incoming.volume_db = SILENT_DB if fade > 0.0 else track.volume_db
+	if track.stream != null:
+		incoming.play(maxf(0.0, from_position))
+	_fade(incoming, track.volume_db, fade, false)
+	if outgoing != null:
+		_fade(outgoing, SILENT_DB, fade, true)
 
 
-## Interrupt the current track (e.g. for a battle), remembering its position. Implemented in Phase 6.
-func push(track: MusicTrack, _fade: float = 0.4) -> void:
-	current_track = track
+## Interrupts the current track with `track` (e.g. battle music), remembering the current one
+## and its position for `pop()`. Null silences the music until `pop()`.
+func push(track: MusicTrack, fade: float = 0.4) -> void:
+	_stack.append({"track": current_track, "position": current_position()})
+	stop_jingle()
+	if track == null:
+		stop(fade)
+	else:
+		play(track, fade)
 
 
-## Return to the track that was interrupted by `push()`. Implemented in Phase 6.
-func pop(_fade: float = 1.5) -> void:
-	pass
+## Returns to the track interrupted by the last `push()`, at its stored position (or from the
+## start when its `resume_on_return` is off). Stops a jingle that is still playing.
+func pop(fade: float = 1.5) -> void:
+	if _stack.is_empty():
+		return
+	stop_jingle()
+	var entry: Dictionary = _stack.pop_back()
+	var track: MusicTrack = entry["track"] as MusicTrack
+	if track == null:
+		stop(fade)
+		return
+	var position: float = float(entry["position"]) if track.resume_on_return else 0.0
+	if track != current_track:
+		play(track, fade, position)
+	elif _active == null or not _active.playing:
+		current_track = null
+		play(track, fade, position)
 
 
-## Play a non-looping jingle, then emit `jingle_finished`. Implemented in Phase 6.
-func play_jingle(_stream: AudioStream) -> void:
-	jingle_finished.emit()
+## Plays a non-looping jingle, fading the music out over `music_fade` s, then emits
+## `jingle_finished`. A null or empty stream finishes on the next frame.
+func play_jingle(stream: AudioStream, music_fade: float = JINGLE_DUCK_FADE) -> void:
+	_jingle_token += 1
+	var token: int = _jingle_token
+	if _active != null:
+		_fade(_active, SILENT_DB, music_fade, true)
+		_active = null
+		current_track = null
+	var length: float = stream.get_length() if stream != null else 0.0
+	if stream == null or length <= 0.0:
+		_finish_jingle.call_deferred(token)
+		return
+	jingle_player.stream = stream
+	jingle_player.volume_db = 0.0
+	jingle_player.play()
+	# Fallback for audio drivers that don't mix (headless): finish after the stream's length.
+	if is_inside_tree():
+		get_tree().create_timer(length + 0.1).timeout.connect(_finish_jingle.bind(token))
 
 
-func stop(_fade: float = 1.0) -> void:
+## Stops a playing jingle without emitting `jingle_finished`.
+func stop_jingle() -> void:
+	_jingle_token += 1
+	jingle_player.stop()
+
+
+func is_jingle_playing() -> bool:
+	return jingle_player.playing
+
+
+func stop(fade: float = 1.0) -> void:
+	if _active != null:
+		_fade(_active, SILENT_DB, fade, true)
+	_active = null
 	current_track = null
+
+
+## Playback position (s) of the current track; 0 when stopped.
+func current_position() -> float:
+	if _active == null or not _active.playing:
+		return 0.0
+	return _active.get_playback_position()
+
+
+## The player of the current track (null when stopped).
+func active_player() -> AudioStreamPlayer:
+	return _active
+
+
+## Tracks interrupted by `push()` and not popped yet.
+func stack_depth() -> int:
+	return _stack.size()
+
+
+## Players currently audible (playing above SILENT_DB, jingle excluded).
+func audible_players() -> Array[AudioStreamPlayer]:
+	var out: Array[AudioStreamPlayer] = []
+	for player: AudioStreamPlayer in [player_a, player_b]:
+		if player.playing and player.volume_db > SILENT_DB + 0.1:
+			out.append(player)
+	return out
+
+
+func _fade(player: AudioStreamPlayer, to_db: float, duration: float, stop_after: bool) -> void:
+	_kill_tween(player)
+	if duration <= 0.0 or not is_inside_tree():
+		player.volume_db = to_db
+		if stop_after:
+			player.stop()
+		return
+	var tween: Tween = create_tween()
+	tween.tween_property(player, "volume_db", to_db, duration).set_trans(Tween.TRANS_SINE)
+	if stop_after:
+		tween.tween_callback(player.stop)
+	_tweens[player] = tween
+
+
+func _kill_tween(player: AudioStreamPlayer) -> void:
+	var tween: Tween = _tweens.get(player) as Tween
+	if tween != null and tween.is_valid():
+		tween.kill()
+	_tweens.erase(player)
+
+
+func _on_jingle_player_finished() -> void:
+	_finish_jingle(_jingle_token)
+
+
+func _finish_jingle(token: int) -> void:
+	if token != _jingle_token:
+		return
+	_jingle_token += 1
+	jingle_player.stop()
+	jingle_finished.emit()
 
 
 func _make_player(player_name: String) -> AudioStreamPlayer:

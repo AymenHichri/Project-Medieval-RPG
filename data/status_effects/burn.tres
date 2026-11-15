@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StatusEffectData" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/hud_icons/64px/03_burning.png" id="1_enb6c"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="2_thhvy"]
+
+[resource]
+script = ExtResource("2_thhvy")
+id = &"burn"
+display_name = "Burn"
+kind = 1
+icon = ExtResource("1_enb6c")
+duration_turns = 2
+dot_percent = 0.06
+element = 1
+tag_color = Color(0.8509804, 0.4117647, 0.16862746, 1)

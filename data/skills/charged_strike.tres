@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Resource" path="res://data/status_effects/stun.tres" id="1_t8fm2"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_kyk6h"]
+
+[resource]
+script = ExtResource("2_kyk6h")
+id = &"charged_strike"
+display_name = "Charged Strike"
+mp_cost = 5
+power = 180
+inflicts = ExtResource("1_t8fm2")
+inflict_chance = 0.2
+anim_key = &"charged_strike"
+description = "A heavy overhead blow that may stun."

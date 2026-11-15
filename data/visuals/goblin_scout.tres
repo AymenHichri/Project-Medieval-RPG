@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CombatantVisual" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="1_makap"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/goblin_scout/characters/goblin-scout/godot/goblin-scout_spriteframes.tres" id="2_linim"]
+
+[resource]
+script = ExtResource("1_makap")
+sprite_frames = ExtResource("2_linim")
+battle_scale = 1.2
+offset = Vector2(0, -71)
+anim_map = Dictionary[StringName, StringName]({
+&"attack": &"attack_W",
+&"cast": &"attack2_W",
+&"death": &"death_W",
+&"hurt": &"hurt_W",
+&"idle": &"idle_W",
+&"move": &"run_W",
+&"skill": &"attack2_W"
+})
+hit_frame = 5
+hit_frames = Dictionary[StringName, int]({
+&"cast": 5,
+&"skill": 5
+})
+height = 153.0

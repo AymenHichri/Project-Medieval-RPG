@@ -16,8 +16,17 @@
 |---|---|---|
 | `spawn_point.gd` (Marker2D) | – | Entry point: `spawn_id`, `facing`. Put spawns under `Spawns`; the first is the fallback. Keep them clear of exits. |
 | `map_transition.tscn` (Area2D) | 5 `triggers`, watches 3 `player` | Exit: `target_map`, `target_spawn`, `size`. Put exits under `Transitions`. |
+| `encounter_zone.tscn` (Area2D) | 5 `triggers`, watches 3 `player` | Random encounters: `table` (`EncounterTable`), `polygon` (local px). Put zones under `Encounters`; they may overlap (last entered wins). |
 | `interactable.tscn` (Area2D) | 4 `interactables` | Child of a prop, at its base: `prompt_text`, `dialogue_id` (`data/dialogue/<id>.json`), `radius`, `prompt_offset`. Emits `interacted(by)`. |
 
 The player's `InteractionProbe` (Area2D, watches layer 4) sits 56 px in front of the feet, focuses the nearest
 Interactable and interacts on `accept`. The player can't move or interact while `PlayerController.can_act()` is
 false (fades, open dialogue).
+
+## Random encounters
+The player's `EncounterTracker` (`player/encounter_tracker.gd`) turns real travelled distance into steps (64 px
+each; walking into a wall counts nothing), ticks `GameState.encounter_rate_modifiers` once per step and, inside a
+zone, asks `EncounterRoller` for a battle. No roll for the table's `grace_steps` after entering a map, after a
+battle or after a dialogue. The map turns `encounter_triggered` into a `BattleSetup` for
+`SceneManager.start_battle()`, which detaches the map (kept in memory) and puts it back afterwards.
+Debug builds (F3 overlay): **F4** encounters on/off, **F5** force an encounter in the current zone.

@@ -36,6 +36,7 @@ var facing: StringName = &"S"
 @onready var sprite: AnimatedSprite2D = %Sprite
 @onready var camera: FollowCamera = %Camera
 @onready var probe: InteractionProbe = %InteractionProbe
+@onready var encounter_tracker: EncounterTracker = %EncounterTracker
 
 
 func _ready() -> void:

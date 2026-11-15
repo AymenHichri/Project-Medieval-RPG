@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cl6yqqwm20f0k"]
 
-[ext_resource type="Script" path="res://scenes/ui/fade_overlay.gd" id="1_fade"]
+[ext_resource type="Script" uid="uid://cqos4l06w6gub" path="res://scenes/ui/fade_overlay.gd" id="1_fade"]
 
-[node name="FadeOverlay" type="CanvasLayer"]
+[node name="FadeOverlay" type="CanvasLayer" unique_id=170038529]
 layer = 100
 script = ExtResource("1_fade")
 
-[node name="Rect" type="ColorRect" parent="."]
+[node name="Rect" type="ColorRect" parent="." unique_id=1112904542]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 15

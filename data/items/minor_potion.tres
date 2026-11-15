@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_eqopv"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/052_health_potion.png" id="2_xi6cv"]
+[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="3_hseob"]
+
+[resource]
+script = ExtResource("3_hseob")
+id = &"minor_potion"
+display_name = "Minor Potion"
+icon = ExtResource("2_xi6cv")
+price = 20
+amount = 40
+description = "A bitter red draught. Restores 40 HP."

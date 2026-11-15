@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="EncounterTable" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/battle/backgrounds/graveyard_bg.tscn" id="1_muf1n"]
+[ext_resource type="Script" path="res://scripts/resources/encounter_group.gd" id="2_8syjt"]
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="3_78hxf"]
+[ext_resource type="Resource" path="res://data/enemies/wolf.tres" id="4_g4lmj"]
+[ext_resource type="Resource" path="res://data/enemies/goblin_scout.tres" id="5_xq45e"]
+[ext_resource type="Resource" path="res://data/enemies/skeleton.tres" id="6_2d4k7"]
+[ext_resource type="Resource" path="res://data/enemies/skeleton_charred.tres" id="7_xf88c"]
+[ext_resource type="Script" path="res://scripts/resources/encounter_table.gd" id="8_75esm"]
+
+[sub_resource type="Resource" id="Resource_7wxql"]
+script = ExtResource("2_8syjt")
+enemies = Array[ExtResource("3_78hxf")]([ExtResource("4_g4lmj"), ExtResource("4_g4lmj")])
+weight = 40
+intro_text = "A pack of wolves emerges from the fog!"
+
+[sub_resource type="Resource" id="Resource_0tq0o"]
+script = ExtResource("2_8syjt")
+enemies = Array[ExtResource("3_78hxf")]([ExtResource("5_xq45e"), ExtResource("4_g4lmj")])
+weight = 30
+
+[sub_resource type="Resource" id="Resource_ee3gp"]
+script = ExtResource("2_8syjt")
+enemies = Array[ExtResource("3_78hxf")]([ExtResource("6_2d4k7"), ExtResource("6_2d4k7")])
+weight = 25
+intro_text = "The dead stir beneath the soil!"
+
+[sub_resource type="Resource" id="Resource_ev4l8"]
+script = ExtResource("2_8syjt")
+enemies = Array[ExtResource("3_78hxf")]([ExtResource("7_xf88c")])
+weight = 5
+is_rare = true
+intro_text = "A charred skeleton rises, still smouldering!"
+
+[resource]
+script = ExtResource("8_75esm")
+id = &"graveyard_outskirts"
+groups = Array[ExtResource("2_8syjt")]([SubResource("Resource_7wxql"), SubResource("Resource_0tq0o"), SubResource("Resource_ee3gp"), SubResource("Resource_ev4l8")])
+background = ExtResource("1_muf1n")

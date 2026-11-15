@@ -1,0 +1,100 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scenes/battle/battle_controller.gd" id="1_controller"]
+[ext_resource type="Script" path="res://scenes/battle/battle_presenter.gd" id="2_presenter"]
+[ext_resource type="PackedScene" path="res://scenes/battle/ui/battle_message.tscn" id="3_message"]
+[ext_resource type="PackedScene" path="res://scenes/battle/ui/target_selector.tscn" id="4_selector"]
+[ext_resource type="PackedScene" path="res://scenes/battle/ui/battle_hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/battle/ui/command_menu.tscn" id="6_menu"]
+[ext_resource type="PackedScene" path="res://scenes/battle/ui/results_screen.tscn" id="7_results"]
+
+[node name="BattleScene" type="Node2D"]
+script = ExtResource("1_controller")
+
+[node name="Background" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Battlers" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="PartySlots" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Front" type="Marker2D" parent="PartySlots"]
+position = Vector2(620, 700)
+
+[node name="BackHigh" type="Marker2D" parent="PartySlots"]
+position = Vector2(480, 630)
+
+[node name="BackLow" type="Marker2D" parent="PartySlots"]
+position = Vector2(480, 775)
+
+[node name="EnemySlots" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Front" type="Marker2D" parent="EnemySlots"]
+position = Vector2(1320, 700)
+
+[node name="BackHigh" type="Marker2D" parent="EnemySlots"]
+position = Vector2(1500, 630)
+
+[node name="BackLow" type="Marker2D" parent="EnemySlots"]
+position = Vector2(1500, 775)
+
+[node name="Rear" type="Marker2D" parent="EnemySlots"]
+position = Vector2(1690, 700)
+
+[node name="FrontHigh" type="Marker2D" parent="EnemySlots"]
+position = Vector2(1180, 620)
+
+[node name="Camera" type="Camera2D" parent="."]
+process_callback = 0
+position = Vector2(960, 540)
+
+[node name="Presenter" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_presenter")
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Root" type="Control" parent="UI"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TargetSelector" parent="UI/Root" instance=ExtResource("4_selector")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="BattleHud" parent="UI/Root" instance=ExtResource("5_hud")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="CommandMenu" parent="UI/Root" instance=ExtResource("6_menu")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Popups" type="Control" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BattleMessage" parent="UI/Root" instance=ExtResource("3_message")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="ResultsScreen" parent="UI/Root" instance=ExtResource("7_results")]
+unique_name_in_owner = true
+layout_mode = 1

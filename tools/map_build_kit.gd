@@ -25,6 +25,7 @@ const BOUNDARY_MARGIN: float = 40.0
 const PLAYER_SCENE: String = "res://scenes/world/player/player.tscn"
 const TRANSITION_SCENE: String = "res://scenes/world/components/map_transition.tscn"
 const INTERACTABLE_SCENE: String = "res://scenes/world/components/interactable.tscn"
+const ENCOUNTER_ZONE_SCENE: String = "res://scenes/world/components/encounter_zone.tscn"
 const FOG_SHADER: String = "res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader"
 const FOG_MASK: String = "res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png"
 const AMBIENCE_SCRIPT: String = "res://addons/sovdigital/ambience/scripts/ambience_controller.gd"
@@ -214,6 +215,14 @@ func transition(parent: Node, node_name: String, target_map: String, target_spaw
 	exit.target_spawn = target_spawn
 	exit.size = rect.size
 	return exit
+
+
+## An EncounterZone using the table at `table_path`, outlined by `outline` (map px).
+func encounter_zone(parent: Node, node_name: String, table_path: String, outline: PackedVector2Array) -> EncounterZone:
+	var zone: EncounterZone = scene(parent, ENCOUNTER_ZONE_SCENE, node_name, Vector2.ZERO) as EncounterZone
+	zone.table = load(table_path) as EncounterTable
+	zone.polygon = outline
+	return zone
 
 
 ## Adds an Interactable to a placed prop. `offset` is from the prop's origin (its base).

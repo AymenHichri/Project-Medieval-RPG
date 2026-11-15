@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://b3i6lrd7eyxri"]
+
+[ext_resource type="Script" uid="uid://bj5i8my5yylg5" path="res://scripts/resources/ai_profile.gd" id="1_2b6o2"]
+[ext_resource type="Script" uid="uid://brvsf4ijwjkpy" path="res://scripts/resources/skill_data.gd" id="2_cbmln"]
+[ext_resource type="Script" uid="uid://b72srxiw3ala3" path="res://scripts/resources/drop_entry.gd" id="3_xs001"]
+[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="4_r1ixo"]
+[ext_resource type="Script" uid="uid://dl3r35uf2aaj1" path="res://scripts/resources/enemy_data.gd" id="5_15fh4"]
+[ext_resource type="Script" uid="uid://drhp8m6p3th8i" path="res://scripts/resources/stat_block.gd" id="6_oax46"]
+[ext_resource type="Script" uid="uid://p6a311skgdev" path="res://scripts/resources/status_effect_data.gd" id="7_wnkrw"]
+[ext_resource type="Resource" path="res://data/visuals/wolf.tres" id="8_8roje"]
+
+[sub_resource type="Resource" id="Resource_yu703"]
+script = ExtResource("1_2b6o2")
+
+[sub_resource type="Resource" id="Resource_7ahrt"]
+script = ExtResource("3_xs001")
+item = ExtResource("4_r1ixo")
+
+[sub_resource type="Resource" id="Resource_mewbf"]
+script = ExtResource("6_oax46")
+max_hp = 45
+attack = 22
+defense = 8
+spirit = 6
+agility = 16
+luck = 6
+
+[resource]
+script = ExtResource("5_15fh4")
+id = &"wolf"
+display_name = "Wolf"
+stats = SubResource("Resource_mewbf")
+affinities = Dictionary[int, float]({
+1: 2.0
+})
+ai = SubResource("Resource_yu703")
+xp = 8
+gold = 5
+drops = Array[ExtResource("3_xs001")]([SubResource("Resource_7ahrt")])
+visual = ExtResource("8_8roje")

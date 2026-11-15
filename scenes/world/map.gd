@@ -4,7 +4,9 @@ extends Node2D
 ## Expected children: `Ground`, `Terrain`, `Decals`, `World` (y-sorted, holds props and the
 ## player), `Spawns` (SpawnPoint markers), `Lights`, `Ambience` (vendor ambience controller)
 ## and `CameraBounds` (ReferenceRect). On ready it clamps the player's camera to the bounds,
-## applies the visual mood and, in debug builds, adds the F3 debug overlay.
+## applies the visual mood, starts the map's music and ambience, and, in debug builds, adds the
+## F3 debug overlay. Random encounters: the player's EncounterTracker reports one, and the map
+## turns it into a BattleSetup for `SceneManager.start_battle()` (§4.5).
 
 ## Loaded at runtime, not preloaded: the overlay script refers to `Map`, so a preload would
 ## make a load cycle.
@@ -14,9 +16,9 @@ const DEBUG_OVERLAY_PATH: String = "res://scenes/ui/debug/debug_overlay.tscn"
 @export var map_id: StringName = &""
 ## Name shown to the player (map screen, location banner).
 @export var display_name: String = ""
-## Exploration music. Played by `AudioManager` from Phase 6; may be null.
+## Exploration music, played on ready (null = silence). Resumes after a battle.
 @export var music: MusicTrack
-## Ambient sound layers. Played by `AudioManager` from Phase 6; may be null.
+## Ambient sound layers, played on ready (null = silence).
 @export var ambience: AmbienceProfile
 ## Visual mood passed to the vendor ambience controller: day, golden_hour, dusk, night,
 ## storm, fog or blood_moon. Empty keeps the controller's own preset.
@@ -33,6 +35,9 @@ func _ready() -> void:
 	_apply_ambience_preset()
 	if player != null:
 		player.camera.apply_bounds(get_camera_bounds())
+		player.encounter_tracker.encounter_triggered.connect(_on_encounter_triggered)
+	AudioManager.music.play(music)
+	AudioManager.ambience.set_profile(ambience)
 	if OS.is_debug_build():
 		var overlay: DebugOverlay = (load(DEBUG_OVERLAY_PATH) as PackedScene).instantiate() as DebugOverlay
 		overlay.setup(self)
@@ -75,6 +80,20 @@ func place_player(spawn_id: StringName) -> SpawnPoint:
 ## The world-space rectangle the camera must stay inside.
 func get_camera_bounds() -> Rect2:
 	return _camera_bounds.get_global_transform() * Rect2(Vector2.ZERO, _camera_bounds.size)
+
+
+## All encounter zones of this map.
+func get_encounter_zones() -> Array[EncounterZone]:
+	var zones: Array[EncounterZone] = []
+	for node: Node in find_children("*", "Area2D", true, false):
+		if node is EncounterZone:
+			zones.append(node as EncounterZone)
+	return zones
+
+
+func _on_encounter_triggered(group: EncounterGroup, table: EncounterTable) -> void:
+	# Deferred: the tracker reports from inside the physics step, and the battle detaches this map.
+	SceneManager.start_battle.call_deferred(EncounterRoller.make_setup(group, table))
 
 
 func _apply_ambience_preset() -> void:

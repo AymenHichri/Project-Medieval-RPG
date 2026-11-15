@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/battle/ui/battle_message.gd" id="1_message"]
+
+[node name="BattleMessage" type="PanelContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -700.0
+offset_top = 24.0
+offset_right = 700.0
+offset_bottom = 120.0
+grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("1_message")
+
+[node name="Text" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BodyLabel"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

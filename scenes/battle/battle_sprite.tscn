@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scenes/battle/battle_sprite.gd" id="1_sprite"]
+[ext_resource type="PackedScene" path="res://scenes/ui/widgets/stat_bar.tscn" id="2_bar"]
+
+[sub_resource type="Gradient" id="Gradient_shadow"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.03, 0.02, 0.04, 0.6, 0.03, 0.02, 0.04, 0.35, 0.03, 0.02, 0.04, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_shadow"]
+gradient = SubResource("Gradient_shadow")
+width = 150
+height = 44
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="BattleSprite" type="Node2D"]
+script = ExtResource("1_sprite")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = SubResource("GradientTexture2D_shadow")
+
+[node name="Body" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+
+[node name="HpBar" parent="." instance=ExtResource("2_bar")]
+unique_name_in_owner = true
+visible = false
+style = 3
+show_label = false

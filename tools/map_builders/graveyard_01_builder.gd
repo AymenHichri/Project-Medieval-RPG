@@ -14,6 +14,7 @@ const TILESET_PATH: String = ASH + "/godot/necropolis-free_tileset.tres"
 const PROP_DIR: String = "res://scenes/world/props/necropolis"
 const MAP_PATH: String = "res://scenes/world/maps/graveyard_01.tscn"
 const VILLAGE_PATH: String = "res://scenes/world/maps/village_01.tscn"
+const ENCOUNTERS_PATH: String = "res://data/encounters/graveyard_outskirts.tres"
 
 const TILE: int = MapBuildKit.TILE
 ## Map size in tiles (24×20 = 3072×2560 px).
@@ -65,6 +66,7 @@ func _build_map() -> PackedScene:
 	_build_setpieces(world)
 	_kit.boundary(Vector2(MAP_TILES * TILE))
 	_build_spawns_and_exits(world)
+	_build_encounter_zones()
 	_build_mood()
 	return _kit.finish_map(Vector2(MAP_TILES * TILE))
 
@@ -175,6 +177,18 @@ func _build_spawns_and_exits(world: Node2D) -> void:
 	var transitions: Node2D = _kit.node(Node2D.new(), "Transitions", _kit.root)
 	_kit.transition(transitions, "ToVillage", VILLAGE_PATH, &"from_graveyard",
 		Rect2(GATE_LEFT, FENCE_Y + 60.0, GATE_RIGHT - GATE_LEFT, 140))
+
+
+## Random encounters on the whole walkable ground inside the boundary, from the crypt wall down to
+## the fence. The grace steps after arriving keep the gate itself quiet.
+func _build_encounter_zones() -> void:
+	var encounters: Node2D = _kit.node(Node2D.new(), "Encounters", _kit.root)
+	var margin: float = MapBuildKit.BOUNDARY_MARGIN
+	var right: float = MAP_TILES.x * TILE - margin
+	_kit.encounter_zone(encounters, "GraveyardOutskirts", ENCOUNTERS_PATH, PackedVector2Array([
+		Vector2(margin, 420.0), Vector2(right, 420.0),
+		Vector2(right, FENCE_Y + 40.0), Vector2(margin, FENCE_Y + 40.0),
+	]))
 
 
 func _build_mood() -> void:

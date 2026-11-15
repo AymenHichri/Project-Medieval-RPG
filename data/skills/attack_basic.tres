@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="1_vnvej"]
+
+[resource]
+script = ExtResource("1_vnvej")
+id = &"attack_basic"
+display_name = "Attack"
+description = "A plain weapon strike."

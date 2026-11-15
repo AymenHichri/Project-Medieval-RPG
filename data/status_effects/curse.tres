@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="StatusEffectData" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/hud_icons/64px/05_cursed.png" id="1_3w6ps"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="2_cb3ai"]
+
+[resource]
+script = ExtResource("2_cb3ai")
+id = &"curse"
+display_name = "Curse"
+kind = 2
+icon = ExtResource("1_3w6ps")
+duration_turns = 3
+stat_mult = Dictionary[StringName, float]({
+&"attack": 0.75,
+&"magic": 0.75
+})
+healing_received_mult = 0.5
+element = 5
+tag_color = Color(0.41960785, 0.24705882, 0.627451, 1)

@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/ai_profile.gd" id="1_f6q1b"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_br6mt"]
+[ext_resource type="Script" path="res://scripts/resources/drop_entry.gd" id="3_ok8xq"]
+[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="4_a4t8e"]
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="5_jan5e"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="6_ee2du"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="7_684md"]
+[ext_resource type="Resource" path="res://data/status_effects/bleed.tres" id="8_ik7xt"]
+[ext_resource type="Resource" path="res://data/status_effects/sleep.tres" id="9_6r36i"]
+[ext_resource type="Resource" path="res://data/visuals/skeleton.tres" id="10_ad0qt"]
+
+[sub_resource type="Resource" id="Resource_838dt"]
+script = ExtResource("1_f6q1b")
+
+[sub_resource type="Resource" id="Resource_182u2"]
+script = ExtResource("3_ok8xq")
+item = ExtResource("4_a4t8e")
+chance = 0.15
+
+[sub_resource type="Resource" id="Resource_6lfky"]
+script = ExtResource("6_ee2du")
+max_hp = 60
+attack = 26
+defense = 16
+spirit = 4
+agility = 8
+luck = 4
+
+[resource]
+script = ExtResource("5_jan5e")
+id = &"skeleton"
+display_name = "Skeleton"
+stats = SubResource("Resource_6lfky")
+affinities = Dictionary[int, float]({
+4: 2.0,
+5: 0.5
+})
+ai = SubResource("Resource_838dt")
+xp = 12
+gold = 7
+drops = Array[ExtResource("3_ok8xq")]([SubResource("Resource_182u2")])
+visual = ExtResource("10_ad0qt")
+status_immunities = Array[ExtResource("7_684md")]([ExtResource("8_ik7xt"), ExtResource("9_6r36i")])
