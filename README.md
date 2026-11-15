@@ -1,10 +1,6 @@
-# The Kingdom That Forgot Its Gods
+# The First Heresy
 
-*Working title*
-
-> Humanity killed its gods and wrote them out of history. The world did not forget so easily.
-
-**The Kingdom That Forgot Its Gods** is a dark fantasy 2D JRPG built in **Godot 4** with **GDScript**. It follows the structure of classic JRPGs: towns, dangerous regions, random encounters and turn-based battles. That structure carries a world of cosmic horror, body horror and fragmented history, where what people believe about the past is not always what happened.
+**The First Heresy** is a dark fantasy 2D JRPG built in **Godot 4** with **GDScript**. It follows the structure of classic JRPGs: towns, dangerous regions, random encounters and turn-based battles. That structure carries a world of cosmic horror, body horror and fragmented history, where what people believe about the past is not always what happened.
 
 The game is in early development. This README describes the intended direction and the current state of the project, and keeps the two clearly apart.
 
