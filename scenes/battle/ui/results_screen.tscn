@@ -52,6 +52,13 @@ layout_mode = 2
 theme_type_variation = &"BodyLabel"
 autowrap_mode = 3
 
+[node name="LevelUps" type="Label" parent="Panel/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+autowrap_mode = 3
+
 [node name="Continue" type="Label" parent="Panel/Content"]
 unique_name_in_owner = true
 layout_mode = 2

@@ -8,8 +8,8 @@ extends RefCounted
 ##              "give_item": String?, "goto": target?, "choices": [ choice, ... ]? }
 ##   choice = { "text": String (non-empty), "goto": target?, "set_flag": String? }
 ##   target = a line index (integer, 0 ≤ i < lines.size()) or "end".
-## Unknown keys are errors (they are almost always typos). Phase 3 plays lines in order;
-## flags, items, goto and choices are run from Phase 7.
+##   give_item = "<item_id>", "<item_id>:<count>" or "gold:<amount>" (run by DialogueRunner).
+## Unknown keys are errors (they are almost always typos).
 
 const DIR: String = "res://data/dialogue"
 const END: String = "end"
@@ -89,6 +89,8 @@ static func _validate_line(value: Variant, index: int, line_count: int, errors: 
 	for key: String in OPTIONAL_STRING_LINE_KEYS:
 		if line.has(key) and not line[key] is String:
 			errors.append("%s.%s must be a string" % [where, key])
+	if line.has("give_item") and line["give_item"] is String and not _is_give_spec(str(line["give_item"])):
+		errors.append("%s.give_item must be \"<id>\", \"<id>:<count>\" or \"gold:<amount>\" (got \"%s\")" % [where, line["give_item"]])
 	if line.has("goto"):
 		_check_target(line["goto"], line_count, where + ".goto", errors)
 	if line.has("choices"):
@@ -142,6 +144,11 @@ static func _check_keys(object: Dictionary, allowed: Array[String], where: Strin
 	for key: Variant in object.keys():
 		if not str(key) in allowed:
 			errors.append("%s has unknown key '%s'" % [where, key])
+
+
+static func _is_give_spec(spec: String) -> bool:
+	var regex: RegEx = RegEx.create_from_string("^[a-z0-9_]+(:[1-9][0-9]*)?$")
+	return regex.search(spec) != null
 
 
 static func _is_text(value: Variant) -> bool:

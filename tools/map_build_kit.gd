@@ -25,6 +25,8 @@ const BOUNDARY_MARGIN: float = 40.0
 const PLAYER_SCENE: String = "res://scenes/world/player/player.tscn"
 const TRANSITION_SCENE: String = "res://scenes/world/components/map_transition.tscn"
 const INTERACTABLE_SCENE: String = "res://scenes/world/components/interactable.tscn"
+const NPC_SCENE: String = "res://scenes/world/components/npc.tscn"
+const REST_POINT_SCENE: String = "res://scenes/world/components/rest_point.tscn"
 const ENCOUNTER_ZONE_SCENE: String = "res://scenes/world/components/encounter_zone.tscn"
 const FOG_SHADER: String = "res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader"
 const FOG_MASK: String = "res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png"
@@ -233,6 +235,29 @@ func interactable(target: Node2D, prompt: String, dialogue_id: StringName, offse
 	area.position = offset
 	area.prompt_text = prompt
 	area.dialogue_id = dialogue_id
+	area.radius = radius
+	area.prompt_offset = Vector2(0, -prompt_height)
+	add(target, area, root)
+	return area
+
+
+## A talking NPC standing at `at` (feet), facing `facing`, with an optional portrait.
+func npc(world: Node2D, node_name: String, at: Vector2, dialogue_id: StringName, facing: String,
+		portrait_path: String = "") -> Npc:
+	var person: Npc = scene(world, NPC_SCENE, node_name, at) as Npc
+	person.dialogue_id = dialogue_id
+	person.facing = facing
+	if not portrait_path.is_empty():
+		person.portrait = load(portrait_path) as Texture2D
+	return person
+
+
+## Adds a RestPoint (full heal + its dialogue) to a placed prop.
+func rest_point(target: Node2D, offset: Vector2 = Vector2.ZERO, radius: float = 64.0,
+		prompt_height: float = 170.0) -> RestPoint:
+	var area: RestPoint = (load(REST_POINT_SCENE) as PackedScene).instantiate(PackedScene.GEN_EDIT_STATE_INSTANCE) as RestPoint
+	area.name = "RestPoint"
+	area.position = offset
 	area.radius = radius
 	area.prompt_offset = Vector2(0, -prompt_height)
 	add(target, area, root)

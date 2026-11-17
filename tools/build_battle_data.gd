@@ -10,6 +10,7 @@ const SKILL_DIR: String = "res://data/skills"
 const ITEM_DIR: String = "res://data/items"
 const ENEMY_DIR: String = "res://data/enemies"
 const CHARACTER_DIR: String = "res://data/characters"
+const GROWTH_DIR: String = "res://data/growth"
 const VISUAL_DIR: String = "res://data/visuals"
 const SOV: String = "res://assets/vendor/sovdigital/"
 const HUD_ICONS: String = "res://assets/vendor/gimbles/hud_icons/64px/"
@@ -20,7 +21,7 @@ var _failed: bool = false
 
 
 func _initialize() -> void:
-	for dir: String in [STATUS_DIR, SKILL_DIR, ITEM_DIR, ENEMY_DIR, CHARACTER_DIR, VISUAL_DIR]:
+	for dir: String in [STATUS_DIR, SKILL_DIR, ITEM_DIR, ENEMY_DIR, CHARACTER_DIR, GROWTH_DIR, VISUAL_DIR]:
 		DirAccess.make_dir_recursive_absolute(dir)
 	var statuses: Dictionary[StringName, StatusEffectData] = _build_statuses()
 	var skills: Dictionary[StringName, SkillData] = _build_skills(statuses)
@@ -118,15 +119,18 @@ func _build_potion() -> ItemData:
 	return _save(potion, ITEM_DIR) as ItemData
 
 
+## Phase 7 balance pass: HP ×0.65 and attack ×0.85 of the Phase 4 numbers, so a level 1 Knight
+## played sensibly (attacks, Whirlwind on groups, Minor Heal when low) wins 3–5 graveyard fights
+## before needing the well (simulated: mean 4.2 fights, 300 runs).
 func _build_enemies(statuses: Dictionary[StringName, StatusEffectData], potion: ItemData,
 		visuals: Dictionary[StringName, CombatantVisual]) -> void:
-	var wolf: EnemyData = _enemy(&"wolf", "Wolf", StatBlock.create(45, 0, 22, 8, 0, 6, 16, 6), 8, 5)
+	var wolf: EnemyData = _enemy(&"wolf", "Wolf", StatBlock.create(29, 0, 19, 8, 0, 6, 16, 6), 8, 5)
 	wolf.affinities = {Elements.Element.FIRE: Elements.WEAK}
 	wolf.drops = [_drop(potion, 0.1)]
 	wolf.visual = visuals[&"wolf"]
 	_save(wolf, ENEMY_DIR)
 
-	var goblin: EnemyData = _enemy(&"goblin_scout", "Goblin Scout", StatBlock.create(38, 0, 20, 10, 0, 8, 14, 10), 7, 9)
+	var goblin: EnemyData = _enemy(&"goblin_scout", "Goblin Scout", StatBlock.create(25, 0, 17, 10, 0, 8, 14, 10), 7, 9)
 	goblin.affinities = {Elements.Element.LIGHTNING: Elements.WEAK}
 	goblin.drops = [_drop(potion, 0.2)]
 	goblin.ai.target_strategy = AIProfile.TargetStrategy.LOWEST_HP
@@ -134,14 +138,14 @@ func _build_enemies(statuses: Dictionary[StringName, StatusEffectData], potion: 
 	_save(goblin, ENEMY_DIR)
 
 	var undead: Array[StatusEffectData] = [statuses[&"bleed"], statuses[&"sleep"]]
-	var skeleton: EnemyData = _enemy(&"skeleton", "Skeleton", StatBlock.create(60, 0, 26, 16, 0, 4, 8, 4), 12, 7)
+	var skeleton: EnemyData = _enemy(&"skeleton", "Skeleton", StatBlock.create(39, 0, 22, 16, 0, 4, 8, 4), 12, 7)
 	skeleton.affinities = {Elements.Element.HOLY: Elements.WEAK, Elements.Element.SHADOW: Elements.RESIST}
 	skeleton.status_immunities = undead
 	skeleton.drops = [_drop(potion, 0.15)]
 	skeleton.visual = visuals[&"skeleton"]
 	_save(skeleton, ENEMY_DIR)
 
-	var charred: EnemyData = _enemy(&"skeleton_charred", "Charred Skeleton", StatBlock.create(80, 0, 30, 18, 0, 8, 9, 8), 30, 25)
+	var charred: EnemyData = _enemy(&"skeleton_charred", "Charred Skeleton", StatBlock.create(52, 0, 26, 18, 0, 8, 9, 8), 30, 25)
 	charred.affinities = {Elements.Element.HOLY: Elements.WEAK, Elements.Element.SHADOW: Elements.RESIST, Elements.Element.FIRE: Elements.IMMUNE}
 	var charred_immunities: Array[StatusEffectData] = undead.duplicate()
 	charred_immunities.append(statuses[&"burn"])
@@ -156,12 +160,13 @@ func _build_knight(skills: Dictionary[StringName, SkillData], visual: CombatantV
 	knight.id = &"knight"
 	knight.display_name = "Knight"
 	knight.base_stats = StatBlock.create(120, 20, 30, 20, 12, 14, 12, 8)
+	# Since Phase 7 the curve is its own file (PROJECT_PLAN.md §6.4: xp_to_next(L) = round(12 × L^1.6)).
 	var growth: GrowthCurve = GrowthCurve.new()
-	growth.xp_base = 20
-	growth.xp_exponent = 1.5
+	growth.xp_base = 12
+	growth.xp_exponent = 1.6
 	growth.stat_gain_per_level = StatBlock.create(12, 3, 3, 2, 2, 2, 1, 1)
 	growth.max_level = 30
-	knight.growth = growth
+	knight.growth = _save_as(growth, GROWTH_DIR.path_join("knight_growth.tres")) as GrowthCurve
 	knight.starting_skills = [skills[&"whirlwind"], skills[&"ember"], skills[&"minor_heal"]]
 	var unlock: SkillUnlock = SkillUnlock.new()
 	unlock.level = 3

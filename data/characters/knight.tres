@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://bra1htp3bfr8w"]
+[gd_resource type="Resource" script_class="CharacterData" format=3]
 
-[ext_resource type="Script" uid="uid://drhp8m6p3th8i" path="res://scripts/resources/stat_block.gd" id="1_oyo6h"]
-[ext_resource type="Script" uid="uid://csvjihybuns1k" path="res://scripts/resources/growth_curve.gd" id="2_btf6c"]
-[ext_resource type="Script" uid="uid://cnmfy63jny52f" path="res://scripts/resources/character_data.gd" id="3_q3eef"]
-[ext_resource type="Script" uid="uid://dxmanm1idxe4w" path="res://scripts/resources/skill_unlock.gd" id="4_sa0db"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="1_oyo6h"]
+[ext_resource type="Resource" path="res://data/growth/knight_growth.tres" id="2_btf6c"]
+[ext_resource type="Script" path="res://scripts/resources/character_data.gd" id="3_q3eef"]
+[ext_resource type="Script" path="res://scripts/resources/skill_unlock.gd" id="4_sa0db"]
 [ext_resource type="Resource" path="res://data/skills/charged_strike.tres" id="5_rjp2o"]
-[ext_resource type="Script" uid="uid://brvsf4ijwjkpy" path="res://scripts/resources/skill_data.gd" id="6_4m35v"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="6_4m35v"]
 [ext_resource type="Resource" path="res://data/skills/whirlwind.tres" id="7_j0ftk"]
 [ext_resource type="Resource" path="res://data/skills/ember.tres" id="8_7108d"]
 [ext_resource type="Resource" path="res://data/skills/minor_heal.tres" id="9_7qq6q"]
@@ -23,21 +23,6 @@ agility = 12
 luck = 8
 
 [sub_resource type="Resource" id="Resource_h8ax8"]
-script = ExtResource("1_oyo6h")
-max_hp = 12
-max_mp = 3
-attack = 3
-defense = 2
-magic = 2
-spirit = 2
-agility = 1
-luck = 1
-
-[sub_resource type="Resource" id="Resource_f7oa3"]
-script = ExtResource("2_btf6c")
-stat_gain_per_level = SubResource("Resource_h8ax8")
-
-[sub_resource type="Resource" id="Resource_mvosy"]
 script = ExtResource("4_sa0db")
 level = 3
 skill = ExtResource("5_rjp2o")
@@ -47,7 +32,7 @@ script = ExtResource("3_q3eef")
 id = &"knight"
 display_name = "Knight"
 base_stats = SubResource("Resource_01tq8")
-growth = SubResource("Resource_f7oa3")
+growth = ExtResource("2_btf6c")
 visual = ExtResource("10_ogyli")
 starting_skills = Array[ExtResource("6_4m35v")]([ExtResource("7_j0ftk"), ExtResource("8_7108d"), ExtResource("9_7qq6q")])
-skill_unlocks = Array[ExtResource("4_sa0db")]([SubResource("Resource_mvosy")])
+skill_unlocks = Array[ExtResource("4_sa0db")]([SubResource("Resource_h8ax8")])

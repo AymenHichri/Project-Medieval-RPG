@@ -40,6 +40,9 @@ Applies to all code in this project. Source: `PROJECT_PLAN.md` §10. Visual and 
 | `python -I tools/apply_import_settings.py` | Mipmaps off for pixel UI folders (then re-run `--import`) |
 | `godot --headless --path . -s res://tools/build_theme.gd` | Rebuild theme, fonts and palette (re-run after adding fonts) |
 | `godot --headless --path . -s res://tools/configure_project.gd` | Re-apply project settings |
+| `godot --headless --path . -s res://tools/build_battle_data.gd` | Rebuild skills, items, enemies, the Knight and its growth curve (`data/`); source of truth for the numbers |
+| `godot --headless --path . -s res://tools/build_maps.gd -- village_01` | Rebuild a map and its props from `tools/map_builders/` |
+| `tools/balance_sim.gd` (`BalanceSim.run`) | Slice balance simulation; checked by `tests/unit/test_balance.gd` (3–5 fights before resting) |
 | `godot --headless --path . -s res://tests/test_runner.gd -- --filter=<name>` | Run a subset of tests |
 
 - Every pure-logic class gets `tests/unit/test_<name>.gd`. Every scene type gets a smoke test.

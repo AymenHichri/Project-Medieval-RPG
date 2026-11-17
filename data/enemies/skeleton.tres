@@ -21,8 +21,8 @@ chance = 0.15
 
 [sub_resource type="Resource" id="Resource_6lfky"]
 script = ExtResource("6_ee2du")
-max_hp = 60
-attack = 26
+max_hp = 39
+attack = 22
 defense = 16
 spirit = 4
 agility = 8

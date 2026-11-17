@@ -21,6 +21,10 @@ const DEFAULT_BACKGROUND: PackedScene = preload("res://scenes/battle/backgrounds
 @export var auto_battle: bool = false
 ## Skip every animation and wait (tests). Each round still takes at least one frame.
 @export var instant: bool = false
+## Optional `func(result: BattleResult) -> PackedStringArray`: the level-up lines shown on the
+## results screen (SceneManager passes `GameState.preview_level_ups`; the battle itself never
+## touches the party's progress).
+var level_up_preview: Callable
 
 var engine: BattleEngine
 ## Battle items and their counts. Using one spends it (through the engine's item callback).
@@ -76,7 +80,10 @@ func start(setup: BattleSetup, party: Array[Combatant], rng: RandomNumberGenerat
 	result = engine.compute_rewards()
 	if result.is_victory():
 		victory.emit(result)
-		await results_screen.show_result(result, instant or auto_battle)
+		var level_lines: PackedStringArray = []
+		if level_up_preview.is_valid():
+			level_lines = level_up_preview.call(result) as PackedStringArray
+		await results_screen.show_result(result, instant or auto_battle, level_lines)
 	finished.emit(result)
 	return result
 

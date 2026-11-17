@@ -49,6 +49,21 @@ _Status: draft v1 (2026-11-13). **The workspace contains no audio files.** This 
 
 `sfx_ui_move`, `sfx_ui_confirm`, `sfx_ui_cancel`, `sfx_ui_open` · `sfx_footsteps_{stone,grass,mud}_01..04` · `sfx_interact_chest_open` · `sfx_combat_{swing,hit,crit,miss}` · `sfx_magic_{cast,fire,heal}` · `sfx_enemies_{wolf_howl,skeleton_rattle,goblin_shriek}` · `amb_village_wind_loop`, `amb_graveyard_wind_crows_loop` · `sfx_reward_{gold,item}` · `sfx_progress_{levelup,save}`.
 
+### Sourcing gate status (Milestone 1, 2026-11-17)
+
+**Not met.** No audio was supplied before Phase 7, so the vertical slice runs silent (no placeholder tones, per the 2026-11-13 decision). Every hook is in place, so adding the files is data work only:
+
+| What | Where to assign it |
+|---|---|
+| `mus_menu` | `TitleScreen.music` (`scenes/ui/title_screen.tscn`) |
+| `mus_village`, `mus_graveyard` + ambience beds | `Map.music` / `Map.ambience` on each map (set in `tools/map_builders/*`, then rebuild) |
+| `mus_battle` | `EncounterTable.music` (`tools/build_encounters.gd`) |
+| `jng_victory`, `jng_gameover` | `SceneManager.victory_jingle` / `SceneManager.game_over_jingle` |
+| `jng_levelup` | not wired yet: play it on `GameState.member_leveled` once the file exists |
+| UI sounds | `data/audio/sfx_library.tres` → `ui`: `focus`, `confirm`, `cancel`, `tick` (typewriter) |
+| Footsteps | `data/audio/sfx_library.tres` → `footsteps`: `grass`, `mud`, `stone`, `ash` (unknown surfaces fall back to `stone`) |
+| Combat and monster SFX | not wired yet: the battle presenter has no sound calls. Add them when the files exist (`AudioManager.sfx.play_ui` for hits/casts, one set per enemy for cries) |
+
 ## 5. Licence records (one row per file or per pack; fill in when added)
 
 | Name | Creator | Source URL | Licence | Commercial use | Attribution required (exact credit line) | Format | Intended usage | Project path | Original kept at | Date added |

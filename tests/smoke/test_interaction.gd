@@ -14,8 +14,7 @@ var _map: Map
 
 
 func after_each() -> void:
-	while DialogueManager.is_active:
-		DialogueManager.advance()
+	DialogueTestUtil.close_dialogue()
 	if is_instance_valid(_map):
 		_tree.root.remove_child(_map)
 		_map.free()

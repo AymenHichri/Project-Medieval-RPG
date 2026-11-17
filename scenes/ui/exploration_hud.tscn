@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/exploration_hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" path="res://assets/vendor/dfgui/2x/dfgui_menubutton.png" id="2_normal"]
+[ext_resource type="Texture2D" path="res://assets/vendor/dfgui/2x/dfgui_menubutton-pressed.png" id="3_pressed"]
+[ext_resource type="Texture2D" path="res://assets/vendor/dfgui/2x/dfgui_menubutton-hovered.png" id="4_hover"]
+
+[node name="ExplorationHud" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_hud")
+
+[node name="MenuButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -186.0
+offset_top = 32.0
+offset_right = -48.0
+offset_bottom = 68.0
+grow_horizontal = 0
+focus_mode = 0
+texture_normal = ExtResource("2_normal")
+texture_pressed = ExtResource("3_pressed")
+texture_hover = ExtResource("4_hover")

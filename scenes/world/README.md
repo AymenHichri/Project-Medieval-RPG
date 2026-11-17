@@ -18,10 +18,16 @@
 | `map_transition.tscn` (Area2D) | 5 `triggers`, watches 3 `player` | Exit: `target_map`, `target_spawn`, `size`. Put exits under `Transitions`. |
 | `encounter_zone.tscn` (Area2D) | 5 `triggers`, watches 3 `player` | Random encounters: `table` (`EncounterTable`), `polygon` (local px). Put zones under `Encounters`; they may overlap (last entered wins). |
 | `interactable.tscn` (Area2D) | 4 `interactables` | Child of a prop, at its base: `prompt_text`, `dialogue_id` (`data/dialogue/<id>.json`), `radius`, `prompt_offset`. Emits `interacted(by)`. |
+| `npc.tscn` (Interactable) | 4 `interactables` + a solid body on 1 | A talking character: `dialogue_id`, `facing` (rest), `portrait`. Turns to the player while talking (`idle_<DIR>`), then back. Placeholder sprite: Knight `black`. |
+| `rest_point.tscn` (Interactable) | 4 `interactables` | Fully heals the party (`GameState.heal_party()`), then plays its dialogue (`rest_at_well`). The village well has one. |
 
 The player's `InteractionProbe` (Area2D, watches layer 4) sits 56 px in front of the feet, focuses the nearest
 Interactable and interacts on `accept`. The player can't move or interact while `PlayerController.can_act()` is
 false (fades, open dialogue).
+
+Every map (except a title backdrop, `Map.backdrop = true`) adds the exploration HUD (MENU button) and the pause
+menu (`menu` action; pauses the tree). The player emits `footstep` every stride, and the map plays the footstep
+set for `Map.surface_at()`, the TileSet `surface` custom data under the feet (grass/mud/stone/ash).
 
 ## Random encounters
 The player's `EncounterTracker` (`player/encounter_tracker.gd`) turns real travelled distance into steps (64 px

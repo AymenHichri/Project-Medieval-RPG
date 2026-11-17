@@ -2,7 +2,7 @@ extends Control
 ## Typography specimen (FONT_CATALOG.md §2): every Theme type variation on Gimble's panels.
 ## F2 toggles 1920×1080 fullscreen / 1280×720 windowed. Esc (cancel) returns to the title screen.
 
-const TITLE_SCENE: String = "res://scenes/boot/main.tscn"
+const TITLE_SCENE: String = "res://scenes/ui/title_screen.tscn"
 const SAMPLES: Array[Array] = [
 	["TitleLabel", "The Hollow Bells"],
 	["HeaderLabel", "Chapter I — Ashfall"],

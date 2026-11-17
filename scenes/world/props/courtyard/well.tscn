@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/castle_courtyard/ColourVariations/ash/props/setpieces/well.png" id="1_q5r08"]
+
+[node name="Well" type="Node2D" unique_id=1686243133]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1813587056]
+texture = ExtResource("1_q5r08")
+centered = false
+offset = Vector2(-83.5, -166)
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=141277020]
+collision_mask = 0
+
+[node name="Footprint" type="CollisionPolygon2D" parent="Body" unique_id=971552332]
+polygon = PackedVector2Array(76.5, -39, 70.5, -27, 57.5, -15, 46.5, -9, 17.5, -1, -15.5, -1, -40.5, -7, -56.5, -15, -73.5, -33, -76.5, -46, -75.5, -57, 75.5, -57)

@@ -19,6 +19,12 @@ const MOVE_ANIMATION: StringName = &"run"
 ## the planted foot in the `run_*` frames at their 24 fps.
 const MOVE_CYCLE_GROUND_SPEED: float = 200.0
 
+## Ground distance (px) between two footstep sounds: about one stride of the run cycle.
+const STEP_DISTANCE: float = 110.0
+
+## A foot touched the ground at this position (the map plays the footstep for its surface).
+signal footstep(at: Vector2)
+
 ## Walking speed in world pixels per second (full-scale art).
 @export var walk_speed: float = 220.0
 ## Playback speed of the idle (breathing) loop; the vendor speed reads as panting.
@@ -32,6 +38,8 @@ const MOVE_CYCLE_GROUND_SPEED: float = 200.0
 
 ## Current facing: one of DIRECTIONS.
 var facing: StringName = &"S"
+## Distance walked since the last footstep.
+var _stride: float = 0.0
 
 @onready var sprite: AnimatedSprite2D = %Sprite
 @onready var camera: FollowCamera = %Camera
@@ -59,11 +67,24 @@ func move(input: Vector2) -> void:
 	velocity = input.limit_length(1.0) * walk_speed if moving else Vector2.ZERO
 	move_and_slide()
 	_play_animation(MOVE_ANIMATION if moving else &"idle")
+	_count_stride(get_real_velocity().length() * get_physics_process_delta_time() if moving else 0.0)
 	# Legs follow the real ground speed (slower when sliding along a wall).
 	if moving:
 		sprite.speed_scale = maxf(get_real_velocity().length(), walk_speed * 0.5) / MOVE_CYCLE_GROUND_SPEED
 	else:
 		sprite.speed_scale = idle_animation_speed
+
+
+## Emits `footstep` every STEP_DISTANCE of real ground movement; standing still resets the
+## stride, so the first step after stopping comes half a stride in.
+func _count_stride(distance: float) -> void:
+	if distance <= 0.0:
+		_stride = STEP_DISTANCE * 0.5
+		return
+	_stride += distance
+	if _stride >= STEP_DISTANCE:
+		_stride -= STEP_DISTANCE
+		footstep.emit(global_position)
 
 
 ## True when the player takes movement and interaction input: not during fades

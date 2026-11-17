@@ -1,0 +1,7 @@
+{
+	"id": "rest_at_well",
+	"lines": [
+		{ "text": "You draw a bucket and drink. The water is cold enough to ache." },
+		{ "text": "Your wounds close and your mind clears. [HP and MP fully restored.]" }
+	]
+}

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/world/components/interactable.tscn" id="1_inter"]
+[ext_resource type="Script" path="res://scenes/world/components/rest_point.gd" id="2_rest"]
+
+[node name="RestPoint" instance=ExtResource("1_inter")]
+script = ExtResource("2_rest")
+prompt_text = "Rest"
+dialogue_id = &"rest_at_well"

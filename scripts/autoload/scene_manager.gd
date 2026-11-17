@@ -1,6 +1,7 @@
 extends Node
 ## Autoload `SceneManager`: owns screen fades and scene flow (maps, battles, title, game over).
-## Phase 6: map changes and the world ↔ battle hand-off (PROJECT_PLAN.md §4.5).
+## Map changes, the world ↔ battle hand-off (PROJECT_PLAN.md §4.5), the new-game intro card and
+## the Game Over screen. Loads the player's Settings on start-up.
 
 signal map_changed(map_path: String)
 signal battle_started(setup: BattleSetup)
@@ -9,7 +10,12 @@ signal battle_ended(result: BattleResult)
 const FADE_OVERLAY: PackedScene = preload("res://scenes/ui/fade_overlay.tscn")
 ## Loaded at runtime (not preloaded) so this autoload never pulls the battle scripts into a cycle.
 const BATTLE_SCENE_PATH: String = "res://scenes/battle/battle_scene.tscn"
-const TITLE_SCENE: String = "res://scenes/boot/main.tscn"
+const TITLE_SCENE: String = "res://scenes/ui/title_screen.tscn"
+const GAME_OVER_SCENE: String = "res://scenes/ui/game_over.tscn"
+const INTRO_CARD_SCENE: String = "res://scenes/ui/intro_card.tscn"
+## First map of a new game and its spawn.
+const START_MAP: String = "res://scenes/world/maps/village_01.tscn"
+const START_SPAWN: StringName = &"start"
 
 ## Duration (s) of each half of a map-change fade.
 const MAP_FADE_SECONDS: float = 0.35
@@ -30,8 +36,10 @@ var instant_battles: bool = false
 var auto_battles: bool = false
 ## Seeded RNG for the next battles (tests); null = a fresh random one per battle.
 var battle_rng: RandomNumberGenerator
-## Played when a battle is won (null until the slice audio exists, Phase 7).
+## Played when a battle is won, and on the Game Over screen (null = silent until the slice
+## audio is sourced; AUDIO_CATALOG.md `jng_victory`, `jng_gameover`).
 var victory_jingle: AudioStream
+var game_over_jingle: AudioStream
 ## True while a map change or a battle transition runs; further requests are ignored.
 var is_transitioning: bool = false
 ## True from `start_battle()` until the world is back.
@@ -44,8 +52,11 @@ var _battle: BattleController
 
 
 func _ready() -> void:
+	# Fades must finish while the game is paused (the pause menu's Quit to Title).
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_fade = FADE_OVERLAY.instantiate() as FadeOverlay
 	add_child(_fade)
+	Settings.load_and_apply()
 
 
 func fade_out(duration: float = 0.35) -> void:
@@ -94,7 +105,7 @@ func change_map(map_path: String, spawn_id: StringName) -> void:
 
 ## Runs a battle from the current map (§4.5): pushes the battle music, flashes and fades, takes
 ## the map out of the tree (kept in memory, so the player's position and the map state survive),
-## runs `battle_scene.tscn` with `GameState.party`, then hands the result to `end_battle()`.
+## runs `battle_scene.tscn` with the party's fighters, then hands the result to `end_battle()`.
 ## Returns the result, or null when the request was ignored. Not inside a physics callback.
 func start_battle(setup: BattleSetup) -> BattleResult:
 	if is_transitioning or in_battle or setup == null or setup.enemies.is_empty():
@@ -120,6 +131,7 @@ func start_battle(setup: BattleSetup) -> BattleResult:
 	_battle.instant = instant_battles
 	_battle.auto_battle = auto_battles
 	_battle.victory.connect(_on_battle_victory)
+	_battle.level_up_preview = GameState.preview_level_ups
 	tree.root.add_child(_battle)
 	tree.current_scene = _battle
 
@@ -130,7 +142,7 @@ func start_battle(setup: BattleSetup) -> BattleResult:
 	is_transitioning = false
 	# Not awaited: the battle's intro message plays while the screen fades in.
 	fade_in(BATTLE_FADE_IN_SECONDS)
-	var result: BattleResult = await _battle.start(setup, GameState.party, rng, GameState.battle_items())
+	var result: BattleResult = await _battle.start(setup, GameState.party.combatants(), rng, GameState.battle_items())
 	GameState.sync_battle_items(_battle.items)
 	await end_battle(result)
 	return result
@@ -170,14 +182,47 @@ func end_battle(result: BattleResult) -> void:
 	battle_ended.emit(result)
 
 
-func to_title() -> void:
+## Fades to a non-map scene (title, intro card, Game Over), replacing the current scene. Ignored
+## while another transition runs. Returns the new scene (null when ignored or missing).
+func go_to(scene_path: String) -> Node:
+	if is_transitioning:
+		push_warning("SceneManager: go_to(%s) ignored, a transition is running" % scene_path)
+		return null
+	var packed: PackedScene = load(scene_path) as PackedScene
+	if packed == null:
+		push_error("SceneManager: cannot load %s" % scene_path)
+		return null
+	is_transitioning = true
+	get_tree().paused = false
+	_set_player_input(get_tree().current_scene, false)
 	await fade_out()
-	get_tree().change_scene_to_file(TITLE_SCENE)
+	var scene: Node = _replace_current_scene(packed)
 	await fade_in()
+	is_transitioning = false
+	return scene
 
 
-## The party has fallen. Phase 6 stand-in for the Game Over screen (Phase 7): fade out, drop the
-## battle and the map it came from, and return to the title.
+## Back to the title screen (pause menu, Game Over). The title starts its own music.
+func to_title() -> void:
+	GameState.current_map = ""
+	AudioManager.ambience.set_profile(null, 0.0 if instant_transitions else 1.0)
+	await go_to(TITLE_SCENE)
+
+
+## Title → New Game: resets GameState, shows the intro card; the card then calls `enter_world()`.
+func start_new_game() -> void:
+	GameState.new_game()
+	AudioManager.music.stop(0.0 if instant_transitions else 1.0)
+	await go_to(INTRO_CARD_SCENE)
+
+
+## Leaves the intro card for the first map of a new game.
+func enter_world() -> void:
+	await change_map(START_MAP, START_SPAWN)
+
+
+## The party has fallen: fade out, drop the battle and the map it came from, silence the music
+## and ambience, and show the Game Over screen with its jingle. Its button returns to the title.
 func game_over() -> void:
 	is_transitioning = true
 	await fade_out(BATTLE_RETURN_FADE_SECONDS)
@@ -190,12 +235,23 @@ func game_over() -> void:
 	AudioManager.ambience.set_profile(null, 0.0)
 	in_battle = false
 	GameState.current_map = ""
-	var tree: SceneTree = get_tree()
-	var title: Node = (load(TITLE_SCENE) as PackedScene).instantiate()
-	tree.root.add_child(title)
-	tree.current_scene = title
+	_replace_current_scene(load(GAME_OVER_SCENE) as PackedScene)
+	if game_over_jingle != null:
+		AudioManager.music.play_jingle(game_over_jingle)
 	await fade_in()
 	is_transitioning = false
+
+
+func _replace_current_scene(packed: PackedScene) -> Node:
+	var tree: SceneTree = get_tree()
+	var old_scene: Node = tree.current_scene
+	if old_scene != null:
+		tree.root.remove_child(old_scene)
+		old_scene.queue_free()
+	var scene: Node = packed.instantiate()
+	tree.root.add_child(scene)
+	tree.current_scene = scene
+	return scene
 
 
 ## The map waiting for the battle to end (null outside battles).

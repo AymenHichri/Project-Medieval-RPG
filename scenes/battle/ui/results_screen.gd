@@ -1,7 +1,7 @@
 class_name ResultsScreen
 extends Control
-## Victory summary (PROJECT_PLAN.md §6.5): experience, gold and the items found. Level-ups are
-## listed once Progression exists (Phase 7). `await show_result(result)` returns on `accept`.
+## Victory summary (PROJECT_PLAN.md §6.5): experience, gold, the items found and the level-ups.
+## `await show_result(result)` returns on `accept`.
 
 signal continued
 
@@ -13,18 +13,22 @@ var _opened_at: int = 0
 @onready var _xp: Label = %Experience
 @onready var _gold: Label = %Gold
 @onready var _drops: Label = %Drops
+@onready var _level_ups: Label = %LevelUps
 
 
 func _ready() -> void:
 	visible = false
 
 
-## Fills the panel from `result`. `instant` skips waiting for the player.
-func show_result(result: BattleResult, instant: bool = false) -> void:
+## Fills the panel from `result`; `level_lines` are the level-up messages ("Knight reached
+## level 2!"). `instant` skips waiting for the player.
+func show_result(result: BattleResult, instant: bool = false, level_lines: PackedStringArray = []) -> void:
 	_xp.text = "Experience  +%d" % result.xp
 	_gold.text = "Gold  +%d" % result.gold
 	_drops.text = drops_text(result.drops)
 	_drops.visible = not _drops.text.is_empty()
+	_level_ups.text = "\n".join(level_lines)
+	_level_ups.visible = not level_lines.is_empty()
 	visible = true
 	if instant:
 		return
@@ -34,6 +38,10 @@ func show_result(result: BattleResult, instant: bool = false) -> void:
 
 func experience_text() -> String:
 	return _xp.text
+
+
+func level_up_text() -> String:
+	return _level_ups.text
 
 
 ## "Found: Minor Potion ×2, …" (empty when nothing dropped).

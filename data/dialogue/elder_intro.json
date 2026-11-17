@@ -1,0 +1,17 @@
+{
+	"id": "elder_intro",
+	"conditions": { "if_flag": "met_elder", "use": "elder_again" },
+	"lines": [
+		{ "speaker": "Elder Maren", "set_flag": "met_elder", "text": "Another wanderer on the border road. You picked a poor season for it." },
+		{ "speaker": "Elder Maren", "text": "Folk have been going missing on the graveyard path. Not dead, mind. Gone. Their own kin can't recall their faces." },
+		{ "speaker": "Elder Maren", "text": "Will you walk out past the fence and see what stirs among the stones?",
+		  "choices": [
+			{ "text": "I'll go.", "set_flag": "elder_agreed", "goto": 3 },
+			{ "text": "Not my concern.", "goto": 5 }
+		  ] },
+		{ "speaker": "Elder Maren", "give_item": "minor_potion:2", "text": "Then take these. My father swore by them. [Received 2 Minor Potions.]" },
+		{ "speaker": "Elder Maren", "goto": "end", "text": "Rest at the well when the road wears on you. The water still remembers being holy." },
+		{ "speaker": "Elder Maren", "text": "Hm. Most say that. Most are gone by spring." },
+		{ "speaker": "Elder Maren", "text": "Change your mind and you know where I stand. The well in the square will rest you either way." }
+	]
+}

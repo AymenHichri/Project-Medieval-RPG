@@ -1,14 +1,15 @@
 extends Node
 ## Autoload `GameState`: the data of the current play session.
-## Phase 6: flags, gold, item counts, the battle party and encounter-rate modifiers.
-## The real Party/PartyMember (levels, XP) arrives in Phase 7, the full Inventory in Phase 9,
-## quests and serialisation later.
+## Flags, gold, item counts, the party (levels, XP) and encounter-rate modifiers.
+## The full Inventory arrives in Phase 9, quests and serialisation later.
 
 signal flag_changed(flag: StringName, value: Variant)
 signal gold_changed(gold: int)
 signal items_changed
+## A party member gained a level (emitted once per level, from `apply_battle_rewards`).
+signal member_leveled(member: PartyMember, level_up: LevelUp)
 
-## The character a new game starts with (until Party/PartyMember exist, Phase 7).
+## The character a new game starts with (Phase 8 adds recruits).
 const STARTING_CHARACTER: String = "res://data/characters/knight.tres"
 ## Item ids are the file names in this folder.
 const ITEM_DIR: String = "res://data/items"
@@ -21,9 +22,15 @@ var current_map: String = ""
 var play_time: float = 0.0
 ## Encounter-rate multipliers by id (PROJECT_PLAN.md §6.2), ticked once per step.
 var encounter_rate_modifiers: Dictionary[StringName, RateModifier] = {}
-## The fighters taken into every battle. Minimal stand-in for Party (Phase 7): their HP/MP
-## carry over from one battle to the next. Built on first use.
-var party: Array[Combatant] = []
+## The active party. Its members' fighters are taken into every battle, so HP/MP, levels and
+## learned skills carry over. Built by `new_game()` / `ensure_party()`.
+var party: Party = Party.new()
+## Rolls the stat gains of level-ups. Seed it in tests; randomised on start-up.
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+
+
+func _ready() -> void:
+	rng.randomize()
 
 
 func new_game() -> void:
@@ -103,35 +110,59 @@ func ensure_party() -> void:
 		return
 	var knight: CharacterData = load(STARTING_CHARACTER) as CharacterData
 	if knight != null:
-		party.append(Combatant.from_character(knight))
+		party.add(PartyMember.create(knight))
 
 
 ## Clears what only lasts for one battle (Defend, statuses) once it ends.
 func settle_party_after_battle() -> void:
-	for member: Combatant in party:
-		member.is_defending = false
-		member.statuses.clear()
+	party.settle_after_battle()
 
 
-## Full HP/MP for every member (a debug restart; Phase 7 adds rest points).
+## Full HP/MP for every member, statuses cleared (rest points, debug restart).
 func heal_party() -> void:
-	for member: Combatant in party:
-		member.hp = member.max_hp()
-		member.mp = member.max_mp()
-		member.statuses.clear()
+	party.heal_all()
 
 
 # --- rewards --------------------------------------------------------------------------------
 
-## Applies a victory's rewards: gold and dropped items. Called only by
-## `SceneManager.end_battle()`. XP and levels arrive in Phase 7.
-func apply_battle_rewards(result: BattleResult) -> void:
+## Applies a victory's rewards: gold, dropped items, and `xp_per_member` to every member who
+## survived (a fallen member gets none). Called only by `SceneManager.end_battle()`.
+## Returns the level-ups, in party order (also emitted as `member_leveled`).
+func apply_battle_rewards(result: BattleResult) -> Array[LevelUp]:
+	var level_ups: Array[LevelUp] = []
 	if result == null or not result.is_victory():
-		return
+		return level_ups
 	if result.gold > 0:
 		add_gold(result.gold)
 	for drop: ItemData in result.drops:
 		add_item(drop.id, 1)
+	for member: PartyMember in party.members:
+		if not member.combatant in result.survivors or not member.is_alive():
+			continue
+		for up: LevelUp in member.gain_xp(result.xp_per_member, rng):
+			level_ups.append(up)
+			member_leveled.emit(member, up)
+	return level_ups
+
+
+## The level-up lines a victory will produce, before it is applied (the results screen shows
+## them; stat gains are rolled later, in `apply_battle_rewards`).
+func preview_level_ups(result: BattleResult) -> PackedStringArray:
+	var lines: PackedStringArray = []
+	if result == null or not result.is_victory():
+		return lines
+	for member: PartyMember in party.members:
+		if not member.combatant in result.survivors or not member.is_alive():
+			continue
+		var growth: GrowthCurve = member.data.growth
+		var reached: int = Progression.level_for_xp(growth, member.xp + result.xp_per_member)
+		for level: int in range(member.level + 1, reached + 1):
+			var up: LevelUp = LevelUp.new()
+			up.member_name = member.display_name()
+			up.level = level
+			up.learned = Progression.skills_learned_at(member.data, level)
+			lines.append_array(up.describe())
+	return lines
 
 
 # --- encounter rate -------------------------------------------------------------------------

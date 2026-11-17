@@ -10,6 +10,8 @@ var ambience: AmbientAudioManager
 
 
 func _init() -> void:
+	# Music and ambience keep playing in the pause menu (audio players pause with the tree).
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	music = MusicManager.new()
 	sfx = SFXManager.new()
 	ambience = AmbientAudioManager.new()

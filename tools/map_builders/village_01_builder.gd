@@ -4,6 +4,7 @@ extends RefCounted
 ## Writes:
 ##   res://scenes/world/props/village/<piece>.tscn   one scene per static village piece (ash palette),
 ##       built from the vendor biome.json by MapBuildKit.
+##   res://scenes/world/props/courtyard/well.tscn     the well (castle courtyard kit, ash palette).
 ##   res://scenes/world/maps/village_01.tscn         the map (PROJECT_PLAN.md §6.1 template).
 ## Source of truth for the layout: edit THIS script, then re-run it. If the map is later
 ## edited by hand in the editor, stop re-running this script (it would overwrite the edits).
@@ -13,6 +14,11 @@ const TILESET_PATH: String = ASH + "/godot/medieval-village-free_tileset.tres"
 const PROP_DIR: String = "res://scenes/world/props/village"
 const MAP_PATH: String = "res://scenes/world/maps/village_01.tscn"
 const GRAVEYARD_PATH: String = "res://scenes/world/maps/graveyard_01.tscn"
+## The well comes from the castle courtyard kit (the village kit has none); same ash palette.
+const COURTYARD_ASH: String = "res://assets/vendor/sovdigital/castle_courtyard/ColourVariations/ash"
+const COURTYARD_PROP_DIR: String = "res://scenes/world/props/courtyard"
+## Placeholder portrait for the Elder (Gimble's has no elder; risk R5).
+const ELDER_PORTRAIT: String = "res://assets/vendor/gimbles/portraits/framed/256px/11_witch_hunter.png"
 
 const TILE: int = MapBuildKit.TILE
 ## Map size in tiles (32×24 = 4096×3072 px).
@@ -34,11 +40,14 @@ const OAK_STILL: String = ASH + "/destructibles/oak-tree/godot/oak-tree.tscn"
 const APPLE_CART: String = ASH + "/destructibles/apple-cart/godot/apple-cart.tscn"
 
 var _kit: MapBuildKit
+var _courtyard_kit: MapBuildKit
 
 
 func build() -> void:
 	_kit = MapBuildKit.new(ASH, PROP_DIR)
 	_kit.build_props(PROP_IDS)
+	_courtyard_kit = MapBuildKit.new(COURTYARD_ASH, COURTYARD_PROP_DIR)
+	_courtyard_kit.build_props(["well"])
 	_kit.save(_build_map(), MAP_PATH)
 	print("built %d props and %s" % [PROP_IDS.size(), MAP_PATH])
 
@@ -124,12 +133,18 @@ func _build_props(world: Node2D) -> void:
 	_kit.interactable(board, "Read", &"examine_notice_board", Vector2(0, 10), 72.0, 200.0)
 	_kit.prop(world, "market-stall", "MarketStall", Vector2(2420, 1620))
 	_kit.scene(world, APPLE_CART, "AppleCart", Vector2(2700, 1650))
-	_kit.prop(world, "bird-bath", "BirdBath", Vector2(1660, 2150))
+	_kit.prop(world, "bird-bath", "BirdBath", Vector2(2760, 2020))
 	_kit.prop(world, "public-bench", "PublicBench", Vector2(2460, 2160))
 	_kit.prop(world, "rain-barrel", "RainBarrelWest", Vector2(1500, 1380))
 	_kit.prop(world, "rain-barrel", "RainBarrelEast", Vector2(3790, 1340))
 	_kit.prop(world, "flower-planter", "FlowerPlanter", Vector2(860, 1480))
 	_kit.prop(world, "laundry-line", "LaundryLine", Vector2(1480, 2560))
+	# Phase 7: the well in the square's south-west quarter heals the party.
+	_courtyard_kit.root = _kit.root
+	var well: Node2D = _courtyard_kit.prop(world, "well", "Well", Vector2(1800, 2110))
+	_kit.rest_point(well, Vector2(0, 10), 96.0, 210.0)
+	# Phase 7: the Elder waits in the square's north-east quarter, facing the start spawn.
+	_kit.npc(world, "Elder", Vector2(2270, 1560), &"elder_intro", "SW", ELDER_PORTRAIT)
 
 
 func _build_trees(world: Node2D) -> void:

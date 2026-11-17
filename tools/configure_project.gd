@@ -18,7 +18,7 @@ func _initialize() -> void:
 	var s: Dictionary[String, Variant] = {
 		"application/config/name": "Dark Fantasy JRPG",
 		"application/config/features": PackedStringArray(["4.7", "Forward Plus"]),
-		"application/run/main_scene": "res://scenes/boot/main.tscn",
+		"application/run/main_scene": "res://scenes/ui/title_screen.tscn",
 		"rendering/renderer/rendering_method": "forward_plus",
 		"display/window/size/viewport_width": 1920,
 		"display/window/size/viewport_height": 1080,

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/world/components/interactable.tscn" id="1_inter"]
+[ext_resource type="Script" path="res://scenes/world/components/npc.gd" id="2_npc"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/ColourVariations/black/knight/godot/knight_spriteframes.tres" id="3_frames"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 18.0
+height = 64.0
+
+[node name="Npc" instance=ExtResource("1_inter")]
+script = ExtResource("2_npc")
+prompt_text = "Talk"
+radius = 80.0
+prompt_offset = Vector2(0, -200)
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." index="0"]
+unique_name_in_owner = true
+sprite_frames = ExtResource("3_frames")
+animation = &"idle_S"
+offset = Vector2(0, -83)
+
+[node name="Body" type="StaticBody2D" parent="." index="1"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Footprint" type="CollisionShape2D" parent="Body"]
+position = Vector2(0, -4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_body")

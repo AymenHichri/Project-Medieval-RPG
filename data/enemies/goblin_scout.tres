@@ -20,8 +20,8 @@ chance = 0.2
 
 [sub_resource type="Resource" id="Resource_uxtd3"]
 script = ExtResource("6_gtpg2")
-max_hp = 38
-attack = 20
+max_hp = 25
+attack = 17
 defense = 10
 spirit = 8
 agility = 14

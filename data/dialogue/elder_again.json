@@ -1,0 +1,13 @@
+{
+	"id": "elder_again",
+	"conditions": { "if_flag": "elder_agreed", "use": "elder_again_agreed" },
+	"lines": [
+		{ "speaker": "Elder Maren", "text": "Back again, and still unconvinced? The graveyard won't wait on your conscience." },
+		{ "speaker": "Elder Maren", "text": "Well? Will you go?",
+		  "choices": [
+			{ "text": "Fine. I'll look into it.", "set_flag": "elder_agreed", "goto": 2 },
+			{ "text": "Still no.", "goto": "end" }
+		  ] },
+		{ "speaker": "Elder Maren", "give_item": "minor_potion:2", "text": "Good. Take these, and mind the wolves. [Received 2 Minor Potions.]" }
+	]
+}

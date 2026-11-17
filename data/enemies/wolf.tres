@@ -18,8 +18,8 @@ item = ExtResource("4_r1ixo")
 
 [sub_resource type="Resource" id="Resource_mewbf"]
 script = ExtResource("6_oax46")
-max_hp = 45
-attack = 22
+max_hp = 29
+attack = 19
 defense = 8
 spirit = 6
 agility = 16

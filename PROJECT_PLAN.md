@@ -295,7 +295,7 @@ res://
 │   ├── encounters/  bosses/  quests/  growth/  ai/
 │   └── dialogue/*.json
 ├── scenes/
-│   ├── boot/main.tscn                       # entry: title → new game / continue
+│   ├── boot/main.tscn                       # entry: title → new game / continue (since Phase 7: ui/title_screen.tscn)
 │   ├── ui/
 │   │   ├── theme/{main_theme.tres, ui_palette.tres, fonts/font_*.tres}
 │   │   ├── title_screen.tscn · pause_menu.tscn · game_over.tscn · shop_menu.tscn
@@ -846,32 +846,47 @@ Region-based random encounters that move the player from the world to battle and
 Turn the systems into a short, coherent, playable experience matching §8.1.
 
 **Tasks**
-- [ ] Full `DialogueManager`: multi-line, speaker name, choices, `set_flag`, `give_item` (stub to GameState gold/item list), conditional entry (`if_flag`/`use`). Typewriter effect with accept-to-skip.
-- [ ] `components/npc.tscn/.gd` (extends Interactable): static NPC sprite (placeholder: Knight `black` recolour standing guard, or a prop-based "mourner at a grave"), faces the player on talk using the 8-dir idle.
-- [ ] NPC "Elder" (placeholder name) in `village_01` with `elder_intro.json`, a choice and a flag.
-- [ ] Extend `GameState.apply_battle_rewards(result)` with XP to `PartyMember` and level-up via `Progression` (gold and items already exist from Phase 6; the full Inventory comes in Phase 9).
-- [ ] `scenes/ui/pause_menu.tscn` shell, opened with the `menu` action in exploration: Gimble's panel, a tab list (Party / Items / Equipment / Journal appear in later phases), Resume, Quit to Title. The dfgui MENU button in the exploration HUD opens it too.
-- [ ] Minimal `Party`/`PartyMember` (1 member) and `Progression.xp_to_next()` with `data/growth/knight_growth.tres`.
-- [ ] `game_over.tscn`: "Return to title", with the `jng_gameover` jingle.
-- [ ] Final `title_screen.tscn` (per `UI_ASSET_CATALOG.md`): live necropolis-night background with fog, Cinzel title, red buttons (New Game, Settings, Quit), `mus_menu`.
-- [ ] `scenes/ui/menus/settings_menu.tscn` + `scripts/ui/settings.gd`: Master/Music/SFX/Ambience sliders, fullscreen toggle, text speed. Persisted to `user://settings.cfg`. Slider, checkbox and option styles come from Theme StyleBoxFlat in palette tokens. Reachable from the title and pause menus.
-- [ ] Full `dialogue_box.tscn`: framed 256 px portrait, dfgui name plate, Cinzel speaker name, Alegreya body, continue indicator, choice buttons, typewriter tick SFX (throttled).
-- [ ] `SFXManager` implemented (pools, variants, pitch range, cooldown, footsteps by TileSet `surface`). UI SFX are wired into the Theme-driven widgets through one `UiSounds` helper (focus, confirm, cancel).
+- [x] Full `DialogueManager`: multi-line, speaker name, choices, `set_flag`, `give_item` (stub to GameState gold/item list), conditional entry (`if_flag`/`use`). Typewriter effect with accept-to-skip.
+  - *As built (2026-11-17):* the rules live in a node-free `scripts/dialogue/dialogue_runner.gd` (`DialogueRunner.open(id, GameState)`, `advance()`, `choose(i)`), and `DialogueManager.start(id, portrait)` drives it through the box. A line's `set_flag`/`give_item` run when the line is entered; `give_item` is `"<id>"`, `"<id>:<n>"` or `"gold:<n>"` (validated). Conditional entry follows chains (`elder_intro` → `elder_again` → `elder_again_agreed`). `dialogue_finished` reports the id actually played. The first `accept` completes a typing line, the next advances.
+- [x] `components/npc.tscn/.gd` (extends Interactable): static NPC sprite (placeholder: Knight `black` recolour standing guard, or a prop-based "mourner at a grave"), faces the player on talk using the 8-dir idle.
+  - *As built:* Knight `black` recolour, solid capsule body, exports `facing` (rest) and `portrait`; turns back to its rest facing after the talk. Placed by `MapBuildKit.npc()`.
+- [x] NPC "Elder" (placeholder name) in `village_01` with `elder_intro.json`, a choice and a flag.
+  - *As built:* "Elder Maren" (Gimble's Witch Hunter portrait as a placeholder) in the square's north-east quarter. `elder_intro` sets `met_elder`; "I'll go." sets `elder_agreed` and gives 2 Minor Potions. Second talk: `elder_again` (asks again) or `elder_again_agreed`.
+- [x] Extend `GameState.apply_battle_rewards(result)` with XP to `PartyMember` and level-up via `Progression` (gold and items already exist from Phase 6; the full Inventory comes in Phase 9).
+  - *As built:* returns the `LevelUp`s and emits `member_leveled(member, level_up)`; stat gains use `GameState.rng` (seedable). Rewards are still applied only in `end_battle`, after the results screen, so the screen shows `GameState.preview_level_ups(result)` ("Knight reached level 2!", learned skills), passed to the battle as `BattleController.level_up_preview`. The HUD on the results screen still shows the pre-level stats.
+- [x] `scenes/ui/pause_menu.tscn` shell, opened with the `menu` action in exploration: Gimble's panel, a tab list (Party / Items / Equipment / Journal appear in later phases), Resume, Quit to Title. The dfgui MENU button in the exploration HUD opens it too.
+  - *As built:* added by `Map` (with `scenes/ui/exploration_hud.tscn`); pauses the tree (`SceneManager` and `AudioManager` run while paused). Party tab = a summary (level, HP/MP, XP to next, gold); the other tabs are shown disabled. Also has Settings. Not available during a dialogue, fade or battle.
+- [x] Minimal `Party`/`PartyMember` (1 member) and `Progression.xp_to_next()` with `data/growth/knight_growth.tres`.
+  - *As built:* `scripts/rpg/{party,party_member,progression,level_up}.gd`. `GameState.party` is now a `Party`; each `PartyMember` keeps one `Combatant` across battles whose `stats` is the member's own level StatBlock (never the .tres). `GrowthCurve` defaults are now 12 / 1.6 (§6.4) and `xp_for_level()` is the cumulative total. The growth file is written by `tools/build_battle_data.gd`.
+- [x] `game_over.tscn`: "Return to title", with the `jng_gameover` jingle.
+  - *As built:* `scenes/ui/game_over.tscn`; `SceneManager.game_over()` shows it and plays `SceneManager.game_over_jingle` (null until audio exists).
+- [x] Final `title_screen.tscn` (per `UI_ASSET_CATALOG.md`): live necropolis-night background with fog, Cinzel title, red buttons (New Game, Settings, Quit), `mus_menu`.
+  - *As built:* `scenes/ui/title_screen.tscn` is the main scene (`scenes/boot/main.*` removed). The background is `graveyard_01` in the new `Map.backdrop` mode (no player, music, encounters, HUD or debug overlay) at the `night` preset, under a slowly drifting camera. `TitleScreen.music` is null until `mus_menu` exists. The typography specimen is no longer on the title (run it with F6).
+- [x] `scenes/ui/menus/settings_menu.tscn` + `scripts/ui/settings.gd`: Master/Music/SFX/Ambience sliders, fullscreen toggle, text speed. Persisted to `user://settings.cfg`. Slider, checkbox and option styles come from Theme StyleBoxFlat in palette tokens. Reachable from the title and pause menus.
+  - *As built:* `Settings` is a static class (no sixth autoload), loaded by `SceneManager._ready()`. Sliders apply at once; closing saves. The SFX slider also drives the UI bus. Text speeds: Slow / Normal / Fast / Instant (30 / 60 / 120 chars/s / whole line). Theme additions in `tools/build_theme.gd` `_widgets()` (slider, check box, option button + popup, tab bar).
+- [x] Full `dialogue_box.tscn`: framed 256 px portrait, dfgui name plate, Cinzel speaker name, Alegreya body, continue indicator, choice buttons, typewriter tick SFX (throttled).
+  - *As built:* name plate = `dfgui_partyhud` 2x region (116, 2, 264×42) as a NinePatchRect, so it stretches without leaving the 2-px grid. Continue indicator = gauntlet cursor rotated 90° with a 2-step bob. Choices appear once the line has finished typing; the tick plays every 3 characters (plus the SfxSet cooldown).
+- [x] `SFXManager` implemented (pools, variants, pitch range, cooldown, footsteps by TileSet `surface`). UI SFX are wired into the Theme-driven widgets through one `UiSounds` helper (focus, confirm, cancel).
+  - *As built:* named sets come from `data/audio/sfx_library.tres` (`SfxLibrary`: `ui` and `footsteps`, empty for now). A full world pool steals its oldest voice; a full UI pool reuses its own oldest (UI sounds are never dropped or taken by world sounds). The player emits `footstep` every 110 px; `Map.surface_at()` reads the topmost tile's `surface`.
 - [ ] **Slice audio integration**: assign `MusicTrack`/`SfxSet`/`AmbienceProfile` resources for menu, village, graveyard, battle, victory, game over, level up, UI, footsteps, combat hits, three monster sounds, and two ambience beds. Fill in their rows in `AUDIO_CATALOG.md` §5 and `docs/asset_manifest.csv`. If the sourcing gate isn't met, keep the placeholders and record that in the milestone review.
-- [ ] Title → New Game → `village_01` spawn, with a short intro text card.
-- [ ] Balance pass: Knight lv1 survives 3–5 fights before needing to rest. A "rest at the well" Interactable fully heals.
-- [ ] Update `CREDITS.md` and `README.md` (how to run, controls, debug keys).
+  - *Status (2026-11-17):* **sourcing gate not met**, so the slice is silent. The hook-up points are listed in `AUDIO_CATALOG.md` ("Sourcing gate status"). Not wired yet: the level-up jingle and combat/monster SFX (the battle presenter has no sound calls).
+- [x] Title → New Game → `village_01` spawn, with a short intro text card.
+  - *As built:* `SceneManager.start_new_game()` → `scenes/ui/intro_card.tscn` (three lines fade in; `accept` shows all, then Continue) → `enter_world()`. New: `SceneManager.go_to(scene)`; `to_title()` uses it.
+- [x] Balance pass: Knight lv1 survives 3–5 fights before needing to rest. A "rest at the well" Interactable fully heals.
+  - *As built:* enemy HP ×0.65 and attack ×0.85 (Wolf 29/19, Goblin 25/17, Skeleton 39/22, Charred 52/26). Before the change, the Knight averaged 1.6 fights and died in 38% of runs. `tools/balance_sim.gd` plays sessions with a sensible policy (Minor Heal below 40%, Whirlwind on groups, else Attack; no items) until HP < 30%: mean 4.2 fights, 3% deaths, usually level 3 by then. The well is the Castle Courtyard well (`scenes/world/props/courtyard/well.tscn`) with a `RestPoint`; the bird bath moved to make room.
+- [x] Update `CREDITS.md` and `README.md` (how to run, controls, debug keys).
 
 **Automated verification**
-- [ ] `test_dialogue_runner.gd`: lines advance; choice `goto` jumps correctly; `set_flag` writes GameState; conditional entry selects the alternate dialogue when the flag is set.
-- [ ] `test_progression.gd`: `xp_to_next` monotonic; multi-level-up from one big reward is handled; with a seeded RNG, each stat gain is within `stat_gain_per_level ± 1`.
-- [ ] `test_rewards.gd`: victory over Wolf×2 adds expected gold/XP; the drop roll is deterministic per seed. (The rule that a dead member gets no XP is tested in Phase 8 `test_party.gd`.)
-- [ ] `test_slice_flow.gd` (integration, headless): new game → change_map to graveyard → force encounter → auto-battle win → back in world with rewards applied.
-- [ ] `test_sfx_manager.gd`: pool never exceeds its size; UI voices are never stolen; cooldown suppresses duplicates within `cooldown_ms`; pitch stays within `pitch_range`; an unknown surface falls back to the stone footstep set.
-- [ ] `test_settings.gd`: slider values round-trip through `settings.cfg` and are applied to the buses via `linear_to_db`.
-- [ ] `test_ui_screens_smoke.gd`: title, pause, settings, dialogue box and game-over scenes instantiate headless with the main theme and have at least one focusable control.
-- [ ] `test_asset_manifest.gd` still passes, so every added audio file has a complete licence row.
-- [ ] `tools/check.ps1` exits 0.
+- [x] `test_dialogue_runner.gd`: lines advance; choice `goto` jumps correctly; `set_flag` writes GameState; conditional entry selects the alternate dialogue when the flag is set.
+- [x] `test_progression.gd`: `xp_to_next` monotonic; multi-level-up from one big reward is handled; with a seeded RNG, each stat gain is within `stat_gain_per_level ± 1`.
+- [x] `test_rewards.gd`: victory over Wolf×2 adds expected gold/XP; the drop roll is deterministic per seed. (The rule that a dead member gets no XP is tested in Phase 8 `test_party.gd`.)
+- [x] `test_slice_flow.gd` (integration, headless): new game → change_map to graveyard → force encounter → auto-battle win → back in world with rewards applied.
+- [x] `test_sfx_manager.gd`: pool never exceeds its size; UI voices are never stolen; cooldown suppresses duplicates within `cooldown_ms`; pitch stays within `pitch_range`; an unknown surface falls back to the stone footstep set.
+- [x] `test_settings.gd`: slider values round-trip through `settings.cfg` and are applied to the buses via `linear_to_db`.
+- [x] `test_ui_screens_smoke.gd`: title, pause, settings, dialogue box and game-over scenes instantiate headless with the main theme and have at least one focusable control.
+- [x] `test_asset_manifest.gd` still passes, so every added audio file has a complete licence row.
+- [x] Extra: `test_npc_dialogue.gd` (walk to the Elder and the well with real physics, typewriter → choices → flag → different second talk, the well heals), `test_footsteps.gd` (surfaces under the feet, stride cadence), `test_balance.gd` (3–5 fights before resting).
+- [x] `tools/check.ps1` exits 0. (Run as `tools/check.sh` from WSL: 231 tests, 0 failures.) Outside the suite: windowed captures of every new screen, and a real-time run (no instant mode) of village → Elder → graveyard → two battles with a level-up on the results screen → a forced defeat → Game Over.
 
 **Manual verification**
 - [ ] Full slice playthrough from the title screen:

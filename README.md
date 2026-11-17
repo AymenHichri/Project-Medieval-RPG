@@ -1,7 +1,7 @@
 # The First Heresy
 
 <p align="center">
-  <img src="docs/The%20first%20heresy.jpg" alt="The First Heresy cover art: a ruined gothic cathedral under a black eclipse ringed by watching eyes, with a lone lantern-bearer on the path" width="420">
+  <img src="docs/Cover.jpg" alt="The First Heresy cover art: a cloaked wanderer walks a graveyard path toward a ruined gothic cathedral, beneath a black eclipse and a vast tentacled shadow in a blood-red sky" width="420">
 </p>
 
 **The First Heresy** is a dark fantasy 2D JRPG built in **Godot 4** with **GDScript**. It follows the structure of classic JRPGs: towns, dangerous regions, random encounters and turn-based battles. That structure carries a world of cosmic horror, body horror and fragmented history, where what people believe about the past is not always what happened.
@@ -43,6 +43,11 @@ Battles use a round-based system. You choose commands for every party member, th
 
 The planned party is not a group of loyal heroes. Each companion has their own reasons for travelling, things they will not say, and goals that may eventually conflict with the others'.
 
+<p align="center">
+  <img src="docs/Party.jpg" alt="Concept art of the planned party standing in a ruined gothic city under a black eclipse: an armoured knight with a red cloak and greatsword, a hooded priest with a cross staff, an old wanderer in a wide-brimmed hat, a young woman in light armour, and a bearded man in a heavy brown cloak" width="720">
+  <br><em>Concept art: the planned party.</em>
+</p>
+
 The story is told through the environment rather than through long cutscenes: inscriptions, documents, item descriptions and conversations with people who may be mistaken, or lying.
 
 ## Story and Setting
@@ -58,6 +63,11 @@ But the world never recovered from their deaths. Their influence remains in the 
 Now, centuries later, something is changing. Ancient places are waking. People are disappearing, not only from their homes but from records and memory. Living bodies are beginning to change in ways that should not be possible.
 
 What really happened when the gods died, and what humanity chose to forget, is buried somewhere beneath the kingdom.
+
+<p align="center">
+  <img src="docs/Bosses.jpg" alt="Two boss concept scenes: on the left, a knight and a priest with a glowing cross face a skeletal, flayed abomination in a bloodied chapel; on the right, three companions approach a winged, tentacled god-like horror looming over a candlelit altar stair" width="720">
+  <br><em>Concept art: boss encounters.</em>
+</p>
 
 ### Narrative pillars
 
@@ -78,13 +88,16 @@ These systems exist in the repository and are covered by automated tests. Most o
 | **Exploration** | Free 8-direction movement for the Knight with direction-aware idle and walk animations, a following camera with per-map bounds, and Y-sorted maps |
 | **Maps** | Two maps: `village_01` (a village) and `graveyard_01` (a necropolis outskirts area), connected by fade transitions and spawn points |
 | **Interaction** | An interaction probe and examinable objects (headstone, sarcophagus, bone pyre, notice board) showing text in a dialogue box |
+| **Dialogue and NPCs** | JSON dialogues with speaker names, portraits, a typewriter effect, choices, jumps, story flags, item gifts and flag-dependent alternate dialogues. One NPC: the Elder in `village_01`, whose answer depends on an earlier choice |
+| **Progression** | A party (one member for now) with levels, XP and stat growth (`round(12 × L^1.6)` XP per level, ±1 random per stat), skill unlocks, and level-ups shown on the results screen |
+| **Slice flow** | Final title screen with a live graveyard backdrop, a new-game intro card, a pause menu (party summary, settings, quit to title), a settings menu (volume sliders, fullscreen, text speed, saved to `user://settings.cfg`), a rest point (the village well) and a Game Over screen |
 | **Random encounters** | Encounter zones with step-based rolls, a grace period after entering a map or finishing a battle, and weighted enemy groups including a rare group |
 | **Battle logic** | A deterministic, node-free rules engine: turn order, physical and magic damage, critical hits, elemental affinities, Defend, Flee, enemy AI, rewards, and two-phase enemy support |
 | **Battle presentation** | Side-view battle scene with command menu, target selection, HP/MP bars, damage popups, battle messages and a results screen |
 | **World ↔ battle loop** | Walking into an encounter starts a battle and returns the player to the same position afterwards |
 | **Content data** | One playable character (Knight); four enemies (Wolf, Goblin Scout, Skeleton, Charred Skeleton); five skills (Attack, Charged Strike, Whirlwind, Ember, Minor Heal); one item (Minor Potion); six status effects (Bleed, Burn, Curse, Blessed, Sleep, Stun) |
-| **UI foundation** | A generated theme and colour palette, a placeholder title screen and a typography specimen scene |
-| **Audio architecture** | An `AudioManager` with music, sound-effect and ambience managers (no audio assets yet) |
+| **UI foundation** | A generated theme and colour palette (including sliders, check boxes, option buttons and tabs), UI sounds wired into every menu, and a typography specimen scene |
+| **Audio architecture** | An `AudioManager` with music, sound-effect and ambience managers: crossfades, battle music push/pop, jingles, pooled sound effects with variants, pitch and cooldowns, and footsteps by ground surface. No audio assets yet, so the game is silent |
 | **Atmosphere** | Vendor ambience and weather shaders used in the existing maps |
 | **Tooling** | Asset extraction, map and data builders, a licence manifest check, and a headless test runner |
 
@@ -92,9 +105,7 @@ These systems exist in the repository and are covered by automated tests. Most o
 
 Nothing in this list is finished.
 
-- **Vertical slice (Milestone 1):** an NPC conversation with a choice, levelling, game over, a pause menu, a settings menu, the final title screen and a dialogue box with portraits.
 - **Party:** up to three active members with their own stats, skills, motivations and secrets.
-- **Progression:** experience curves, level-ups and skill unlocks.
 - **Inventory and equipment:** items in the field and in battle, four equipment slots and shops.
 - **Dialogue and quests:** full branching dialogue, NPCs, a quest journal and story flags.
 - **Boss encounters:** scripted, non-random battles including a two-phase boss.
@@ -150,7 +161,7 @@ No music or sound effects have been added yet. See [`AUDIO_GUIDELINES.md`](AUDIO
 
 **Autoloads:** `GameState`, `AudioManager`, `SaveManager`, `DialogueManager`, `SceneManager`.
 
-**Input:** keyboard and gamepad. Move with WASD, the arrow keys, the D-pad or the left stick. Accept with Enter, Space or E (pad A). Cancel with Esc or Backspace (pad B). Open the menu with Tab or M (pad Start).
+**Input:** keyboard and gamepad. Move with WASD, the arrow keys, the D-pad or the left stick. Accept with Enter, Space or E (pad A): talk, examine, advance dialogue (a first press completes a line that is still typing). Cancel with Esc or Backspace (pad B). Open the pause menu with Tab or M (pad Start) or the MENU button in the top-right corner.
 
 ## Project Structure
 
@@ -162,24 +173,24 @@ No music or sound effects have been added yet. See [`AUDIO_GUIDELINES.md`](AUDIO
 │   ├── fonts/           Font folders (Alegreya, Cinzel), files pending
 │   └── vendor/          Asset copies extracted from the archives: sovdigital/, gimbles/, dfgui/
 ├── data/                Game content as Resources and JSON
-│   ├── characters/  enemies/  skills/  items/  status_effects/
+│   ├── characters/  enemies/  skills/  items/  status_effects/  growth/
 │   ├── encounters/      Encounter tables
 │   ├── dialogue/        Dialogue JSON
+│   ├── audio/           Sound-effect library (UI sounds, footsteps by surface)
 │   └── visuals/         Battle visuals for each combatant
 ├── docs/                asset_manifest.csv: licence record for every external file
 ├── scenes/
-│   ├── boot/            Entry scene (placeholder title screen)
 │   ├── world/           Map base, maps, player, props and world components
 │   ├── battle/          Battle scene, presenter, sprites, backgrounds and battle UI
-│   └── ui/              Theme, palette, dialogue box, fade overlay, widgets and debug scenes
+│   └── ui/              Title, intro card, pause, settings and Game Over screens, dialogue box, HUD, theme, widgets, debug scenes
 ├── scripts/
 │   ├── autoload/        The five global singletons
 │   ├── battle/          Pure battle rules (no nodes, deterministic, seeded RNG)
 │   ├── resources/       Data Resource class definitions
-│   ├── rpg/             Shared RPG helpers (elements, targeting, rate modifiers)
+│   ├── rpg/             Party, party members, progression, elements, targeting, rate modifiers
 │   ├── audio/           Music, SFX and ambience managers
-│   ├── dialogue/        Dialogue data model
-│   └── ui/              UI palette
+│   ├── dialogue/        Dialogue data model and runner
+│   └── ui/              UI palette, settings, UI sounds
 ├── tests/
 │   ├── unit/            Logic tests
 │   └── smoke/           Scene, asset and integration tests
@@ -216,7 +227,7 @@ Several files are **generated** and should not be edited by hand. The maps and p
 1. Clone or copy the repository.
 2. Open Godot, choose **Import**, and select `project.godot` in the repository root.
 3. Wait for the first import to finish. It can take a while because of the HD sprite sheets.
-4. Press **F5** to run the game. It starts at the placeholder title screen; **New Game** opens `village_01`.
+4. Press **F5** to run the game. It starts at the title screen; **New Game** shows a short intro card, then `village_01`.
 
 Individual scenes can be run directly with **F6**. Useful ones:
 
@@ -225,6 +236,7 @@ Individual scenes can be run directly with **F6**. Useful ones:
 | `scenes/world/maps/village_01.tscn` | The village map |
 | `scenes/world/maps/graveyard_01.tscn` | The graveyard outskirts, with random encounters |
 | `scenes/battle/debug_battle.tscn` | A standalone test battle |
+| `scenes/ui/title_screen.tscn` | The title screen (the main scene) |
 | `scenes/ui/debug/typography_specimen.tscn` | Typography and theme preview |
 
 ### Debug keys (exploration, debug builds)
@@ -259,9 +271,9 @@ Other tools (asset extraction, theme rebuild, map rebuild, project settings) are
 
 ## Development Status
 
-**Stage: pre-alpha, working toward the first vertical slice.**
+**Stage: pre-alpha. Milestone 1 (the vertical slice) is built and awaiting its playtest.**
 
-The technical foundation is in place. Exploration, map transitions, the battle engine, battle presentation and random encounters all work, and the full world → battle → world loop runs. There is no story content yet, no audio, and only one playable character. Placeholder screens and data are still in use.
+The slice plays from start to finish: title screen, intro, the village at dusk, a conversation with the Elder, the graveyard with random battles against wolves, goblins and skeletons, levelling up, resting at the well, and Game Over. It is silent (no audio has been sourced yet), uses Godot's default font (the Alegreya and Cinzel files are not added), and has one playable character with placeholder NPC art.
 
 ### Roadmap
 
@@ -275,7 +287,7 @@ From [`PROJECT_PLAN.md`](PROJECT_PLAN.md). Phase sizes are rough estimates, not 
 | 4 | Battle core (logic, headless) | Done |
 | 5 | Battle presentation | Done (battle background style decision open) |
 | 6 | Random encounters | Done (manual review open) |
-| 7 | **Milestone 1: vertical slice** | Next |
+| 7 | **Milestone 1: vertical slice** | Built; playtest and review open |
 | 8 | Party, progression, status effects in play | Planned |
 | 9 | Inventory, equipment, items, shop | Planned |
 | 10 | Dialogue, NPCs, quests, boss | Planned |
@@ -284,7 +296,7 @@ From [`PROJECT_PLAN.md`](PROJECT_PLAN.md). Phase sizes are rough estimates, not 
 
 ### Known gaps
 
-- No music or sound effects yet.
+- No music or sound effects yet. Everything is wired, so adding them is data work (see `AUDIO_CATALOG.md`).
 - The Alegreya and Cinzel font files have not been added.
 - Only one hero sprite (the Knight). Other party members will use placeholder recolours until matching art is found.
 - No NPC sprites, and no forest, cave or dungeon tilesets.

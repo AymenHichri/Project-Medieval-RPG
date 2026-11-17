@@ -110,10 +110,10 @@ func test_roundtrip_restores_map_player_and_music() -> void:
 
 func test_party_hp_carries_over_between_battles() -> void:
 	await _graveyard()
-	var knight: Combatant = GameState.party[0]
+	var knight: Combatant = GameState.party.leader().combatant
 	await SceneManager.start_battle(_wolf_setup())
 	var after_first: int = knight.hp
-	assert_eq(GameState.party[0], knight, "same party member")
+	assert_eq(GameState.party.leader().combatant, knight, "same party member")
 	assert_true(after_first > 0)
 	await SceneManager.start_battle(_wolf_setup())
 	assert_true(knight.hp <= after_first, "HP is not refilled between battles")
@@ -141,9 +141,9 @@ func test_forced_encounter_in_the_graveyard_starts_a_battle() -> void:
 		assert_eq(_tree.current_scene, map, "back on the graveyard map")
 
 
-func test_defeat_returns_to_title() -> void:
+func test_defeat_shows_game_over() -> void:
 	var map: Map = await _graveyard()
-	GameState.party[0].hp = 1
+	GameState.party.leader().combatant.hp = 1
 	var setup: BattleSetup = BattleSetup.new()
 	var skeleton: EnemyData = load("res://data/enemies/skeleton.tres") as EnemyData
 	setup.enemies = [skeleton, skeleton, skeleton]
@@ -152,7 +152,7 @@ func test_defeat_returns_to_title() -> void:
 	assert_false(is_instance_valid(map), "the map was dropped")
 	assert_not_null(_tree.current_scene, "a scene is current")
 	if _tree.current_scene != null:
-		assert_eq(_tree.current_scene.scene_file_path, SceneManager.TITLE_SCENE, "the title screen")
+		assert_eq(_tree.current_scene.scene_file_path, SceneManager.GAME_OVER_SCENE, "the Game Over screen")
 	assert_eq(GameState.gold, _gold, "no rewards on defeat")
 	assert_false(SceneManager.in_battle)
 	assert_false(SceneManager.is_transitioning)
