@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MusicTrack" format=3]
+
+[ext_resource type="Script" path="res://scripts/audio/music_track.gd" id="1_3a8p5"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/mus_town_hamlet.ogg" id="2_24g8b"]
+
+[resource]
+script = ExtResource("1_3a8p5")
+stream = ExtResource("2_24g8b")
+volume_db = -3.0
+fade_in = 4.0
+fade_out = 2.5

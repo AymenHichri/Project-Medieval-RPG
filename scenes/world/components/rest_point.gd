@@ -8,5 +8,6 @@ signal rested
 
 func interact(by: Node) -> void:
 	GameState.heal_party()
+	AudioManager.sfx.play_ui_named(&"rest")
 	rested.emit()
 	super.interact(by)

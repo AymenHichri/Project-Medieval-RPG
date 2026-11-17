@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MusicTrack" format=3]
+
+[ext_resource type="Script" path="res://scripts/audio/music_track.gd" id="1_r6tcm"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/mus_battle.ogg" id="2_m3axu"]
+
+[resource]
+script = ExtResource("1_r6tcm")
+stream = ExtResource("2_m3axu")
+resume_on_return = false
+fade_in = 0.4

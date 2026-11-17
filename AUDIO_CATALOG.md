@@ -1,6 +1,6 @@
 # Audio Catalog
 
-_Status: draft v2 (2026-11-17). **The workspace contains no audio files yet.** This file is the brief for the **audio asset audit and implementation**, which is **Step 0a of Phase 7A: Audio setup** in `PROJECT_PLAN.md`. Run its phases in order whenever Phase 7A starts, and again whenever new audio packs arrive. It also keeps the reference material the audit builds on: licence rules (§A), candidate sources (§B), the required track and SFX lists (§C), the hook-up table (§D) and the licence record (§E)._
+_Status: draft v2 (2026-11-17). **Audit done 2026-11-17** (Phases 1–5): see `docs/AUDIO_ASSET_CATALOG.md`, `docs/AUDIO_REQUIREMENTS.md` (gaps, recommended sources R1–R7, proposed slice library) and `docs/AUDIO_STYLE_GUIDE.md`. Approved 2026-11-17 with the rule "use only the supplied packs"; implemented (Phase 6 of the brief) the same day, see §D. This file is the brief for the **audio asset audit and implementation**, which is **Step 0a of Phase 7A: Audio setup** in `PROJECT_PLAN.md`. Run its phases in order whenever Phase 7A starts, and again whenever new audio packs arrive. It also keeps the reference material the audit builds on: licence rules (§A), candidate sources (§B), the required track and SFX lists (§C), the hook-up table (§D) and the licence record (§E)._
 
 _The assistant does not download or buy audio. Licences of candidate sources must be **verified per file at download time**: "free" does not mean free for commercial use._
 
@@ -207,25 +207,33 @@ Only assets the user approved in the final output are brought into the game. A p
 
 `sfx_ui_move`, `sfx_ui_confirm`, `sfx_ui_cancel`, `sfx_ui_open` · `sfx_footsteps_{stone,grass,mud}_01..04` · `sfx_interact_chest_open` · `sfx_combat_{swing,hit,crit,miss}` · `sfx_magic_{cast,fire,heal}` · `sfx_enemies_{wolf_howl,skeleton_rattle,goblin_shriek}` · `amb_village_wind_loop`, `amb_graveyard_wind_crows_loop` · `sfx_reward_{gold,item}` · `sfx_progress_{levelup,save}`.
 
-## D. Sourcing gate status (Milestone 1, 2026-11-17)
+## D. Sourcing gate status and hook-up points
 
-**Not met.** No audio was supplied before Phase 7, so the vertical slice runs silent (no placeholder tones, per the 2026-11-13 decision). The audit above, then sourcing and integration, are **Phase 7A: Audio setup** in `PROJECT_PLAN.md`, the next step. The rows marked "not wired yet" are built there too. Current hook-up points:
+**Partly met (2026-11-17, Phase 7A).** The user supplied three packs and decided that **only these are used** (no further downloads). Music, jingles and UI/field sounds are in the game. Footsteps, combat, magic, monster and ambience sounds have **no source** in those packs: their hooks are built and tested but stay silent until files are added (then it is data work only: a row in `tools/audio_sources.csv`, a re-run of `tools/import_audio.py` and `tools/build_audio.gd`).
 
-| What | Where to assign it |
-|---|---|
-| `mus_menu` | `TitleScreen.music` (`scenes/ui/title_screen.tscn`) |
-| `mus_village`, `mus_graveyard` + ambience beds | `Map.music` / `Map.ambience` on each map (set in `tools/map_builders/*`, then rebuild) |
-| `mus_battle` | `EncounterTable.music` (`tools/build_encounters.gd`) |
-| `jng_victory`, `jng_gameover` | `SceneManager.victory_jingle` / `SceneManager.game_over_jingle` |
-| `jng_levelup` | not wired yet: play it on `GameState.member_leveled` once the file exists |
-| UI sounds | `data/audio/sfx_library.tres` → `ui`: `focus`, `confirm`, `cancel`, `tick` (typewriter) |
-| Footsteps | `data/audio/sfx_library.tres` → `footsteps`: `grass`, `mud`, `stone`, `ash` (unknown surfaces fall back to `stone`) |
-| Combat and monster SFX | not wired yet: the battle presenter has no sound calls. Add them when the files exist (`AudioManager.sfx.play_ui` for hits/casts, one set per enemy for cries) |
+| What | Hook-up point (as built) | Assigned |
+|---|---|---|
+| `mus_menu` | `TitleScreen.music` (`scenes/ui/title_screen.tscn`) | ✅ Dreamgarden `ForgottenSouls_Loop` |
+| `mus_town_hamlet` | `Map.music` of `village_01` (scene + `tools/map_builders/village_01_builder.gd`) | ✅ interim: AlkaKrab `Veil of Eternal Nightfall` (loop edit) |
+| `mus_dungeon_graveyard` | `Map.music` of `graveyard_01` (scene + builder) | ✅ Dreamgarden `SinisterBows_Loop` |
+| `mus_battle` | `EncounterTable.music` (`tools/build_encounters.gd`) | ✅ interim: Dreamgarden `ForsakenStrings_Loop` |
+| `jng_victory`, `jng_levelup`, `jng_gameover` | `SceneManager.JINGLE_PATHS` → `victory_jingle` / `level_up_jingle` (after the victory jingle when the results show a level-up) / `game_over_jingle` | ✅ cuts of Dreamgarden `ForgottenSouls`; level-up = Kenney chime |
+| UI sounds | `data/audio/sfx_library.tres` → `ui`: `focus`, `confirm`, `cancel`, `tick`, `open` (pause menu), `denied` | ✅ Kenney, darkened at import (pitch down, low-pass, room echo) |
+| Rewards and progression | `ui`: `reward_gold`, `reward_item`, `levelup` (results screen lines), `rest` (`RestPoint`) | ✅ Kenney |
+| Ambience low-pass while paused | `AudioManager.set_ambience_muffled()` (low-pass on the `Ambience` bus) | ✅ (no ambience files yet) |
+| Footsteps | `sfx_library` → `footsteps`: `grass`, `mud`, `stone`, `ash` | ❌ no source |
+| Battle sounds | `CombatantVisual.attack_sfx/hit_sfx/cry_sfx/death_sfx`, `SkillData`/`ItemData.cast_sfx/impact_sfx`, `sfx_library` → `battle`: `crit`, `miss`, `defend`, `flee`; rules in `BattlePresenter.choose_sfx` | ❌ no source (hooks tested with in-memory sounds) |
+| Ambience beds | `Map.ambience` (`AmbienceProfile`) | ❌ no source |
+| Bone pyre crackle | positional `AudioStreamPlayer2D` | ❌ no source, not added |
 
 ## E. Licence records (one row per file or per pack; fill in when added)
 
 | Name | Creator | Source URL | Licence | Commercial use | Attribution required (exact credit line) | Format | Intended usage | Project path | Original kept at | Date added |
 |---|---|---|---|---|---|---|---|---|---|---|
-| _(empty: no audio yet)_ | | | | | | | | | | |
+| Dark Fantasy Ambient Strings (3 tracks + loop versions) | Luis Ignacio Osores (Dreamgarden) | https://dreamgardensoundcapes.itch.io/ | Dreamgarden free pack EULA (`Dark_Fantasy_Ambient_Strings_README_License.pdf` in the zip): royalty-free; modification allowed; **no resale, sublicensing or re-upload** | Yes | No (optional: "Audio Assets by Dreamgarden") | WAV 24-bit 44.1 kHz → Ogg | Title, graveyard, battle music; victory and game over jingles | `assets/audio/music/` | `assests/audio_sources/Dark Fantasy Ambient Strings.zip` | 2026-11-17 |
+| Tracks wav (6 tracks; 1 used) | AlkaKrab | Not given in the licence PDF | AlkaKrab Music License Agreement (`AlkaKrab Music License Info.pdf` in the zip): royalty-free; **edits for timing, volume, EQ, transitions only** (no remix or sampling); **no redistribution as-is**; open-source projects need written permission | Yes | No (appreciated) | WAV 16/24-bit → Ogg | Village music (interim) | `assets/audio/music/mus_town_hamlet.ogg` | `assests/audio_sources/Tracks wav.zip` | 2026-11-17 |
+| Interface Sounds 1.0 (17 files used) | Kenney | https://kenney.nl/assets/interface-sounds | CC0 1.0 | Yes | No | OGG → WAV mono / Ogg | UI, rewards, progression, level-up jingle | `assets/audio/sfx/`, `assets/audio/music/jng_levelup.ogg` | `assests/audio_sources/kenney_interface-sounds.zip` | 2026-11-17 |
+
+**Redistribution:** the GitHub repository is public, so the processed copies in `assets/audio/` are **not committed** (`.gitignore`); `tools/import_audio.py` rebuilds them from the zips. Before making the game's source public under an open-source licence, get AlkaKrab's written permission (or replace the village track).
 
 The machine-readable copy of these rows lives in `docs/asset_manifest.csv`. The test `test_asset_manifest.gd` fails if any file under `assets/audio/` lacks a row, or if a row has an empty licence field or `commercial_use = no`.

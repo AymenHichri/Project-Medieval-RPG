@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/title_screen.gd" id="1_title"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menus/settings_menu.tscn" id="2_settings"]
+[ext_resource type="Resource" path="res://data/audio/music/mus_menu.tres" id="audio_music"]
 
 [sub_resource type="Gradient" id="Gradient_shade"]
 offsets = PackedFloat32Array(0, 0.55, 1)
@@ -14,6 +15,7 @@ height = 4
 
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource("1_title")
+music = ExtResource("audio_music")
 
 [node name="BackdropSlot" type="Node2D" parent="."]
 unique_name_in_owner = true

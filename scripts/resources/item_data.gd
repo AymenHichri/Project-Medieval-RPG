@@ -18,4 +18,8 @@ enum Effect { HEAL_HP, HEAL_MP, CURE_STATUS, REVIVE, DAMAGE }
 @export var cures: Array[StatusEffectData] = []
 ## Effect the battle presenter plays on each target when the item is used (null = none).
 @export var impact_fx: FxSpec
+## Played as it is used (on the cast animation for spells).
+@export var cast_sfx: SfxSet
+## Played on each target as it lands, with `impact_fx` (null = the default hit sound).
+@export var impact_sfx: SfxSet
 @export_multiline var description: String = ""

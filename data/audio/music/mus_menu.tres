@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MusicTrack" format=3]
+
+[ext_resource type="Script" path="res://scripts/audio/music_track.gd" id="1_t0bn7"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/mus_menu.ogg" id="2_4qc1w"]
+
+[resource]
+script = ExtResource("1_t0bn7")
+stream = ExtResource("2_4qc1w")
+fade_in = 3.0
+fade_out = 2.0

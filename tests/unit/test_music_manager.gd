@@ -134,3 +134,43 @@ func test_play_null_stops() -> void:
 	_music.play(null, 0.0)
 	assert_null(_music.current_track)
 	assert_eq(_music.audible_players().size(), 0)
+
+
+func test_default_fades_use_the_tracks_fade_times() -> void:
+	var a: MusicTrack = track()
+	a.fade_in = 4.0
+	a.fade_out = 2.5
+	_music.play(a)
+	var player: AudioStreamPlayer = _music.active_player()
+	var tween: Tween = _music._tweens.get(player) as Tween
+	assert_not_null(tween, "fades in")
+	tween.custom_step(2.0)
+	assert_true(player.volume_db < a.volume_db - 1.0, "still fading in after 2 s of 4 s (%.1f dB)" % player.volume_db)
+	tween.custom_step(2.1)
+	assert_almost_eq(player.volume_db, a.volume_db, 0.01, "at the track volume after fade_in")
+	_music.stop()
+	var out: Tween = _music._tweens.get(player) as Tween
+	out.custom_step(1.25)
+	assert_true(player.playing, "still fading out halfway through fade_out")
+	out.custom_step(1.3)
+	assert_false(player.playing, "stopped after fade_out")
+
+
+func test_fades_are_linear_in_amplitude() -> void:
+	var a: MusicTrack = track()
+	a.volume_db = 0.0
+	_music.play(a, 2.0)
+	var player: AudioStreamPlayer = _music.active_player()
+	(_music._tweens.get(player) as Tween).custom_step(1.0)
+	# Halfway through an amplitude fade is about -6 dB; a dB-linear fade from -80 would be -40.
+	assert_true(player.volume_db > -12.0 and player.volume_db < -3.0, "audible halfway (%.1f dB)" % player.volume_db)
+
+
+func test_new_track_never_takes_over_a_fading_out_player() -> void:
+	var a: MusicTrack = track()
+	_music.play(a, 0.0)
+	var fading: AudioStreamPlayer = _music.active_player()
+	_music.stop(2.0)
+	_music.play(track(), 2.0)
+	assert_ne(_music.active_player(), fading, "the new track uses the other player")
+	assert_true(fading.playing, "the old track keeps fading out")

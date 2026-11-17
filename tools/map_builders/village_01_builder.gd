@@ -54,6 +54,7 @@ func build() -> void:
 
 func _build_map() -> PackedScene:
 	var root: Map = _kit.begin_map("Village01", &"village_01", "Hollow Border Village", &"dusk")
+	root.music = _kit.music_track(&"mus_town_hamlet")
 	var tileset: TileSet = load(TILESET_PATH) as TileSet
 	_kit.ground(tileset, 0, MAP_TILES)
 	_build_streets(tileset)

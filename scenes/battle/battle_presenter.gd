@@ -9,6 +9,11 @@ extends Node
 ## skill's or item's `impact_fx`, else the target's own `hit_fx` for a physical blow. Status ticks
 ## play none.
 ##
+## Sounds (SfxSet) follow the same rules (`choose_sfx`): the skill's or item's `impact_sfx`, else the
+## target's `hit_sfx` for a physical blow; a critical hit or a miss uses the shared `crit` / `miss`
+## sets of the SfxLibrary instead. Swings, casts, cries and deaths come from the CombatantVisual,
+## the skill or the item. Status ticks are silent. Sounds play positioned at the combatant.
+##
 ## One action's events are played as a unit: the actor's message, the step forward and the attack
 ## animation, then the effects (damage, statuses, defeats…) together on the hit frame, then the
 ## step back. Every BattleEvent.Type has a handler (`has_handler`), checked by a test.
@@ -58,6 +63,10 @@ var popup_layer: Control
 var fx_layer: Node2D
 ## Effects spawned so far (tests; counted in instant mode too, where nothing is shown).
 var fx_count: int = 0
+## Sounds started so far (tests; counted in instant mode too, where nothing plays).
+var sfx_count: int = 0
+## Shared battle sounds (crit, miss, defend, flee): the SfxLibrary's `battle` sets.
+var shared_sfx: Dictionary[StringName, SfxSet] = {}
 ## The action being shown (its skill or item picks the impact effect).
 var _action: BattleAction
 
@@ -97,6 +106,7 @@ func setup(battle_sprites: Dictionary[Combatant, BattleSprite], battle_hud: Batt
 	message = battle_message
 	popup_layer = popups
 	instant = is_instant
+	shared_sfx = AudioManager.sfx.library.battle
 	for c: Combatant in sprites:
 		_shown_hp[c] = c.hp
 		_shown_mp[c] = c.mp
@@ -114,6 +124,9 @@ func shown_hp(c: Combatant) -> int:
 ## Battle intro: the enemies fade in under the intro line.
 func intro(text: String) -> void:
 	message.show_text(text)
+	for c: Combatant in sprites:
+		if c.side == Combatant.Team.ENEMY and sprites[c].visual != null:
+			_play_sfx(sprites[c].visual.cry_sfx, c)
 	if not instant:
 		for c: Combatant in sprites:
 			if c.side == Combatant.Team.ENEMY:
@@ -174,6 +187,7 @@ func _play_action(start: BattleEvent, effects: Array[BattleEvent]) -> void:
 			for e: BattleEvent in impact:
 				await (_handlers[e.type] as Callable).call(e)
 		BattleAction.Kind.ITEM:
+			_play_sfx(action.item.cast_sfx if action.item != null else null, actor)
 			await _wait(MESSAGE_SECONDS * 0.5)
 			await _impact(impact)
 		_:
@@ -188,6 +202,11 @@ func _melee(sprite: BattleSprite, anim: StringName, impact: Array[BattleEvent]) 
 		await _impact(impact)
 		return
 	await sprite.step_forward()
+	if _action != null:
+		var swing: SfxSet = _action.skill.cast_sfx if _action.skill != null else null
+		if swing == null and sprite.visual != null:
+			swing = sprite.visual.attack_sfx
+		_play_sfx(swing, _action.actor)
 	if sprite.start_logical(anim):
 		await sprite.wait_hit()
 	await _impact(impact)
@@ -196,6 +215,7 @@ func _melee(sprite: BattleSprite, anim: StringName, impact: Array[BattleEvent]) 
 
 
 func _cast(sprite: BattleSprite, skill: SkillData, impact: Array[BattleEvent]) -> void:
+	_play_sfx(skill.cast_sfx, _action.actor if _action != null else null)
 	if sprite != null:
 		sprite.glow(spell_color(skill))
 		var anim: StringName = cast_anim(sprite)
@@ -310,6 +330,7 @@ func _on_action_failed(e: BattleEvent) -> void:
 func _on_defending(e: BattleEvent) -> void:
 	var sprite: BattleSprite = sprites.get(e.subject()) as BattleSprite
 	message.show_text("%s braces for the blows." % e.subject().display_name)
+	_play_sfx(shared_sfx.get(&"defend") as SfxSet, e.subject())
 	if sprite != null:
 		sprite.set_defending(true)
 	await _wait(MESSAGE_SECONDS)
@@ -333,6 +354,7 @@ func _on_damage(e: BattleEvent) -> void:
 		elif e.get_value(&"resisted") as bool:
 			_popup(target, "Resist", DamagePopup.Kind.INFO, _next_stack(target))
 	var sprite: BattleSprite = sprites.get(target) as BattleSprite
+	_play_sfx(choose_sfx(_action, e, sprite.visual if sprite != null else null, shared_sfx), target)
 	if amount > 0:
 		_play_fx(choose_fx(_action, e, sprite.visual if sprite != null else null), target)
 	if sprite != null and amount > 0:
@@ -347,6 +369,7 @@ func _on_heal(e: BattleEvent) -> void:
 	_shown_hp[target] = mini(target.max_hp(), shown_hp(target) + amount)
 	_show_bars(target)
 	_play_fx(choose_fx(_action, e, null), target)
+	_play_sfx(choose_sfx(_action, e, null, shared_sfx), target)
 	_popup(target, str(amount), DamagePopup.Kind.HEAL, _next_stack(target))
 	if e.get_value(&"source") is StatusEffectData:
 		await _wait(TICK_SECONDS)
@@ -401,6 +424,8 @@ func _on_defeated(e: BattleEvent) -> void:
 	if hud != null:
 		hud.refresh_statuses(target)
 	var sprite: BattleSprite = sprites.get(target) as BattleSprite
+	if sprite != null and sprite.visual != null:
+		_play_sfx(sprite.visual.death_sfx, target)
 	if sprite != null:
 		await sprite.die()
 
@@ -414,6 +439,8 @@ func _on_phase_change(e: BattleEvent) -> void:
 		sprite.flash()
 		if data != null and data.visual != null:
 			sprite.set_visual(data.visual)
+		if sprite.visual != null:
+			_play_sfx(sprite.visual.cry_sfx, target)
 	_shown_hp[target] = target.hp
 	_show_bars(target, false)
 	await _wait(MESSAGE_SECONDS)
@@ -425,6 +452,7 @@ func _on_flee_attempted(e: BattleEvent) -> void:
 		await _wait(MESSAGE_SECONDS)
 		return
 	message.show_text("The party escapes!")
+	_play_sfx(shared_sfx.get(&"flee") as SfxSet, e.subject())
 	for c: Combatant in sprites:
 		if c.side == Combatant.Team.PARTY:
 			var sprite: BattleSprite = sprites[c]
@@ -505,6 +533,30 @@ static func choose_fx(action: BattleAction, e: BattleEvent, target_visual: Comba
 	return target_visual.hit_fx if physical else null
 
 
+## The sound for one damage/heal event of `action` on a target with `target_visual`, by the same
+## rules as `choose_fx`: a miss (no damage, or immune) uses the shared `miss` set and a critical
+## hit the shared `crit` set when they exist; then the skill's or item's `impact_sfx`; then, for
+## physical damage, the target's `hit_sfx`. Status ticks and a null action get none.
+static func choose_sfx(action: BattleAction, e: BattleEvent, target_visual: CombatantVisual,
+		shared: Dictionary[StringName, SfxSet] = {}) -> SfxSet:
+	if action == null or e.get_value(&"source") is StatusEffectData:
+		return null
+	if e.type == BattleEvent.Type.DAMAGE:
+		var missed: bool = (e.get_value(&"amount") as int) <= 0 or (e.get_value(&"immune") as bool)
+		if missed and shared.get(&"miss") != null:
+			return shared[&"miss"]
+		if (e.get_value(&"critical") as bool) and shared.get(&"crit") != null:
+			return shared[&"crit"]
+	if action.skill != null and action.skill.impact_sfx != null:
+		return action.skill.impact_sfx
+	if action.item != null and action.item.impact_sfx != null:
+		return action.item.impact_sfx
+	if e.type != BattleEvent.Type.DAMAGE or target_visual == null:
+		return null
+	var physical: bool = action.kind == BattleAction.Kind.ATTACK or (action.skill != null and not _is_spell(action.skill))
+	return target_visual.hit_sfx if physical else null
+
+
 ## Canvas position of `spec` on `sprite` (by its anchor).
 static func fx_position(sprite: BattleSprite, spec: FxSpec) -> Vector2:
 	match spec.anchor:
@@ -524,6 +576,20 @@ func _play_fx(spec: FxSpec, target: Combatant) -> void:
 	if instant or fx_layer == null:
 		return
 	BattleFx.spawn(fx_layer, spec, fx_position(sprite, spec), spec.mirror_for_facing and sprite.facing_sign() < 0.0)
+
+
+## Plays `sfx` positioned at `who` (counted in instant mode, where nothing plays).
+func _play_sfx(sfx: SfxSet, who: Combatant) -> void:
+	if sfx == null or sfx.streams.is_empty():
+		return
+	sfx_count += 1
+	if instant:
+		return
+	var sprite: BattleSprite = sprites.get(who) as BattleSprite
+	if sprite != null:
+		AudioManager.sfx.play_at(sfx, sprite.global_position)
+	else:
+		AudioManager.sfx.play_ui(sfx)
 
 
 func _next_stack(target: Combatant) -> int:

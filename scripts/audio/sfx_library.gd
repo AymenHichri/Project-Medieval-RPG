@@ -8,3 +8,5 @@ extends Resource
 @export var ui: Dictionary[StringName, SfxSet] = {}
 ## Footstep sets by surface (grass, mud, stone, ...). `stone` is the fallback.
 @export var footsteps: Dictionary[StringName, SfxSet] = {}
+## Shared battle sounds that override or replace per-combatant ones: crit, miss, defend, flee.
+@export var battle: Dictionary[StringName, SfxSet] = {}

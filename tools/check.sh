@@ -18,6 +18,9 @@ if [ ! -d assets/vendor/dfgui/2x ]; then
   "$GODOT" --headless --path "$PROJECT" -s res://tools/upscale_ui.gd || status=1
 fi
 
+echo "== 2b/4 audio copies (tools/import_audio.py; not in git)"
+"$PY" -I tools/import_audio.py --if-missing | grep -v "^  ok" || status=1
+
 echo "== 3/4 import + parse check"
 "$GODOT" --headless --path "$PROJECT" --import >"$LOG" 2>&1
 if grep -E "SCRIPT ERROR|Parse Error|Failed to load script" "$LOG"; then

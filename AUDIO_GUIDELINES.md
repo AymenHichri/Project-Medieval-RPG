@@ -1,6 +1,8 @@
 # Audio Guidelines
 
-_Status: draft v1 (2026-11-13). Musical direction, sound categories, technical standards and the audio architecture design. **Nothing here is implemented yet.**_
+> The audio identity is detailed and extended (cosmic and body horror, the three "layers" of the world, mixing lanes, transitions) in [`docs/AUDIO_STYLE_GUIDE.md`](docs/AUDIO_STYLE_GUIDE.md) (2026-11-17). Where it is more specific, it wins.
+
+_Status: v2 (2026-11-17). Musical direction, sound categories, technical standards and the audio architecture. The architecture (§5) is implemented; the slice audio is integrated (Phase 7A, `AUDIO_CATALOG.md` §D)._
 
 ---
 
@@ -59,7 +61,7 @@ _Status: draft v1 (2026-11-13). Musical direction, sound categories, technical s
 | Originals | Original downloads (zip plus licence) are kept untouched in `assests/audio_sources/`; only processed copies go into `assets/audio/` |
 | Variation | Every frequent SFX has ≥ 3 variants or ±5% random pitch, so repeats don't sound mechanical |
 
-## 5. Audio architecture (design only; implemented in Phases 1, 6, 7, 7A and 12)
+## 5. Audio architecture (implemented in Phases 1, 6, 7 and 7A; weather and the full library in Phase 12)
 
 To keep the project's "5 autoloads" rule, there is **one** `AudioManager` autoload that **composes** the three requested managers as child nodes with their own `class_name`. Each manager has one job and its own tests.
 
@@ -118,7 +120,8 @@ Each `Map` exports `music: MusicTrack` and `ambience: AmbienceProfile`. Each `En
 - No scene creates its own `AudioStreamPlayer` for music or ambience. Everything goes through `AudioManager`.
 - Local positional loops (a crackling bonfire) **may** use their own `AudioStreamPlayer2D` on the `Ambience` bus, with a max distance set.
 - All audio references in code are `SfxSet` or `MusicTrack` Resources. **No hardcoded file paths.**
-- Placeholder audio: `tools/make_placeholder_audio.gd` (headless) generates short sine/noise `AudioStreamWAV` files (`AudioStreamWAV.save_to_wav`). They let transitions and pooling be built and tested before real audio is sourced.
+- No placeholder tones in the game (decision 2026-11-13): tests use in-memory silent `AudioStreamWAV`s, and a hook without a file is silent.
+- **Pipeline (Phase 7A):** originals in `assests/audio_sources/` → `tools/audio_sources.csv` (one row per target: cut, loop, fades, loudness) → `tools/import_audio.py` (ffmpeg; writes `assets/audio/` and the Ogg loop settings in the `.import` files) → `tools/build_audio.gd` (generates `data/audio/music/*.tres`, `data/audio/sfx/*.tres` and `sfx_library.tres`, with per-ID volume, pitch and cooldown) → hook-up points (`AUDIO_CATALOG.md` §D). The processed copies are not committed (licences forbid redistribution; the repository is public).
 
 ## 6. Testing standards
 

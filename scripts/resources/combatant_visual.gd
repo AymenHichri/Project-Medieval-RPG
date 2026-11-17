@@ -28,6 +28,16 @@ extends Resource
 ## Effect played on this combatant when a physical blow lands (blood, sparks; null = none).
 @export var hit_fx: FxSpec
 
+@export_group("Sounds")
+## Played as this combatant swings (Attack and melee skills).
+@export var attack_sfx: SfxSet
+## Played on this combatant when a physical blow lands (flesh, bone, metal).
+@export var hit_sfx: SfxSet
+## This combatant's cry: when it appears and when it changes phase.
+@export var cry_sfx: SfxSet
+## Played when it falls.
+@export var death_sfx: SfxSet
+
 
 ## The SpriteFrames that hold logical animation `anim` (null if the visual has none).
 func frames_for(anim: StringName) -> SpriteFrames:

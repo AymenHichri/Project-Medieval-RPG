@@ -34,6 +34,7 @@
 [ext_resource type="Script" path="res://addons/sovdigital/ambience/scripts/ambience_controller.gd" id="32_bahqn"]
 [ext_resource type="Shader" path="res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader" id="33_h3xtm"]
 [ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png" id="34_3xdgh"]
+[ext_resource type="Resource" path="res://data/audio/music/mus_dungeon_graveyard.tres" id="audio_music"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2n12d"]
 normal = Vector2(1, 0)
@@ -56,6 +57,7 @@ shader_parameter/strength = 0.75
 
 [node name="Graveyard01" type="Node2D" unique_id=874726688]
 script = ExtResource("1_jjo1w")
+music = ExtResource("audio_music")
 map_id = &"graveyard_01"
 display_name = "Old Graveyard"
 ambience_preset = &"night"

@@ -20,7 +20,9 @@ _Kept in sync with `docs/asset_manifest.csv`. The in-game credits screen is gene
 - **Cinzel** by Natanael Gama, SIL Open Font License 1.1 (pending: files not yet added).
 
 ## Music and sound
-- None yet (the slice audio sourcing gate was not met at Milestone 1; see `AUDIO_CATALOG.md`).
+- **Ambient string music** (title, graveyard and battle music; victory and game over jingles): "Dark Fantasy Ambient Strings" by Luis Ignacio Osores, **"Audio Assets by Dreamgarden"**, https://dreamgardensoundcapes.itch.io (free pack EULA; credit appreciated, not required).
+- **Village music** ("Veil of Eternal Nightfall", loop edit): **AlkaKrab** (royalty-free music licence; credit appreciated, not required).
+- **Interface sounds** (UI, rewards, level-up, rest): "Interface Sounds" by **Kenney**, https://kenney.nl (CC0).
 
 ## Engine
 - Made with Godot Engine (https://godotengine.org), MIT licence.

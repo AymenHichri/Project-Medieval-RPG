@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MusicTrack" format=3]
+
+[ext_resource type="Script" path="res://scripts/audio/music_track.gd" id="1_ui4bg"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/jng_gameover.ogg" id="2_n3uub"]
+
+[resource]
+script = ExtResource("1_ui4bg")
+stream = ExtResource("2_n3uub")
+resume_on_return = false
+fade_in = 0.0
+fade_out = 0.0

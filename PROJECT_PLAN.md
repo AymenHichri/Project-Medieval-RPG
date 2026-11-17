@@ -543,7 +543,7 @@ Flee    → success chance from party vs enemy agility; on fail the party loses 
 | 5 | Battle presentation | 4 | L (≈2–3 wk) | Debug-launched side-view battle |
 | 6 | Random encounters | 3, 5 | S–M (≈1 wk) | World → battle → world loop |
 | 7 | 🎯 **Milestone 1: vertical slice** | 6 | M (≈1–2 wk) | The slice defined in §8.1 |
-| 7A | **Audio setup** (next step) | 7 (+ user-supplied audio) | S–M (≈1 wk) | The slice with music, ambience and SFX |
+| 7A | **Audio setup** (built 2026-11-17; listening check open) | 7 (+ user-supplied audio) | S–M (≈1 wk) | The slice with music, jingles and UI sounds (no ambience/combat SFX: no source) |
 | 8 | Party and progression, status effects | 7A | M | 3-member party, levels, statuses |
 | 9 | Inventory, equipment, items, shop | 8 | M | Items in field/battle, gear, shop |
 | 10 | Dialogue, NPCs, quests, boss | 9 | M–L | Quest chain, two-phase boss |
@@ -906,52 +906,69 @@ Turn the systems into a short, coherent, playable experience matching §8.1.
 
 ---
 
-## Phase 7A: Audio setup (next step)
+## Phase 7A: Audio setup
 
 [Dependencies: **Phase 7**] (the integration tasks also depend on the user supplying the slice audio set)
 
 *Added 2026-11-17 at the user's request, so audio comes before Phase 8. It is named 7A so that Phases 8–12, which code comments and docs already refer to, keep their numbers.* Milestone 1 shipped silent because the audio sourcing gate was not met (see Phase 7). This phase builds what is still missing between "the managers exist" and "the game has sound": a sourcing and import pipeline, the sound hooks that were never wired (level-up, combat, monsters, rewards), and the slice audio itself. Afterwards, adding a sound anywhere in later phases is data work only.
 
 **Step 0a: audio asset audit, then implementation (run first)**
-- [ ] Follow the audit brief in `AUDIO_CATALOG.md` ("Audit brief", Phases 1–5): inspect every accessible audio file and pack, then write `docs/AUDIO_ASSET_CATALOG.md` (catalog with fit ratings), `docs/AUDIO_REQUIREMENTS.md` (what exists and what is missing per category) and `docs/AUDIO_STYLE_GUIDE.md` (audio identity), and recommend packs only for real gaps. Research and documentation only: no game code changes, downloads, purchases or edits to original files.
-- [ ] Present the audit's final output (existing assets, strongest candidates, missing categories, recommended packs, proposed slice library) and get the user's approval.
-- [ ] After approval, implement the audio (brief Phase 6): source the approved library (Step 0), then complete the pipeline, hook and integration tasks below with it.
+- [x] Follow the audit brief in `AUDIO_CATALOG.md` ("Audit brief", Phases 1–5): inspect every accessible audio file and pack, then write `docs/AUDIO_ASSET_CATALOG.md` (catalog with fit ratings), `docs/AUDIO_REQUIREMENTS.md` (what exists and what is missing per category) and `docs/AUDIO_STYLE_GUIDE.md` (audio identity), and recommend packs only for real gaps. Research and documentation only: no game code changes, downloads, purchases or edits to original files.
+  - *As built (2026-11-17):* only `assests/audio_sources/` holds audio (no art pack ships sound). Measured with Python + the ImageMagick-bundled `ffmpeg.exe` 4.2.3 (EBU R128 loudness, `smpl` loop seams, spectra, pulse); the assistant cannot listen, so mood ratings are provisional (listening checklist in the catalog). Findings: the three `_Loop` string drones loop cleanly and fit the direction; the six `Tracks wav` pieces need loop edits; Kenney UI (CC0) works pitched down and quieter; **all world SFX, ambience, a battle track, folk village music and the jingles are missing**. **Both music packs have no licence file and could not be traced online (release blocker until the user records them).** Recommended sources R1–R7 and the proposed slice library are in `docs/AUDIO_REQUIREMENTS.md`. Encoding can use that `ffmpeg.exe` (libvorbis, loudnorm).
+- [x] Present the audit's final output (existing assets, strongest candidates, missing categories, recommended packs, proposed slice library) and get the user's approval.
+  - *As built (2026-11-17):* presented; the user added the two missing licence PDFs to the zips and approved with one rule: **use only the supplied packs, download nothing else**.
+- [x] After approval, implement the audio (brief Phase 6): source the approved library (Step 0), then complete the pipeline, hook and integration tasks below with it.
+  - *As built (2026-11-17):* done with the supplied packs (see below). Gaps without a source stay silent.
 
 **Step 0: sourcing (user)**
-- [ ] Obtain the slice set in `AUDIO_CATALOG.md` §C, guided by the library the audit proposed (music: `mus_menu`, `mus_town_hamlet`, `mus_dungeon_graveyard`, `mus_battle`, `jng_victory`, `jng_gameover`, `jng_levelup`; SFX: UI, footsteps stone/grass/mud, combat swing/hit/crit/miss, magic cast/fire/heal, three monster cries, reward gold/item, level up; ambience: village and graveyard beds). Choose sources under the licence rules in `AUDIO_CATALOG.md` §A. Prefer one or two coherent packs over many single files (R4c). The assistant does not download audio.
+- [x] Obtain the slice set in `AUDIO_CATALOG.md` §C, guided by the library the audit proposed (music: `mus_menu`, `mus_town_hamlet`, `mus_dungeon_graveyard`, `mus_battle`, `jng_victory`, `jng_gameover`, `jng_levelup`; SFX: UI, footsteps stone/grass/mud, combat swing/hit/crit/miss, magic cast/fire/heal, three monster cries, reward gold/item, level up; ambience: village and graveyard beds). Choose sources under the licence rules in `AUDIO_CATALOG.md` §A. Prefer one or two coherent packs over many single files (R4c). The assistant does not download audio.
+  - *As built (2026-11-17):* the user supplied three packs (Dreamgarden *Dark Fantasy Ambient Strings*, AlkaKrab *Tracks wav*, Kenney *Interface Sounds*) and no more. Not sourced: footsteps, combat/magic/monster SFX, ambience beds, a real battle track, folk village music. Q8 settled (user-supplied packs); Q15 stays no.
 - [x] Put each original download (zip plus its licence or EULA) untouched in `assests/audio_sources/`.
   - *Done 2026-11-17* (see the verify task below). Q8 and Q15 are decided at this step (sources; whether AI-generated SFX are acceptable).
 
 **Tasks: pipeline (can start before the audio arrives)**
 - [x] `tools/verify_source_assets.py` also covers `assests/audio_sources/` (`--record` after each addition), so `check.sh` fails if an original changes.
   - *As built (2026-11-17):* it scans every subfolder of `assests/`. Three packs are in `audio_sources/`: `Dark Fantasy Ambient Strings.zip` (6 WAV), `Tracks wav.zip` (6 WAV) and `kenney_interface-sounds.zip` (100 OGG, CC0). **The first two contain no licence file**, so their source and licence still need recording. Eight art packs kept for later phases are in `assests/later/` (Footsoldier, Mounted Knight, Kangal, Haunted Effects, Barbarian Camp, Dwarven Hill House, Elven Home, Orc Hunter's Lodge). They are checksummed but not extracted yet.
-- [ ] `tools/import_audio.py` (run with `python -I`, copies only, like `extract_assets.py`): reads a mapping table (`tools/audio_sources.csv`: source zip, path inside it, target ID) and writes the renamed copies to `assets/audio/{music,ambience,sfx/<category>}/` following the naming in `AUDIO_GUIDELINES.md` §4. It refuses MP3 and unknown extensions, and reports any target ID in the slice list that has no source yet.
-- [ ] Import settings: Ogg music and ambience loop (`loop = true`, `loop_offset` where a track has an intro); WAV SFX are not looped. Written into the `.import` files by the build tool below (or a documented editor preset), so they don't depend on clicks in the editor.
-- [ ] `tools/build_audio.gd` (headless, the source of truth like `build_battle_data.gd`): generates `data/audio/music/*.tres` (`MusicTrack`), `data/audio/sfx/*.tres` (`SfxSet`, variants grouped by `_01.._nn` suffix), `data/audio/ambience/*.tres` (`AmbienceProfile` + layers and crow/bell one-shots) and fills `data/audio/sfx_library.tres` (`ui`, `footsteps`). Per-ID volume, pitch range and cooldown live in a table inside the tool. An ID whose file is missing is skipped (no placeholder tones, 2026-11-13 decision), so the tool can run at any time.
-- [ ] Manifest: one `docs/asset_manifest.csv` row per audio source (`test_asset_manifest.gd` already requires one for every file under `assets/audio/`), and the matching rows in `AUDIO_CATALOG.md` §E. `CREDITS.md` gets the exact attribution line for every CC BY source.
+- [x] `tools/import_audio.py` (run with `python -I`, copies only, like `extract_assets.py`): reads a mapping table (`tools/audio_sources.csv`: source zip, path inside it, target ID) and writes the renamed copies to `assets/audio/{music,ambience,sfx/<category>}/` following the naming in `AUDIO_GUIDELINES.md` §4. It refuses MP3 and unknown extensions, and reports any target ID in the slice list that has no source yet.
+  - *As built (2026-11-17):* reads `tools/audio_sources.csv` (target, zip, member, cut, `loop` = `smpl`/`whole`/`no`, crossfade, fades, `gain` = `lufs:`/`db:`), opens the zips in place, cuts/crossfades WAV in Python, then measures loudness (EBU R128) and encodes with ffmpeg (the ImageMagick-bundled `ffmpeg.exe` works from WSL). `--if-missing` is run by `check.sh`/`check.ps1`. Because the repository is **public** and two licences forbid redistribution, `assets/audio/**/*.ogg|wav` are git-ignored and rebuilt locally (the `.import` files are committed, so UIDs stay stable). Godot imported `.csv` files as translations, so `tools/audio_sources.csv` and `docs/asset_manifest.csv` now use the `keep` importer (stray `.translation` files removed).
+- [x] Import settings: Ogg music and ambience loop (`loop = true`, `loop_offset` where a track has an intro); WAV SFX are not looped. Written into the `.import` files by the build tool below (or a documented editor preset), so they don't depend on clicks in the editor.
+  - *As built (2026-11-17):* `import_audio.py` writes `loop`/`loop_offset` into each Ogg's `.import` (the `smpl` loop start; Godot keeps `[params]` on reimport). Jingles `loop=false`. SFX WAV use the default import (no loop).
+- [x] `tools/build_audio.gd` (headless, the source of truth like `build_battle_data.gd`): generates `data/audio/music/*.tres` (`MusicTrack`), `data/audio/sfx/*.tres` (`SfxSet`, variants grouped by `_01.._nn` suffix), `data/audio/ambience/*.tres` (`AmbienceProfile` + layers and crow/bell one-shots) and fills `data/audio/sfx_library.tres` (`ui`, `footsteps`). Per-ID volume, pitch range and cooldown live in a table inside the tool. An ID whose file is missing is skipped (no placeholder tones, 2026-11-13 decision), so the tool can run at any time.
+  - *As built (2026-11-17):* 7 MusicTracks (`data/audio/music/`), 10 SfxSets (`data/audio/sfx/`), `sfx_library.tres` (`ui`: focus, confirm, cancel, tick, open, denied, reward_gold, reward_item, levelup, rest; `footsteps` and the new `battle` dictionary empty until files exist).
+- [x] Manifest: one `docs/asset_manifest.csv` row per audio source (`test_asset_manifest.gd` already requires one for every file under `assets/audio/`), and the matching rows in `AUDIO_CATALOG.md` §E. `CREDITS.md` gets the exact attribution line for every CC BY source.
+  - *As built (2026-11-17):* 8 rows; §E filled; `CREDITS.md` lists all three (no CC BY source, so no mandatory credit line).
 
 **Tasks: wire the missing hooks (can start before the audio arrives)**
-- [ ] Battle sounds as data, mirroring the FX design (`FxSpec`):
+- [x] Battle sounds as data, mirroring the FX design (`FxSpec`):
+  - *As built (2026-11-17):* fields added (in an *Sounds* inspector group on `CombatantVisual`). Shared sets live in the new `SfxLibrary.battle` (`crit`, `miss`, `defend`, `flee`). All empty for now (no source).
   - `CombatantVisual`: `attack_sfx` (swing), `hit_sfx` (taken when struck: blood or bone), `cry_sfx` (on spawn and phase change) and `death_sfx`.
   - `SkillData` and `ItemData`: `cast_sfx` (on the cast animation) and `impact_sfx` (with `impact_fx`).
   - Shared sets in `data/audio/sfx/`: `combat_crit`, `combat_miss`, `combat_defend`, `battle_flee`.
-- [ ] `BattlePresenter`: `static func choose_sfx(action, event, target_visual) -> SfxSet` (the same rules as `choose_fx`: the skill or item first, then the target's `hit_sfx` for physical blows, nothing on status ticks; crit and miss override). Sounds play on the hit frame through `AudioManager.sfx.play_at`, positioned at the target. Like `fx_count`, an `sfx_count` is incremented even in instant mode, and nothing plays in instant mode.
-- [ ] Level-up: `SceneManager.level_up_jingle` plays when the results screen shows a level-up (after the victory jingle), and `progress_levelup` plays on the "reached level N" line. Reward sounds `reward_gold` / `reward_item` play on the results screen lines.
-- [ ] Field sounds: `sfx_ui_open` when the pause menu opens, `progress_rest` at the well, and a positional crackle loop on the graveyard bone pyre (`AudioStreamPlayer2D` on the `Ambience` bus with a max distance, as allowed by `AUDIO_GUIDELINES.md` §5).
-- [ ] `Ambience` bus low-pass while the pause menu is open (`AUDIO_GUIDELINES.md` §5 bus layout).
+- [x] `BattlePresenter`: `static func choose_sfx(action, event, target_visual) -> SfxSet` (the same rules as `choose_fx`: the skill or item first, then the target's `hit_sfx` for physical blows, nothing on status ticks; crit and miss override). Sounds play on the hit frame through `AudioManager.sfx.play_at`, positioned at the target. Like `fx_count`, an `sfx_count` is incremented even in instant mode, and nothing plays in instant mode.
+  - *As built (2026-11-17):* a miss (0 damage or immune) and a crit override only when the shared set exists. Swing = the skill's `cast_sfx` else the actor's `attack_sfx` at the step forward; spells at the glow; items as used; cries on intro and phase change; death on defeat; defend; flee. No combat event is a "miss" in the engine yet, so 0-damage/immune stands in.
+- [x] Level-up: `SceneManager.level_up_jingle` plays when the results screen shows a level-up (after the victory jingle), and `progress_levelup` plays on the "reached level N" line. Reward sounds `reward_gold` / `reward_item` play on the results screen lines.
+  - *As built (2026-11-17):* `SceneManager.JINGLE_PATHS` loads the three jingles; the level-up jingle waits for `jingle_finished` of the victory jingle (or plays alone if there is none), so it is heard only if the results screen is still open after the 7 s victory jingle. Results screen: gold → item → level-up accents 0.3 s apart.
+- [x] Field sounds: `sfx_ui_open` when the pause menu opens, `progress_rest` at the well, and a positional crackle loop on the graveyard bone pyre (`AudioStreamPlayer2D` on the `Ambience` bus with a max distance, as allowed by `AUDIO_GUIDELINES.md` §5).
+  - *As built (2026-11-17):* `open` on the pause menu, `rest` at the RestPoint. **The pyre crackle is not added** (no fire loop among the supplied packs).
+- [x] `Ambience` bus low-pass while the pause menu is open (`AUDIO_GUIDELINES.md` §5 bus layout).
+  - *As built (2026-11-17):* `AudioManager` adds a disabled 900 Hz low-pass to the Ambience bus; `set_ambience_muffled()` from the pause menu (open, close, quit).
 
 **Tasks: integrate the slice set (once Step 0 is done)**
-- [ ] Assign everything listed in `AUDIO_CATALOG.md` §D "Sourcing gate status": `TitleScreen.music`, `Map.music` / `Map.ambience` in `tools/map_builders/*` (rebuild the maps), `EncounterTable.music` in `tools/build_encounters.gd`, `SceneManager` jingles, the `sfx_library` sets, and the new battle sets in `tools/build_battle_data.gd`.
+- [x] Assign everything listed in `AUDIO_CATALOG.md` §D "Sourcing gate status": `TitleScreen.music`, `Map.music` / `Map.ambience` in `tools/map_builders/*` (rebuild the maps), `EncounterTable.music` in `tools/build_encounters.gd`, `SceneManager` jingles, the `sfx_library` sets, and the new battle sets in `tools/build_battle_data.gd`.
+  - *As built (2026-11-17):* title, village, graveyard (scenes patched directly to avoid a terrain re-roll; builders updated too), battle (encounter table regenerated), jingles, UI/field sets. Not assigned (no source): ambience, footsteps, battle sets.
 - [ ] Mix pass for the slice: normalise to the `AUDIO_GUIDELINES.md` §4 targets before import (music ≈ −18 LUFS, ambience ≈ −24 LUFS, SFX peaks ≤ −1 dBTP), then balance `volume_db` per set by ear. Tune the battle duck (`set_duck`) and jingle duck.
-- [ ] Update `AUDIO_CATALOG.md` (gate status → met, the hook table → as built), `AUDIO_GUIDELINES.md` §5 ("implemented"), `README.md` and `CREDITS.md`.
+  - *Status (2026-11-17):* loudness done in the pipeline (music −18 LUFS, battle −16, jingles −18; measured after encoding); Kenney sets start at −10 to −20 dB, pitched 10–20 % down. **Balancing by ear is still open** (needs listening).
+- [x] Update `AUDIO_CATALOG.md` (gate status → met, the hook table → as built), `AUDIO_GUIDELINES.md` §5 ("implemented"), `README.md` and `CREDITS.md`.
+  - *As built (2026-11-17):* gate "partly met", hook table as built; `AUDIO_GUIDELINES.md` §5 implemented + pipeline; README, CREDITS, `docs/AUDIO_*`.
 
 **Automated verification**
-- [ ] `test_battle_audio.gd`: the `choose_sfx` rules (attack → target `hit_sfx`; Ember → its `impact_sfx`; a crit uses `combat_crit`; a miss uses `combat_miss`; a status tick → null; a null action → null); an instant auto-battle has `sfx_count > 0`; the cast sound is chosen for a spell.
-- [ ] `test_level_up_audio.gd`: a reward that levels the Knight starts `level_up_jingle` after the victory jingle; a reward without a level-up doesn't.
-- [ ] `test_audio_data.gd`: every `.tres` in `data/audio/` loads; every `SfxSet` has ≥ 1 stream, and frequent sets (footsteps, hits, UI focus) have ≥ 3 variants or a pitch range of at least ±5%; every music and ambience stream loops and every jingle doesn't; every file under `assets/audio/` is referenced by some resource (no orphans).
-- [ ] `test_audio_coverage.gd` (slice subset, extended to the full game in Phase 12): every hook in the "Sourcing gate status" table points to a non-null stream. It is skipped with a printed notice while `assets/audio/` is empty, so the suite stays green before Step 0.
-- [ ] Existing audio tests still pass (`test_music_manager`, `test_sfx_manager`, `test_ambient_manager`, `test_audio_buses`, `test_settings`, `test_asset_manifest`).
-- [ ] `tools/check.sh` exits 0.
+- [x] `test_battle_audio.gd`: the `choose_sfx` rules (attack → target `hit_sfx`; Ember → its `impact_sfx`; a crit uses `combat_crit`; a miss uses `combat_miss`; a status tick → null; a null action → null); an instant auto-battle has `sfx_count > 0`; the cast sound is chosen for a spell.
+- [x] `test_level_up_audio.gd`: a reward that levels the Knight starts `level_up_jingle` after the victory jingle; a reward without a level-up doesn't.
+- [x] `test_audio_data.gd`: every `.tres` in `data/audio/` loads; every `SfxSet` has ≥ 1 stream, and frequent sets (footsteps, hits, UI focus) have ≥ 3 variants or a pitch range of at least ±5%; every music and ambience stream loops and every jingle doesn't; every file under `assets/audio/` is referenced by some resource (no orphans).
+- [x] `test_audio_coverage.gd` (slice subset, extended to the full game in Phase 12): every hook in the "Sourcing gate status" table points to a non-null stream. It is skipped with a printed notice while `assets/audio/` is empty, so the suite stays green before Step 0.
+- [x] Existing audio tests still pass (`test_music_manager`, `test_sfx_manager`, `test_ambient_manager`, `test_audio_buses`, `test_settings`, `test_asset_manifest`).
+- [x] `tools/check.sh` exits 0.
+  - *As built (2026-11-17):* 252 tests, 0 failures. Outside the suite: a real-time headless session (graveyard music → pause muffles ambience → battle music → victory jingle → level-up → map music back) and a title-screen boot with no errors. Headless test runs report the Ogg playbacks of stopped streams as "still in use" at exit (the dummy audio driver never mixes, so they are never released; not seen in a plain boot).
 
 **Manual verification** (the audio half of the Phase 7 check, which moves here)
 - [ ] With headphones, from the title screen:
@@ -960,6 +977,10 @@ Turn the systems into a short, coherent, playable experience matching §8.1.
   3. In battle, swings, hits, crits, misses, Ember, Minor Heal, the potion and each monster's cry are audible and land on the hit frame. Burn and Bleed ticks are silent.
   4. Settings sliders change Music, SFX and Ambience independently and immediately, and persist after a restart. Ambience is muffled while paused.
   5. No clipping, no audible loop seams, and the music never masks UI feedback.
+
+**Playtest feedback (2026-11-17) and fixes**
+- *"The menu clicks are odd for the theme"*: the Kenney copies are darkened at import (`filters` column in `tools/audio_sources.csv`: pitch 55–80 %, low-pass 1.2–2.5 kHz, room echo); focus now uses micro-clicks. **Listen again.**
+- *"The village music starts very loud"* and *"village → graveyard cuts in the middle"*: `MusicTrack.fade_in/fade_out` were never used (every change was a 1 s fade) and fades moved the dB value from −80, so they were heard as a near-cut. Now fades are linear in amplitude, `play()`/`stop()` default to the tracks' own fades, `SceneManager.change_map` fades the old track out (2.5 s) with the screen when the next map's music differs (`scene_music()` reads it from the PackedScene), and the map fades its track in (4 s). The village track is also 3 dB lower. New tests in `test_music_manager.gd` and `test_audio_coverage.gd`.
 
 **Deliverables:** the vertical slice with its full audio set, and an audio pipeline (sources → `assets/audio/` → generated resources → hooks) that later phases reuse. If Step 0 is not done, the pipeline and hooks are still delivered and tested, and the integration tasks wait for the files.
 

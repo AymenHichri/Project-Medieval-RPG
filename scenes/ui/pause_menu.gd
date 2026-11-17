@@ -46,6 +46,8 @@ func open() -> void:
 	visible = true
 	_panel.visible = true
 	get_tree().paused = true
+	AudioManager.sfx.play_ui_named(&"open")
+	AudioManager.set_ambience_muffled(true)
 	_resume.grab_focus()
 	opened.emit()
 
@@ -56,6 +58,7 @@ func close() -> void:
 	settings_menu.close()
 	visible = false
 	get_tree().paused = false
+	AudioManager.set_ambience_muffled(false)
 	closed.emit()
 
 
@@ -90,6 +93,7 @@ func _on_quit_pressed() -> void:
 	_quit.disabled = true
 	visible = false
 	get_tree().paused = false
+	AudioManager.set_ambience_muffled(false)
 	closed.emit()
 	SceneManager.to_title()
 

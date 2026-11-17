@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MusicTrack" format=3]
+
+[ext_resource type="Script" path="res://scripts/audio/music_track.gd" id="1_gulmj"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/jng_levelup.ogg" id="2_dxebi"]
+
+[resource]
+script = ExtResource("1_gulmj")
+stream = ExtResource("2_dxebi")
+resume_on_return = false
+fade_in = 0.0
+fade_out = 0.0

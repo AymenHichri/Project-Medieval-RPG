@@ -27,4 +27,8 @@ enum Effect { DAMAGE, HEAL }
 ## Effect the presenter plays on each target as the skill lands (null = the target's own hit
 ## effect for physical damage, nothing otherwise).
 @export var impact_fx: FxSpec
+## Played as it is used (on the cast animation for spells).
+@export var cast_sfx: SfxSet
+## Played on each target as it lands, with `impact_fx` (null = the default hit sound).
+@export var impact_sfx: SfxSet
 @export_multiline var description: String = ""

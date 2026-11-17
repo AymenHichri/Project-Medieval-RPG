@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SfxSet" format=3]
+
+[ext_resource type="Script" path="res://scripts/audio/sfx_set.gd" id="1_7mkky"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/progress/sfx_progress_rest_01.wav" id="2_70ak5"]
+
+[resource]
+script = ExtResource("1_7mkky")
+streams = Array[AudioStream]([ExtResource("2_70ak5")])
+volume_db = -8.0
+pitch_range = Vector2(1, 1)
+cooldown_ms = 500
+bus = "UI"

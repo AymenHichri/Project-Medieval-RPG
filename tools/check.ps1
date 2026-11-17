@@ -18,6 +18,10 @@ if (-not (Test-Path "assets/vendor/dfgui/2x")) {
     if ($LASTEXITCODE -ne 0) { $status = 1 }
 }
 
+Write-Host "== 2b/4 audio copies (tools/import_audio.py; not in git)"
+& $Python -I tools/import_audio.py --if-missing
+if ($LASTEXITCODE -ne 0) { $status = 1 }
+
 Write-Host "== 3/4 import + parse check"
 $importLog = & $Godot --headless --path $Project --import 2>&1 | Out-String
 $parseErrors = $importLog -split "`n" | Select-String -Pattern "SCRIPT ERROR|Parse Error|Failed to load script"

@@ -151,6 +151,13 @@ func begin_map(node_name: String, map_id: StringName, display_name: String, pres
 	return root
 
 
+## The generated MusicTrack `id` (data/audio/music/<id>.tres, written by tools/build_audio.gd);
+## null when the audio has not been built.
+func music_track(id: StringName) -> MusicTrack:
+	var path: String = "res://data/audio/music/%s.tres" % id
+	return load(path) as MusicTrack if ResourceLoader.exists(path) else null
+
+
 ## Adds the CameraBounds rect (map size in px) and packs the map.
 func finish_map(map_size: Vector2) -> PackedScene:
 	var bounds: ReferenceRect = node(ReferenceRect.new(), "CameraBounds", root)

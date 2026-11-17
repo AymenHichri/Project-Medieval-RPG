@@ -54,6 +54,7 @@ func build() -> void:
 
 func _build_map() -> PackedScene:
 	var root: Map = _kit.begin_map("Graveyard01", &"graveyard_01", "Old Graveyard", &"night")
+	root.music = _kit.music_track(&"mus_dungeon_graveyard")
 	var tileset: TileSet = load(TILESET_PATH) as TileSet
 	_kit.ground(tileset, FLAGS_SOURCE, MAP_TILES)
 	_build_soil(tileset)

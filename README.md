@@ -97,7 +97,7 @@ These systems exist in the repository and are covered by automated tests. Most o
 | **World ↔ battle loop** | Walking into an encounter starts a battle and returns the player to the same position afterwards |
 | **Content data** | One playable character (Knight); four enemies (Wolf, Goblin Scout, Skeleton, Charred Skeleton); five skills (Attack, Charged Strike, Whirlwind, Ember, Minor Heal); one item (Minor Potion); six status effects (Bleed, Burn, Curse, Blessed, Sleep, Stun) |
 | **UI foundation** | A generated theme and colour palette (including sliders, check boxes, option buttons and tabs), UI sounds wired into every menu, and a typography specimen scene |
-| **Audio architecture** | An `AudioManager` with music, sound-effect and ambience managers: crossfades, battle music push/pop, jingles, pooled sound effects with variants, pitch and cooldowns, and footsteps by ground surface. No audio assets yet, so the game is silent |
+| **Audio architecture** | An `AudioManager` with music, sound-effect and ambience managers: crossfades, battle music push/pop, jingles, pooled sound effects with variants, pitch and cooldowns, and footsteps by ground surface. Slice audio (Phase 7A): music for the title, village, graveyard and battle, victory/level-up/game-over jingles, UI, reward and rest sounds. Footsteps, combat, monster and ambience sounds have their hooks but no files yet |
 | **Atmosphere** | Vendor ambience and weather shaders used in the existing maps |
 | **Tooling** | Asset extraction, map and data builders, a licence manifest check, and a headless test runner |
 
@@ -265,6 +265,8 @@ To run a subset of tests:
 godot --headless --path . -s res://tests/test_runner.gd -- --filter=<name>
 ```
 
+> **Audio is not in the repository.** The game's audio copies in `assets/audio/` are rebuilt from the original packs in `assests/audio_sources/` by `python -I tools/import_audio.py` (the full check runs it when files are missing; it needs `ffmpeg` with libvorbis). Two of the packs forbid redistributing their files, so never commit `assets/audio/*.ogg` / `*.wav`.
+
 > The first step of the full check verifies the original asset archives in `assests/` against `tools/source_assets.sha256`. Those archives are not in the repository, so on a fresh clone without them this step will report a failure even though the project itself runs.
 
 Other tools (asset extraction, theme rebuild, map rebuild, project settings) are listed in [`CONTRIBUTING.md`](CONTRIBUTING.md).
@@ -273,7 +275,7 @@ Other tools (asset extraction, theme rebuild, map rebuild, project settings) are
 
 **Stage: pre-alpha. Milestone 1 (the vertical slice) is built and awaiting its playtest.**
 
-The slice plays from start to finish: title screen, intro, the village at dusk, a conversation with the Elder, the graveyard with random battles against wolves, goblins and skeletons, levelling up, resting at the well, and Game Over. It is silent (no audio has been sourced yet), uses Godot's default font (the Alegreya and Cinzel files are not added), and has one playable character with placeholder NPC art.
+The slice plays from start to finish: title screen, intro, the village at dusk, a conversation with the Elder, the graveyard with random battles against wolves, goblins and skeletons, levelling up, resting at the well, and Game Over. It has music, jingles and UI sounds (Phase 7A; no footsteps, combat or ambience sounds yet), uses Godot's default font (the Alegreya and Cinzel files are not added), and has one playable character with placeholder NPC art.
 
 ### Roadmap
 
@@ -288,6 +290,7 @@ From [`PROJECT_PLAN.md`](PROJECT_PLAN.md). Phase sizes are rough estimates, not 
 | 5 | Battle presentation | Done (battle background style decision open) |
 | 6 | Random encounters | Done (manual review open) |
 | 7 | **Milestone 1: vertical slice** | Built; playtest and review open |
+| 7A | Audio setup | Pipeline, hooks and slice music/UI audio built; listening check open |
 | 8 | Party, progression, status effects in play | Planned |
 | 9 | Inventory, equipment, items, shop | Planned |
 | 10 | Dialogue, NPCs, quests, boss | Planned |

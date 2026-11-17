@@ -10,3 +10,9 @@ assests/**/*.zip
 # OS / editor noise
 Thumbs.db
 .DS_Store
+
+# Processed audio copies: rebuilt from assests/audio_sources/ by tools/import_audio.py. The
+# Dreamgarden and AlkaKrab licences forbid redistributing the files, and this repository is public.
+# (Their .import files are kept so the resource UIDs stay stable.)
+assets/audio/**/*.ogg
+assets/audio/**/*.wav

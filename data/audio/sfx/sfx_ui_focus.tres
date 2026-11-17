@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SfxSet" format=3]
+
+[ext_resource type="Script" path="res://scripts/audio/sfx_set.gd" id="1_f368x"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ui/sfx_ui_focus_01.wav" id="2_2ffpx"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ui/sfx_ui_focus_02.wav" id="3_agqnc"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ui/sfx_ui_focus_03.wav" id="4_bd6b3"]
+
+[resource]
+script = ExtResource("1_f368x")
+streams = Array[AudioStream]([ExtResource("2_2ffpx"), ExtResource("3_agqnc"), ExtResource("4_bd6b3")])
+volume_db = -12.0
+pitch_range = Vector2(0.96, 1.04)
+bus = "UI"

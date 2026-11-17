@@ -7,6 +7,7 @@ signal continued
 
 ## Ignore `accept` for this long after opening, so a held key doesn't skip the screen.
 const INPUT_DELAY_SECONDS: float = 0.4
+const REWARD_SOUND_GAP_SECONDS: float = 0.3
 
 var _opened_at: int = 0
 
@@ -32,8 +33,26 @@ func show_result(result: BattleResult, instant: bool = false, level_lines: Packe
 	visible = true
 	if instant:
 		return
+	_play_reward_sounds(result, not level_lines.is_empty())
 	_opened_at = Time.get_ticks_msec()
 	await continued
+
+
+## Gold, then any items, then the level-up accent, a beat apart (UI sounds; silent when missing).
+func _play_reward_sounds(result: BattleResult, leveled: bool) -> void:
+	var sounds: Array[StringName] = []
+	if result.gold > 0:
+		sounds.append(&"reward_gold")
+	if not result.drops.is_empty():
+		sounds.append(&"reward_item")
+	if leveled:
+		sounds.append(&"levelup")
+	for i: int in sounds.size():
+		if i > 0:
+			await get_tree().create_timer(REWARD_SOUND_GAP_SECONDS).timeout
+		if not visible:
+			return
+		AudioManager.sfx.play_ui_named(sounds[i])
 
 
 func experience_text() -> String:

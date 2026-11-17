@@ -7,6 +7,8 @@ extends SceneTree
 const ENCOUNTER_DIR: String = "res://data/encounters"
 const ENEMY_DIR: String = "res://data/enemies"
 const GRAVEYARD_BG: String = "res://scenes/battle/backgrounds/graveyard_bg.tscn"
+## Written by tools/build_audio.gd (no music when it has not run).
+const BATTLE_MUSIC: String = "res://data/audio/music/mus_battle.tres"
 
 var _failed: bool = false
 
@@ -29,6 +31,8 @@ func _build_graveyard_outskirts() -> void:
 	table.base_chance_per_step = 0.04
 	table.grace_steps = 6
 	table.background = load(GRAVEYARD_BG) as PackedScene
+	if ResourceLoader.exists(BATTLE_MUSIC):
+		table.music = load(BATTLE_MUSIC) as MusicTrack
 	table.groups = [
 		_group([wolf, wolf], 40, "A pack of wolves emerges from the fog!"),
 		_group([goblin, wolf], 30, ""),

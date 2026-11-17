@@ -37,6 +37,7 @@
 [ext_resource type="Script" path="res://addons/sovdigital/ambience/scripts/ambience_controller.gd" id="35_h0ygy"]
 [ext_resource type="Shader" path="res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader" id="36_wtehw"]
 [ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png" id="37_lb283"]
+[ext_resource type="Resource" path="res://data/audio/music/mus_town_hamlet.tres" id="audio_music"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h2o4h"]
 normal = Vector2(1, 0)
@@ -59,6 +60,7 @@ shader_parameter/strength = 0.6
 
 [node name="Village01" type="Node2D" unique_id=33784409]
 script = ExtResource("1_kr14g")
+music = ExtResource("audio_music")
 map_id = &"village_01"
 display_name = "Hollow Border Village"
 

@@ -3,6 +3,8 @@ extends Node
 ## (see AUDIO_GUIDELINES.md §5). Game code calls `AudioManager.music`, `.sfx` and `.ambience`.
 
 const BUSES: Array[StringName] = [&"Master", &"Music", &"Ambience", &"SFX", &"UI"]
+## Low-pass cutoff on the Ambience bus while the pause menu is open (AUDIO_GUIDELINES.md §5).
+const MUFFLE_CUTOFF_HZ: float = 900.0
 
 var music: MusicManager
 var sfx: SFXManager
@@ -18,6 +20,36 @@ func _init() -> void:
 	add_child(music)
 	add_child(sfx)
 	add_child(ambience)
+
+
+func _ready() -> void:
+	var bus: int = AudioServer.get_bus_index(&"Ambience")
+	if bus >= 0 and _muffle_effect_index(bus) < 0:
+		var low_pass: AudioEffectLowPassFilter = AudioEffectLowPassFilter.new()
+		low_pass.cutoff_hz = MUFFLE_CUTOFF_HZ
+		AudioServer.add_bus_effect(bus, low_pass)
+		AudioServer.set_bus_effect_enabled(bus, AudioServer.get_bus_effect_count(bus) - 1, false)
+
+
+## Muffles the ambience (pause menu open) or restores it.
+func set_ambience_muffled(muffled: bool) -> void:
+	var bus: int = AudioServer.get_bus_index(&"Ambience")
+	var index: int = _muffle_effect_index(bus) if bus >= 0 else -1
+	if index >= 0:
+		AudioServer.set_bus_effect_enabled(bus, index, muffled)
+
+
+func is_ambience_muffled() -> bool:
+	var bus: int = AudioServer.get_bus_index(&"Ambience")
+	var index: int = _muffle_effect_index(bus) if bus >= 0 else -1
+	return index >= 0 and AudioServer.is_bus_effect_enabled(bus, index)
+
+
+func _muffle_effect_index(bus: int) -> int:
+	for i: int in AudioServer.get_bus_effect_count(bus):
+		if AudioServer.get_bus_effect(bus, i) is AudioEffectLowPassFilter:
+			return i
+	return -1
 
 
 ## Set a bus volume from a linear 0..1 slider value.

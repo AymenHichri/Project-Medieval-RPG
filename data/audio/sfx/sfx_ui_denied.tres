@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SfxSet" format=3]
+
+[ext_resource type="Script" path="res://scripts/audio/sfx_set.gd" id="1_03qi3"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ui/sfx_ui_denied_01.wav" id="2_sqpmo"]
+
+[resource]
+script = ExtResource("1_03qi3")
+streams = Array[AudioStream]([ExtResource("2_sqpmo")])
+volume_db = -12.0
+pitch_range = Vector2(0.97, 1.03)
+cooldown_ms = 120
+bus = "UI"

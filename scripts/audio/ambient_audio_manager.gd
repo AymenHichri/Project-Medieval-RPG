@@ -170,10 +170,16 @@ func _fade(player: AudioStreamPlayer, to_db: float, duration: float, stop_after:
 			player.stop()
 		return
 	var tween: Tween = create_tween()
-	tween.tween_property(player, "volume_db", to_db, duration).set_trans(Tween.TRANS_SINE)
+	# Linear amplitude (as MusicManager), so the fade is heard over its whole duration.
+	tween.tween_method(_set_amplitude.bind(player), db_to_linear(player.volume_db), db_to_linear(to_db),
+			duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	if stop_after:
 		tween.tween_callback(player.stop)
 	_tweens[player] = tween
+
+
+func _set_amplitude(amplitude: float, player: AudioStreamPlayer) -> void:
+	player.volume_db = maxf(linear_to_db(maxf(amplitude, 0.0)), SILENT_DB)
 
 
 func _kill_tween(player: AudioStreamPlayer) -> void:
