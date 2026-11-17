@@ -78,7 +78,7 @@ func test_knight() -> void:
 
 func test_minor_potion() -> void:
 	var potion: ItemData = load("res://data/items/minor_potion.tres") as ItemData
-	assert_not_null(potion.icon, "icon 052_health_potion")
+	assert_not_null(potion.icon, "HD flask icon")
 	assert_eq(potion.effect, ItemData.Effect.HEAL_HP)
 	assert_true(potion.usable_in_battle and potion.usable_in_field)
 

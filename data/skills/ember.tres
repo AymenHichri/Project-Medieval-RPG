@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="SkillData" format=3]
 
-[ext_resource type="Resource" path="res://data/status_effects/burn.tres" id="1_jtmjh"]
-[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_kpe5c"]
+[ext_resource type="Resource" path="res://data/fx/fire_impact.tres" id="1_kpe5c"]
+[ext_resource type="Resource" path="res://data/status_effects/burn.tres" id="2_mbv8t"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="3_qat4y"]
 
 [resource]
-script = ExtResource("2_kpe5c")
+script = ExtResource("3_qat4y")
 id = &"ember"
 display_name = "Ember"
 category = 1
@@ -12,7 +13,8 @@ mp_cost = 4
 power = 18
 scaling_stat = &"magic"
 element = 1
-inflicts = ExtResource("1_jtmjh")
+inflicts = ExtResource("2_mbv8t")
 inflict_chance = 0.25
 anim_key = &"cast"
+impact_fx = ExtResource("1_kpe5c")
 description = "A tongue of flame. May set the target alight."

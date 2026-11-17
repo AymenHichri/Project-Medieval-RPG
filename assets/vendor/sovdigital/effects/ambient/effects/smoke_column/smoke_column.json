@@ -1,0 +1,21 @@
+{
+  "name": "smoke column",
+  "description": "a rising column of smoke (seamless loop)",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        256,
+        384
+      ],
+      "frames": 8,
+      "fps": 10,
+      "loop": true,
+      "pivot": [
+        128,
+        360
+      ]
+    }
+  },
+  "pivot_note": "Pivot (x, y in pixels inside each frame): the point to place on the ground or at the source of the effect."
+}

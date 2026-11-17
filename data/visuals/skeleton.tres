@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="CombatantVisual" format=3]
 
-[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="1_mg1tl"]
-[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/skeleton/characters/skeleton/godot/skeleton_spriteframes.tres" id="2_odc20"]
+[ext_resource type="Resource" path="res://data/fx/bone_sparks.tres" id="1_odc20"]
+[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="2_mg72e"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/skeleton/characters/skeleton/godot/skeleton_spriteframes.tres" id="3_wfod1"]
 
 [resource]
-script = ExtResource("1_mg1tl")
-sprite_frames = ExtResource("2_odc20")
+script = ExtResource("2_mg72e")
+sprite_frames = ExtResource("3_wfod1")
 battle_scale = 1.2
 offset = Vector2(0, -78)
 anim_map = Dictionary[StringName, StringName]({
@@ -17,3 +18,4 @@ anim_map = Dictionary[StringName, StringName]({
 })
 hit_frame = 3
 height = 157.0
+hit_fx = ExtResource("1_odc20")

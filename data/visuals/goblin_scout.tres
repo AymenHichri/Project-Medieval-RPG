@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="CombatantVisual" format=3]
 
-[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="1_makap"]
-[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/goblin_scout/characters/goblin-scout/godot/goblin-scout_spriteframes.tres" id="2_linim"]
+[ext_resource type="Resource" path="res://data/fx/blood_hit.tres" id="1_linim"]
+[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="2_80vri"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/goblin_scout/characters/goblin-scout/godot/goblin-scout_spriteframes.tres" id="3_gg6rh"]
 
 [resource]
-script = ExtResource("1_makap")
-sprite_frames = ExtResource("2_linim")
+script = ExtResource("2_80vri")
+sprite_frames = ExtResource("3_gg6rh")
 battle_scale = 1.2
 offset = Vector2(0, -71)
 anim_map = Dictionary[StringName, StringName]({
@@ -23,3 +24,4 @@ hit_frames = Dictionary[StringName, int]({
 &"skill": 5
 })
 height = 153.0
+hit_fx = ExtResource("1_linim")

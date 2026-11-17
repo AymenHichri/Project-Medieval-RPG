@@ -1,0 +1,35 @@
+{
+  "name": "shadow orbit 3",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        350,
+        242
+      ],
+      "frames": 24,
+      "fps": 12,
+      "loop": true,
+      "pivot": [
+        175,
+        121
+      ]
+    },
+    "effect_smooth": {
+      "sheet": "effect_smooth.png",
+      "frame_size": [
+        350,
+        242
+      ],
+      "frames": 48,
+      "fps": 24,
+      "loop": true,
+      "pivot": [
+        175,
+        121
+      ],
+      "smooth_of": "effect"
+    }
+  },
+  "pivot_note": "Pivot is the centre point of the effect inside each frame (x, y in pixels)."
+}

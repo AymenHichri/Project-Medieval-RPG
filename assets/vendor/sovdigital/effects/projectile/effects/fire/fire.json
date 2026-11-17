@@ -1,0 +1,126 @@
+{
+  "name": "fire",
+  "clips": {
+    "expiry": {
+      "sheet": "expiry.png",
+      "frame_size": [
+        304,
+        304
+      ],
+      "frames": 4,
+      "fps": 12.0,
+      "loop": false,
+      "pivot": [
+        152.0,
+        152.0
+      ]
+    },
+    "impact": {
+      "sheet": "impact.png",
+      "frame_size": [
+        304,
+        304
+      ],
+      "frames": 7,
+      "fps": 18.0,
+      "loop": false,
+      "pivot": [
+        152.0,
+        152.0
+      ]
+    },
+    "release": {
+      "sheet": "release.png",
+      "frame_size": [
+        304,
+        304
+      ],
+      "frames": 7,
+      "fps": 18.0,
+      "loop": false,
+      "pivot": [
+        152.0,
+        152.0
+      ]
+    },
+    "flight": {
+      "sheet": "flight.png",
+      "frame_size": [
+        140,
+        113
+      ],
+      "frames_per_direction": 6,
+      "rows": 8,
+      "direction_rows": "Row order top to bottom: S, SE, E, NE, N, NW, W, SW",
+      "fps": 12.0,
+      "loop": true,
+      "pivot": [
+        70.0,
+        56.5
+      ]
+    },
+    "expiry_smooth": {
+      "sheet": "expiry_smooth.png",
+      "frame_size": [
+        304,
+        304
+      ],
+      "frames": 8,
+      "fps": 24.0,
+      "loop": false,
+      "pivot": [
+        152.0,
+        152.0
+      ],
+      "smooth_of": "expiry"
+    },
+    "impact_smooth": {
+      "sheet": "impact_smooth.png",
+      "frame_size": [
+        304,
+        304
+      ],
+      "frames": 14,
+      "fps": 36.0,
+      "loop": false,
+      "pivot": [
+        152.0,
+        152.0
+      ],
+      "smooth_of": "impact"
+    },
+    "release_smooth": {
+      "sheet": "release_smooth.png",
+      "frame_size": [
+        304,
+        304
+      ],
+      "frames": 14,
+      "fps": 36.0,
+      "loop": false,
+      "pivot": [
+        152.0,
+        152.0
+      ],
+      "smooth_of": "release"
+    },
+    "flight_smooth": {
+      "sheet": "flight_smooth.png",
+      "frame_size": [
+        140,
+        113
+      ],
+      "frames_per_direction": 12,
+      "rows": 8,
+      "direction_rows": "Row order top to bottom: S, SE, E, NE, N, NW, W, SW",
+      "fps": 24.0,
+      "loop": true,
+      "pivot": [
+        70.0,
+        56.5
+      ],
+      "smooth_of": "flight"
+    }
+  },
+  "pivot_note": "Pivot is the centre point of the effect inside each frame (x, y in pixels)."
+}

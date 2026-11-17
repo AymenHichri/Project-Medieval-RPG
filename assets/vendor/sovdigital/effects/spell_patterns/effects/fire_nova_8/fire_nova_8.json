@@ -1,0 +1,35 @@
+{
+  "name": "fire nova 8",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        612,
+        506
+      ],
+      "frames": 15,
+      "fps": 12,
+      "loop": false,
+      "pivot": [
+        306,
+        253
+      ]
+    },
+    "effect_smooth": {
+      "sheet": "effect_smooth.png",
+      "frame_size": [
+        612,
+        506
+      ],
+      "frames": 30,
+      "fps": 24,
+      "loop": false,
+      "pivot": [
+        306,
+        253
+      ],
+      "smooth_of": "effect"
+    }
+  },
+  "pivot_note": "Pivot is the centre point of the effect inside each frame (x, y in pixels)."
+}

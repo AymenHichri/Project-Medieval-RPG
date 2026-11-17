@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FxSpec" format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/effects/spell/effects/energy_burst/godot/energy_burst_spriteframes.tres" id="1_sj4wi"]
+[ext_resource type="Script" path="res://scripts/resources/fx_spec.gd" id="2_qk10o"]
+
+[resource]
+script = ExtResource("2_qk10o")
+frames = ExtResource("1_sj4wi")
+anchor = 1
+scale = 0.3
+tint = Color(1, 0.6, 0.55, 1)

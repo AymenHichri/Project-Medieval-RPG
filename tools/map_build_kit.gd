@@ -32,6 +32,8 @@ const FOG_SHADER: String = "res://assets/vendor/sovdigital/weather/godot/overlay
 const FOG_MASK: String = "res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png"
 const AMBIENCE_SCRIPT: String = "res://addons/sovdigital/ambience/scripts/ambience_controller.gd"
 const LIGHT_TEXTURE: String = "res://addons/sovdigital/ambience/textures/lights/light_radial.png"
+## SovDigital Ambient Effects pack (extracted by tools/extract_assets.py).
+const AMBIENT_FX: String = "res://assets/vendor/sovdigital/effects/ambient/effects"
 
 ## Vendor biome folder (holds biome.json and the piece images).
 var biome_dir: String
@@ -262,6 +264,20 @@ func rest_point(target: Node2D, offset: Vector2 = Vector2.ZERO, radius: float = 
 	area.prompt_offset = Vector2(0, -prompt_height)
 	add(target, area, root)
 	return area
+
+
+## A looping ambient effect (Ambient Effects pack: ember_swirl, smoke_column, dust_swirl, steam_vent,
+## toxic_gas, ...) as a child of `target`, centred at `offset` from its origin.
+func ambient_fx(target: Node2D, node_name: String, effect: String, offset: Vector2, scale: float = 1.0,
+		tint: Color = Color.WHITE) -> AnimatedSprite2D:
+	var fx: AnimatedSprite2D = node(AnimatedSprite2D.new(), node_name, target)
+	fx.sprite_frames = load("%s/%s/godot/%s_spriteframes.tres" % [AMBIENT_FX, effect, effect]) as SpriteFrames
+	fx.animation = &"effect"
+	fx.autoplay = "effect"
+	fx.position = offset
+	fx.scale = Vector2(scale, scale)
+	fx.modulate = tint
+	return fx
 
 
 ## `Lights` node with one warm PointLight2D per entry.

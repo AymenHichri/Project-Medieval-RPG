@@ -149,6 +149,9 @@ func _build_graves(world: Node2D) -> void:
 
 func _build_setpieces(world: Node2D) -> void:
 	var pyre: Node2D = _kit.scene(world, PYRE, "BonePyre", Vector2(1150, 900))
+	# Phase 7 assets: smoke rising from the pyre and embers swirling over its flames.
+	_kit.ambient_fx(pyre, "Smoke", "smoke_column", Vector2(0, -360), 0.85, Color(1, 1, 1, 0.85))
+	_kit.ambient_fx(pyre, "Embers", "ember_swirl", Vector2(0, -190), 0.6)
 	_kit.interactable(pyre, "Examine", &"examine_bone_pyre", Vector2(0, 8), 80.0, 230.0)
 	var sarcophagus: Node2D = _kit.scene(world, SARCOPHAGUS, "Sarcophagus", Vector2(1850, 1250))
 	_kit.interactable(sarcophagus, "Examine", &"examine_sarcophagus", Vector2(0, 8), 72.0, 140.0)

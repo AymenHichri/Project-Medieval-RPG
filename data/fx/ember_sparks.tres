@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FxSpec" format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/effects/ambient/effects/ember_burst/godot/ember_burst_spriteframes.tres" id="1_hmyee"]
+[ext_resource type="Script" path="res://scripts/resources/fx_spec.gd" id="2_eqlc6"]
+
+[resource]
+script = ExtResource("2_eqlc6")
+frames = ExtResource("1_hmyee")
+scale = 0.8

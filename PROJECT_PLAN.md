@@ -63,6 +63,8 @@ Full detail is in `ASSET_ANALYSIS.md`. Summary:
 | Boss | Blade Assassin (2 forms, enraged, stagger, injured idles, 4 FX) | ⚙ Config | Two-phase chapter boss |
 | Environments | Village, Castle Courtyard, Necropolis (128 px grid, 4 palettes each) | ⚙ Config (needs Godot ≥4.3) | Maps; battle-background composites |
 | Weather / FX | Rain, snow, fog, cloud shadow, lightning, splashes | ✅ Ready | Map mood; lightning = "Thunder" spell FX |
+| Battle / map FX (added 2026-11-17) | SovDigital spell effects (frost ×4 colours, shadow orb, energy burst), spell patterns (fire nova, arcane spirals, shadow orbit), projectiles (fire, arrow), blood splash (4 colours), ambient (embers, smoke, sparks, steam, dust, toxic gas) | ✅ In use | `FxSpec` + `BattleFx` (hits, Ember, healing); embers and smoke on the graveyard bone pyre. Unused effects are kept for Phase 8–10 spells and statuses |
+| HD item icons (added 2026-11-17) | SovDigital Inventory UI kit: 5 icons + 5 equipment-slot silhouettes (the kit's panels/slots are not used, D6) | ✅ Partial | Minor Potion icon; Phase 9 equipment slots |
 | Ambience | MIT-0 day/dusk/night/storm/fog/blood-moon controller | ⚙ Config | Map mood presets |
 | UI | Gimble's kit: iron 9-slice panel + tooltip, red button (4 states), bar frame + red fill, 36 px slots, 2 cursors | ✅ Ready (2× files) · ⚙ MP fill needs recolour | Theme, HUD, menus, target cursor |
 | Item icons | Gimble's: 15 items (longsword, axe, bow, helm, kite shield, health/mana potion, holy water, grimoire, soul gem, skull key, old map, silver stake, gold coins, torch) at 32/64/128 px | ✅ Ready | Item/equipment icons |

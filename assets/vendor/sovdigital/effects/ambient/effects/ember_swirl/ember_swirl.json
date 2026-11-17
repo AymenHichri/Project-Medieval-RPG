@@ -1,0 +1,21 @@
+{
+  "name": "ember swirl",
+  "description": "embers spiralling up from a fire (seamless loop)",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        256,
+        280
+      ],
+      "frames": 8,
+      "fps": 12,
+      "loop": true,
+      "pivot": [
+        128,
+        256
+      ]
+    }
+  },
+  "pivot_note": "Pivot (x, y in pixels inside each frame): the point to place on the ground or at the source of the effect."
+}

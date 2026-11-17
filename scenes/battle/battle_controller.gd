@@ -47,6 +47,7 @@ var _running: bool = false
 @onready var target_selector: TargetSelector = %TargetSelector
 @onready var results_screen: ResultsScreen = %ResultsScreen
 @onready var _popups: Control = %Popups
+@onready var _fx: Node2D = %Fx
 
 
 ## Runs the whole battle and returns its result (also emitted as `finished`).
@@ -65,6 +66,7 @@ func start(setup: BattleSetup, party: Array[Combatant], rng: RandomNumberGenerat
 	_spawn_sprites()
 	hud.bind(engine.party)
 	presenter.setup(sprites, hud, message, _popups, instant)
+	presenter.fx_layer = _fx
 
 	await presenter.intro(setup.intro_text if not setup.intro_text.is_empty() else intro_text(engine.enemies))
 	while engine.outcome() == BattleEngine.Outcome.ONGOING:

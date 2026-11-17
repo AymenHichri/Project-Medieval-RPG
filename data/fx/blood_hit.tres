@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FxSpec" format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/effects/blood/effects/blood_splash_medium/godot/blood_splash_medium_spriteframes.tres" id="1_gulxj"]
+[ext_resource type="Script" path="res://scripts/resources/fx_spec.gd" id="2_apm5s"]
+
+[resource]
+script = ExtResource("2_apm5s")
+frames = ExtResource("1_gulxj")
+scale = 0.8
+mirror_for_facing = true

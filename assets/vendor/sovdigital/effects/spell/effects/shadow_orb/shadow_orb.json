@@ -1,0 +1,27 @@
+{
+  "name": "shadow orb",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        256,
+        256
+      ],
+      "frames": 6,
+      "fps": 12,
+      "loop": false
+    },
+    "effect_smooth": {
+      "sheet": "effect_smooth.png",
+      "frame_size": [
+        256,
+        256
+      ],
+      "frames": 12,
+      "fps": 24,
+      "loop": false,
+      "smooth_of": "effect"
+    }
+  },
+  "pivot_note": "Pivot is the centre point of the effect inside each frame (x, y in pixels)."
+}

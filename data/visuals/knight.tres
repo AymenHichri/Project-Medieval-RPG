@@ -1,14 +1,15 @@
 [gd_resource type="Resource" script_class="CombatantVisual" format=3]
 
-[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/moves/whirlwind_ring/godot/whirlwind_ring_spriteframes.tres" id="1_hjh12"]
-[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/moves/charged_strike/godot/charged_strike_spriteframes.tres" id="2_kuae8"]
-[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/moves/combo/godot/combo_spriteframes.tres" id="3_osinj"]
-[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="4_r10rd"]
-[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/godot/knight_spriteframes.tres" id="5_ck6ng"]
+[ext_resource type="Resource" path="res://data/fx/blood_hit.tres" id="1_kuae8"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/moves/whirlwind_ring/godot/whirlwind_ring_spriteframes.tres" id="2_osinj"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/moves/charged_strike/godot/charged_strike_spriteframes.tres" id="3_r10rd"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/moves/combo/godot/combo_spriteframes.tres" id="4_ck6ng"]
+[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="5_57i3t"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/godot/knight_spriteframes.tres" id="6_gg26a"]
 
 [resource]
-script = ExtResource("4_r10rd")
-sprite_frames = ExtResource("5_ck6ng")
+script = ExtResource("5_57i3t")
+sprite_frames = ExtResource("6_gg26a")
 battle_scale = 1.2
 offset = Vector2(0, -83)
 facing = &"E"
@@ -25,10 +26,10 @@ anim_map = Dictionary[StringName, StringName]({
 &"whirlwind": &"whirlwind_ring_E"
 })
 move_frames = Dictionary[StringName, SpriteFrames]({
-&"cast": ExtResource("2_kuae8"),
-&"charged_strike": ExtResource("2_kuae8"),
-&"combo": ExtResource("3_osinj"),
-&"whirlwind": ExtResource("1_hjh12")
+&"cast": ExtResource("3_r10rd"),
+&"charged_strike": ExtResource("3_r10rd"),
+&"combo": ExtResource("4_ck6ng"),
+&"whirlwind": ExtResource("2_osinj")
 })
 hit_frame = 4
 hit_frames = Dictionary[StringName, int]({
@@ -42,3 +43,4 @@ last_frames = Dictionary[StringName, int]({
 &"cast": 6
 })
 height = 164.0
+hit_fx = ExtResource("1_kuae8")

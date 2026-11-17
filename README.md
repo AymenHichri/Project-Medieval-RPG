@@ -93,7 +93,7 @@ These systems exist in the repository and are covered by automated tests. Most o
 | **Slice flow** | Final title screen with a live graveyard backdrop, a new-game intro card, a pause menu (party summary, settings, quit to title), a settings menu (volume sliders, fullscreen, text speed, saved to `user://settings.cfg`), a rest point (the village well) and a Game Over screen |
 | **Random encounters** | Encounter zones with step-based rolls, a grace period after entering a map or finishing a battle, and weighted enemy groups including a rare group |
 | **Battle logic** | A deterministic, node-free rules engine: turn order, physical and magic damage, critical hits, elemental affinities, Defend, Flee, enemy AI, rewards, and two-phase enemy support |
-| **Battle presentation** | Side-view battle scene with command menu, target selection, HP/MP bars, damage popups, battle messages and a results screen |
+| **Battle presentation** | Side-view battle scene with command menu, target selection, HP/MP bars, damage popups, battle messages, hit and spell effects (blood, sparks, embers, fire impacts, healing bursts) and a results screen |
 | **World ↔ battle loop** | Walking into an encounter starts a battle and returns the player to the same position afterwards |
 | **Content data** | One playable character (Knight); four enemies (Wolf, Goblin Scout, Skeleton, Charred Skeleton); five skills (Attack, Charged Strike, Whirlwind, Ember, Minor Heal); one item (Minor Potion); six status effects (Bleed, Burn, Curse, Blessed, Sleep, Stun) |
 | **UI foundation** | A generated theme and colour palette (including sliders, check boxes, option buttons and tabs), UI sounds wired into every menu, and a typography specimen scene |
@@ -308,7 +308,7 @@ The full and current list is in [`CREDITS.md`](CREDITS.md), and the licence of e
 
 | Asset | Creator | Licence |
 |---|---|---|
-| Knight, Wolf, Skeleton, Goblin Scout, Blade Assassin; Medieval Village, Castle Courtyard and Necropolis tilesets; Weather Effects | [SovDigital](https://sovdigital.itch.io) | SovDigital free licence (`LICENSE.txt` in each pack folder) |
+| Knight, Wolf, Skeleton, Goblin Scout, Blade Assassin; Medieval Village, Castle Courtyard and Necropolis tilesets; Weather Effects; Spell, Spell Pattern, Projectile, Blood Splash and Ambient effects; Inventory UI & Rarity Kit (icons only) | [SovDigital](https://sovdigital.itch.io) | SovDigital free licence (`LICENSE.txt` in each pack folder) |
 | Ambience and weather scripts and shaders | [SovDigital](https://sovdigital.itch.io) | MIT-0 |
 | Dark Fantasy Kit Sampler (UI, icons, portraits, battle backgrounds) | "Art by Gimble's Games", [gimblesgames.itch.io](https://gimblesgames.itch.io) | Gimble's free licence (`assets/vendor/gimbles/LICENSE.txt`). The vendor states this art was made with AI-assisted generation |
 | `dfgui` UI kit (bars, icons, frames) | **Unknown** | **Unknown: to be confirmed before release** |

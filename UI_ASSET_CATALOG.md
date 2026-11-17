@@ -23,6 +23,10 @@ _Status: draft v1 (2026-11-13). Inventory of UI assets available today, a mappin
 | Slots | `slot_normal_36x36`, `slot_selected_36x36` | 36² | For 32 px icons, offset 2,2 |
 | Cursors | `cursor_gauntlet_16` (hotspot 5,0), `cursor_sword_16` (0,0) | 16² | Menu pointer and mouse cursor |
 | Item icons | longsword, battle axe, longbow, iron helm, kite shield, health potion, mana potion, holy water, grimoire, soul gem, skull key, old map, silver stake, gold coins, torch | 32/64/128 | |
+
+**SovDigital Inventory UI & Rarity Kit (added 2026-11-17, partial use).** HD painted, like the world sprites. Its panels, slots, tabs and rarity frames are **not** used: they would clash with the pixel UI layer (decision D6), and the kit has no buttons, bars, cursor or portraits. Extracted to `assets/vendor/sovdigital/inventory_ui/`:
+- HD item icons (64/128 px, transparent): `flask-round-large` (**Minor Potion**, in use), `long-sword`, `ring-gold-ruby`, `key-gold`, `chest-open-gold`. Prefer these over the Gimble's icon for the same item; Gimble's covers the rest. Show them at their native size (no scaling).
+- Equipment-slot silhouettes (64/128 px) for Phase 9: `main-hand` (Weapon), `off-hand` (Shield), `head` (Helm), `ring` / `amulet` (Accessory).
 | HUD/status icons | bleeding, burning, cursed, blessed, fire, talk, locked, quest, health, gold | 32/64/128 | |
 | Portraits | knight, witch hunter, witch, vampire lord, skeleton warrior, werewolf | 64/128/256 framed and transparent | |
 | Battle backgrounds | haunted forest, graveyard | 320×180 native, up to 1920×1080 | True side view |

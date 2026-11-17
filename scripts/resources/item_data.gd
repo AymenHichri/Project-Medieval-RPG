@@ -16,4 +16,6 @@ enum Effect { HEAL_HP, HEAL_MP, CURE_STATUS, REVIVE, DAMAGE }
 @export_range(0, 9999) var amount: int = 0
 ## Statuses removed by CURE_STATUS (empty = all).
 @export var cures: Array[StatusEffectData] = []
+## Effect the battle presenter plays on each target when the item is used (null = none).
+@export var impact_fx: FxSpec
 @export_multiline var description: String = ""

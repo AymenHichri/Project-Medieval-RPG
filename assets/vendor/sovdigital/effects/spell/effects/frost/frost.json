@@ -1,0 +1,43 @@
+{
+  "name": "frost (from Elemental Spell Kits)",
+  "clips": {
+    "cast": {
+      "sheet": "cast.png",
+      "frame_size": [
+        304,
+        304
+      ],
+      "frames": 6,
+      "fps": 12.0,
+      "loop": false,
+      "pivot": [
+        152.0,
+        152.0
+      ],
+      "layer": "front",
+      "additive": false,
+      "attach": "hand",
+      "description": "the power gathers and releases at the casting point"
+    },
+    "impact": {
+      "sheet": "impact.png",
+      "frame_size": [
+        304,
+        304
+      ],
+      "frames": 8,
+      "fps": 16.0,
+      "loop": false,
+      "pivot": [
+        152.0,
+        152.0
+      ],
+      "layer": "front",
+      "additive": false,
+      "attach": "target",
+      "description": "the projectile hitting its target"
+    }
+  },
+  "pivot_note": "Pivot is the anchor point inside each frame (x, y in pixels): the centre, or for directional clips the origin point.",
+  "layer_note": "layer: ground = draw under characters; front = draw over them."
+}

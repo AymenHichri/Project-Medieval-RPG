@@ -24,6 +24,7 @@ enum Effect { DAMAGE, HEAL }
 @export_range(0.0, 1.0, 0.01) var inflict_chance: float = 0.0
 ## Logical animation the presenter plays (Phase 5), e.g. &"whirlwind".
 @export var anim_key: StringName = &"attack"
-## Effect scene the presenter spawns on the targets (Phase 5).
-@export var fx: PackedScene
+## Effect the presenter plays on each target as the skill lands (null = the target's own hit
+## effect for physical damage, nothing otherwise).
+@export var impact_fx: FxSpec
 @export_multiline var description: String = ""

@@ -1,0 +1,21 @@
+{
+  "name": "steam vent",
+  "description": "steam rising from a vent (seamless loop)",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        256,
+        320
+      ],
+      "frames": 8,
+      "fps": 10,
+      "loop": true,
+      "pivot": [
+        128,
+        299
+      ]
+    }
+  },
+  "pivot_note": "Pivot (x, y in pixels inside each frame): the point to place on the ground or at the source of the effect."
+}

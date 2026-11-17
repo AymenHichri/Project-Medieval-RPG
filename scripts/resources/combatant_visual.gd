@@ -25,6 +25,8 @@ extends Resource
 @export var last_frames: Dictionary[StringName, int] = {}
 ## Visible height above the feet at scale 1 (px): places HP bars, popups and the target cursor.
 @export var height: float = 150.0
+## Effect played on this combatant when a physical blow lands (blood, sparks; null = none).
+@export var hit_fx: FxSpec
 
 
 ## The SpriteFrames that hold logical animation `anim` (null if the visual has none).

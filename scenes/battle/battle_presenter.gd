@@ -5,6 +5,10 @@ extends Node
 ## already applied every event when it hands them over, so the presenter keeps its own "shown"
 ## HP/MP per combatant and moves it event by event: bars and numbers change on each hit.
 ##
+## Effects (FxSpec, SovDigital effect packs) play on each target as damage or healing lands: the
+## skill's or item's `impact_fx`, else the target's own `hit_fx` for a physical blow. Status ticks
+## play none.
+##
 ## One action's events are played as a unit: the actor's message, the step forward and the attack
 ## animation, then the effects (damage, statuses, defeats…) together on the hit frame, then the
 ## step back. Every BattleEvent.Type has a handler (`has_handler`), checked by a test.
@@ -50,6 +54,12 @@ var sprites: Dictionary[Combatant, BattleSprite] = {}
 var hud: BattleHud
 var message: BattleMessage
 var popup_layer: Control
+## Where battle effects are added (above the battlers). Null = no effects.
+var fx_layer: Node2D
+## Effects spawned so far (tests; counted in instant mode too, where nothing is shown).
+var fx_count: int = 0
+## The action being shown (its skill or item picks the impact effect).
+var _action: BattleAction
 
 var _handlers: Dictionary[BattleEvent.Type, Callable] = {}
 var _shown_hp: Dictionary[Combatant, int] = {}
@@ -144,6 +154,7 @@ func _play_action(start: BattleEvent, effects: Array[BattleEvent]) -> void:
 	var actor: Combatant = start.get_value(&"actor") as Combatant
 	var action: BattleAction = start.get_value(&"action") as BattleAction
 	var sprite: BattleSprite = sprites.get(actor) as BattleSprite
+	_action = action
 	var impact: Array[BattleEvent] = []
 	var failed: BattleEvent = null
 	for e: BattleEvent in effects:
@@ -322,6 +333,8 @@ func _on_damage(e: BattleEvent) -> void:
 		elif e.get_value(&"resisted") as bool:
 			_popup(target, "Resist", DamagePopup.Kind.INFO, _next_stack(target))
 	var sprite: BattleSprite = sprites.get(target) as BattleSprite
+	if amount > 0:
+		_play_fx(choose_fx(_action, e, sprite.visual if sprite != null else null), target)
 	if sprite != null and amount > 0:
 		await sprite.hurt(_shown_hp[target] == 0)
 	if e.get_value(&"source") is StatusEffectData:
@@ -333,6 +346,7 @@ func _on_heal(e: BattleEvent) -> void:
 	var amount: int = e.get_value(&"amount") as int
 	_shown_hp[target] = mini(target.max_hp(), shown_hp(target) + amount)
 	_show_bars(target)
+	_play_fx(choose_fx(_action, e, null), target)
 	_popup(target, str(amount), DamagePopup.Kind.HEAL, _next_stack(target))
 	if e.get_value(&"source") is StatusEffectData:
 		await _wait(TICK_SECONDS)
@@ -471,6 +485,45 @@ func _show_bars(c: Combatant, animate: bool = true) -> void:
 			hud.show_values(c, hp, mp, animate and not instant)
 	elif sprites.has(c):
 		sprites[c].set_hp_shown(hp, c.max_hp(), animate)
+
+
+# --- effects --------------------------------------------------------------------------------
+
+## The effect for one damage/heal event of `action` on a target with `target_visual`: the skill's
+## or item's `impact_fx`; else, for physical damage (Attack or a non-spell skill), the target's
+## `hit_fx`. Status ticks (event source = a StatusEffectData) and anything else get none.
+static func choose_fx(action: BattleAction, e: BattleEvent, target_visual: CombatantVisual) -> FxSpec:
+	if action == null or e.get_value(&"source") is StatusEffectData:
+		return null
+	if action.skill != null and action.skill.impact_fx != null:
+		return action.skill.impact_fx
+	if action.item != null and action.item.impact_fx != null:
+		return action.item.impact_fx
+	if e.type != BattleEvent.Type.DAMAGE or target_visual == null:
+		return null
+	var physical: bool = action.kind == BattleAction.Kind.ATTACK or (action.skill != null and not _is_spell(action.skill))
+	return target_visual.hit_fx if physical else null
+
+
+## Canvas position of `spec` on `sprite` (by its anchor).
+static func fx_position(sprite: BattleSprite, spec: FxSpec) -> Vector2:
+	match spec.anchor:
+		FxSpec.Anchor.FEET:
+			return sprite.global_position
+		FxSpec.Anchor.HEAD:
+			return sprite.head_position()
+		_:
+			return sprite.global_position + Vector2(0, -sprite.height() * 0.5)
+
+
+func _play_fx(spec: FxSpec, target: Combatant) -> void:
+	var sprite: BattleSprite = sprites.get(target) as BattleSprite
+	if spec == null or not spec.is_valid() or sprite == null:
+		return
+	fx_count += 1
+	if instant or fx_layer == null:
+		return
+	BattleFx.spawn(fx_layer, spec, fx_position(sprite, spec), spec.mirror_for_facing and sprite.facing_sign() < 0.0)
 
 
 func _next_stack(target: Combatant) -> int:

@@ -137,6 +137,46 @@ def dfgui_rule(name: str) -> str | None:
     return f"assets/vendor/dfgui/1x/{base}"
 
 
+def effects_pack(dest: str) -> Rule:
+    """SovDigital effect packs: effects/<fx>/ and ColourVariations/<colour>/<fx>/ (sheets, JSON, Godot
+    SpriteFrames), LICENSE and README -> assets/vendor/sovdigital/effects/<dest>/. The vendor Fx
+    autoload helper (godot/fx_spawn) is not used: we keep 5 autoloads."""
+    def rule(name: str) -> str | None:
+        if _common_skip(name) or name.endswith(".gd") or "fx_spawn" in name.split("/"):
+            return None
+        parts = name.split("/")
+        if len(parts) == 1 and parts[0] in ("LICENSE.txt", "README.txt"):
+            return f"{SOV}/effects/{dest}/{name}"
+        if parts[0] in ("effects", "ColourVariations"):
+            return f"{SOV}/effects/{dest}/{name}"
+        return None
+
+    return rule
+
+
+## Inventory UI & Rarity Kit: only what the project uses (the rest of the kit's HD UI would clash
+## with the pixel UI layer, decision D6). Item icons for existing/planned items, equipment-slot
+## silhouettes for the Phase 9 slots (Weapon = main-hand, Shield = off-hand, Helm = head, Accessory = ring/amulet).
+INVENTORY_ICONS = ("flask-round-large", "long-sword", "ring-gold-ruby", "key-gold", "chest-open-gold")
+INVENTORY_SLOTS = ("main-hand", "off-hand", "head", "ring", "amulet")
+
+
+def inventory_rule(name: str) -> str | None:
+    if _common_skip(name):
+        return None
+    parts = name.split("/")
+    dest = f"{SOV}/inventory_ui/{name}"
+    if len(parts) == 1 and parts[0] in ("LICENSE.txt", "README.txt"):
+        return dest
+    if parts[0] == "icons" and len(parts) == 3 and parts[1] in INVENTORY_ICONS and "_transparent_" in parts[2]:
+        return dest
+    if parts[0] == "ui" and len(parts) == 3 and parts[1] == "equipment":
+        slot = parts[2].removeprefix("equip_").rsplit("_", 1)[0]
+        if slot in INVENTORY_SLOTS and not parts[2].endswith("_256.png"):
+            return dest
+    return None
+
+
 def combine(*rules: Rule) -> Rule:
     def rule(name: str) -> str | None:
         for r in rules:
@@ -164,6 +204,13 @@ JOBS: list[tuple[str, Rule]] = [
         necropolis_scripts_rule)),
     ("Gimbles_Dark_Fantasy_Kit_Sampler_Free_v1.0.zip", gimbles_rule),
     ("All Assets.zip", dfgui_rule),
+    # Added 2026-11-17: battle and map effects, and a few HD item icons.
+    ("SpellEffectsFree_v1.0.4.zip", effects_pack("spell")),
+    ("FreeSpellPatterns_v1.0.4.zip", effects_pack("spell_patterns")),
+    ("ProjectileEffectsFree_v1.0.2.zip", effects_pack("projectile")),
+    ("FreeBloodSplash_v1.0.5.zip", effects_pack("blood")),
+    ("AmbientEffectsFree_v1.0.0.zip", effects_pack("ambient")),
+    ("InventoryUIRarityKitFree_v1.0.0.zip", inventory_rule),
 ]
 
 

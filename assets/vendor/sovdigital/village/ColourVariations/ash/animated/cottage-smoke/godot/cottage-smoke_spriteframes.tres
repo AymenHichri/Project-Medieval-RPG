@@ -1,6 +1,6 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://cgsvrdu3kwsgu"]
+[gd_resource type="SpriteFrames" load_steps=10 format=3]
 
-[ext_resource type="Texture2D" uid="uid://djrduf4sacpru" path="res://assets/vendor/sovdigital/village/ColourVariations/ash/animated/cottage-smoke/cottage-smoke_strip.png" id="1"]
+[ext_resource type="Texture2D" path="../cottage-smoke_strip.png" id="1"]
 
 [sub_resource type="AtlasTexture" id="f0"]
 atlas = ExtResource("1")
@@ -35,33 +35,4 @@ atlas = ExtResource("1")
 region = Rect2(4137, 0, 591, 884)
 
 [resource]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("f0")
-}, {
-"duration": 1.0,
-"texture": SubResource("f1")
-}, {
-"duration": 1.0,
-"texture": SubResource("f2")
-}, {
-"duration": 1.0,
-"texture": SubResource("f3")
-}, {
-"duration": 1.0,
-"texture": SubResource("f4")
-}, {
-"duration": 1.0,
-"texture": SubResource("f5")
-}, {
-"duration": 1.0,
-"texture": SubResource("f6")
-}, {
-"duration": 1.0,
-"texture": SubResource("f7")
-}],
-"loop": 1,
-"name": &"loop",
-"speed": 8.0
-}]
+animations = [{"frames": [{"duration": 1.0, "texture": SubResource("f0")}, {"duration": 1.0, "texture": SubResource("f1")}, {"duration": 1.0, "texture": SubResource("f2")}, {"duration": 1.0, "texture": SubResource("f3")}, {"duration": 1.0, "texture": SubResource("f4")}, {"duration": 1.0, "texture": SubResource("f5")}, {"duration": 1.0, "texture": SubResource("f6")}, {"duration": 1.0, "texture": SubResource("f7")}], "loop": true, "name": &"loop", "speed": 8.0}]

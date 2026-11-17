@@ -1,0 +1,21 @@
+{
+  "name": "toxic gas",
+  "description": "a low cloud of toxic gas rolling in place (seamless loop)",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        320,
+        256
+      ],
+      "frames": 8,
+      "fps": 10,
+      "loop": true,
+      "pivot": [
+        160,
+        250
+      ]
+    }
+  },
+  "pivot_note": "Pivot (x, y in pixels inside each frame): the point to place on the ground or at the source of the effect."
+}

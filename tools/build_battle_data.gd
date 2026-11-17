@@ -12,17 +12,25 @@ const ENEMY_DIR: String = "res://data/enemies"
 const CHARACTER_DIR: String = "res://data/characters"
 const GROWTH_DIR: String = "res://data/growth"
 const VISUAL_DIR: String = "res://data/visuals"
+const FX_DIR: String = "res://data/fx"
+## SovDigital effect packs (extracted by tools/extract_assets.py).
+const FX: String = "res://assets/vendor/sovdigital/effects/"
 const SOV: String = "res://assets/vendor/sovdigital/"
 const HUD_ICONS: String = "res://assets/vendor/gimbles/hud_icons/64px/"
-const ITEM_ICONS: String = "res://assets/vendor/gimbles/item_icons/64px/"
+## HD item icons from the SovDigital Inventory UI kit, used where the kit has the item (the
+## Gimble's 64 px icons in assets/vendor/gimbles/item_icons/ cover the rest, from Phase 9).
+const HD_ITEM_ICONS: String = "res://assets/vendor/sovdigital/inventory_ui/icons/"
 
 
 var _failed: bool = false
+## Battle effects by id (built first; skills, items and visuals refer to them).
+var _fx: Dictionary[StringName, FxSpec] = {}
 
 
 func _initialize() -> void:
-	for dir: String in [STATUS_DIR, SKILL_DIR, ITEM_DIR, ENEMY_DIR, CHARACTER_DIR, GROWTH_DIR, VISUAL_DIR]:
+	for dir: String in [STATUS_DIR, SKILL_DIR, ITEM_DIR, ENEMY_DIR, CHARACTER_DIR, GROWTH_DIR, VISUAL_DIR, FX_DIR]:
 		DirAccess.make_dir_recursive_absolute(dir)
+	_build_fx()
 	var statuses: Dictionary[StringName, StatusEffectData] = _build_statuses()
 	var skills: Dictionary[StringName, SkillData] = _build_skills(statuses)
 	var potion: ItemData = _build_potion()
@@ -94,12 +102,14 @@ func _build_skills(statuses: Dictionary[StringName, StatusEffectData]) -> Dictio
 	ember.inflict_chance = 0.25
 	ember.anim_key = &"cast"
 	ember.description = "A tongue of flame. May set the target alight."
+	ember.impact_fx = _fx[&"fire_impact"]
 	out[ember.id] = ember
 	var heal: SkillData = _skill(&"minor_heal", "Minor Heal", SkillData.Category.MAGIC, 4, 20, Targeting.Mode.ONE_ALLY)
 	heal.effect = SkillData.Effect.HEAL
 	heal.scaling_stat = &"magic"
 	heal.anim_key = &"cast"
 	heal.description = "Mends a single ally's wounds."
+	heal.impact_fx = _fx[&"heal_burst"]
 	out[heal.id] = heal
 	for id: StringName in out:
 		out[id] = _save(out[id], SKILL_DIR) as SkillData
@@ -110,12 +120,13 @@ func _build_potion() -> ItemData:
 	var potion: ItemData = ItemData.new()
 	potion.id = &"minor_potion"
 	potion.display_name = "Minor Potion"
-	potion.icon = _texture(ITEM_ICONS + "052_health_potion.png")
+	potion.icon = _texture(HD_ITEM_ICONS + "flask-round-large/flask-round-large_transparent_64.png")
 	potion.price = 20
 	potion.target_mode = Targeting.Mode.ONE_ALLY
 	potion.effect = ItemData.Effect.HEAL_HP
 	potion.amount = 40
 	potion.description = "A bitter red draught. Restores 40 HP."
+	potion.impact_fx = _fx[&"potion_burst"]
 	return _save(potion, ITEM_DIR) as ItemData
 
 
@@ -176,6 +187,40 @@ func _build_knight(skills: Dictionary[StringName, SkillData], visual: CombatantV
 	_save(knight, CHARACTER_DIR)
 
 
+# --- effects (FxSpec, SovDigital effect packs) -------------------------------------------------
+
+## Physical hits: blood on the living, sparks off bone, embers off the charred skeleton.
+## Spells and items: a fire impact for Ember, a green burst for healing.
+func _build_fx() -> void:
+	var blood: FxSpec = _fx_spec(&"blood_hit", "blood/effects/blood_splash_medium", &"effect", 0.8)
+	blood.mirror_for_facing = true
+	_fx_spec(&"bone_sparks", "ambient/effects/sparks_burst", &"effect", 0.7)
+	_fx_spec(&"ember_sparks", "ambient/effects/ember_burst", &"effect", 0.8)
+	_fx_spec(&"fire_impact", "projectile/effects/fire", &"impact", 0.9)
+	var heal: FxSpec = _fx_spec(&"heal_burst", "spell/effects/energy_burst", &"effect", 0.4)
+	heal.tint = Color(0.62, 1.0, 0.55)
+	heal.anchor = FxSpec.Anchor.FEET  # a ring on the ground
+	var potion: FxSpec = _fx_spec(&"potion_burst", "spell/effects/energy_burst", &"effect", 0.3)
+	potion.tint = Color(1.0, 0.6, 0.55)
+	potion.anchor = FxSpec.Anchor.FEET
+	for id: StringName in _fx:
+		_fx[id] = _save_as(_fx[id], FX_DIR.path_join(String(id) + ".tres")) as FxSpec
+
+
+func _fx_spec(id: StringName, effect_dir: String, animation: StringName, scale: float) -> FxSpec:
+	var spec: FxSpec = FxSpec.new()
+	var name: String = effect_dir.get_file()
+	var path: String = FX + effect_dir + "/godot/%s_spriteframes.tres" % name
+	spec.frames = load(path) as SpriteFrames
+	if spec.frames == null or not spec.frames.has_animation(animation):
+		push_error("missing effect %s (%s)" % [path, animation])
+		_failed = true
+	spec.animation = animation
+	spec.scale = scale
+	_fx[id] = spec
+	return spec
+
+
 # --- visuals (Phase 5) ----------------------------------------------------------------------
 
 ## Battle scale of every battler: the vendor humanoid is ≈160 px tall at 1.0, small at 1080p.
@@ -212,6 +257,7 @@ func _build_visuals() -> Dictionary[StringName, CombatantVisual]:
 	_add_move(knight, knight_dir, &"cast", "charged_strike")
 	knight.last_frames[&"cast"] = KNIGHT_CAST_LAST_FRAME
 	knight.hit_frames[&"cast"] = KNIGHT_CAST_LAST_FRAME
+	knight.hit_fx = _fx[&"blood_hit"]
 	out[&"knight"] = knight
 
 	var common: Array[StringName] = [&"idle", &"move", &"attack", &"skill", &"cast", &"hurt", &"death"]
@@ -219,21 +265,25 @@ func _build_visuals() -> Dictionary[StringName, CombatantVisual]:
 	var wolf: CombatantVisual = _visual(SOV + "wolf/characters/wolf/", "wolf", &"W", WOLF_HEIGHT, common, renames)
 	wolf.hit_frame = WOLF_ATTACK_HIT
 	wolf.hit_frames = {&"skill": WOLF_ATTACK2_HIT, &"cast": WOLF_ATTACK2_HIT}
+	wolf.hit_fx = _fx[&"blood_hit"]
 	out[&"wolf"] = wolf
 	var goblin: CombatantVisual = _visual(SOV + "goblin_scout/characters/goblin-scout/", "goblin-scout", &"W",
 			GOBLIN_HEIGHT, common, renames)
 	goblin.hit_frame = GOBLIN_ATTACK_HIT
 	goblin.hit_frames = {&"skill": GOBLIN_ATTACK2_HIT, &"cast": GOBLIN_ATTACK2_HIT}
+	goblin.hit_fx = _fx[&"blood_hit"]
 	out[&"goblin_scout"] = goblin
 	# Skeletons have no second attack: skill and cast fall back to stand-ins (BattleSprite).
 	var bones: Array[StringName] = [&"idle", &"move", &"attack", &"hurt", &"death"]
 	var skeleton: CombatantVisual = _visual(SOV + "skeleton/characters/skeleton/", "skeleton", &"W",
 			SKELETON_HEIGHT, bones, {&"move": &"run"})
 	skeleton.hit_frame = SKELETON_ATTACK_HIT
+	skeleton.hit_fx = _fx[&"bone_sparks"]
 	out[&"skeleton"] = skeleton
 	var charred: CombatantVisual = _visual(SOV + "skeleton/ColourVariations/charred/skeleton/", "skeleton", &"W",
 			SKELETON_HEIGHT, bones, {&"move": &"run"})
 	charred.hit_frame = SKELETON_ATTACK_HIT
+	charred.hit_fx = _fx[&"ember_sparks"]
 	out[&"skeleton_charred"] = charred
 
 	for id: StringName in out:

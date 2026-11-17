@@ -1,0 +1,64 @@
+[gd_resource type="SpriteFrames" load_steps=17 format=3]
+
+[ext_resource type="Texture2D" path="../cast.png" id="1"]
+[ext_resource type="Texture2D" path="../impact.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="a0_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a0_1"]
+atlas = ExtResource("1")
+region = Rect2(304, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a0_2"]
+atlas = ExtResource("1")
+region = Rect2(608, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a0_3"]
+atlas = ExtResource("1")
+region = Rect2(912, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a0_4"]
+atlas = ExtResource("1")
+region = Rect2(1216, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a0_5"]
+atlas = ExtResource("1")
+region = Rect2(1520, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a1_0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a1_1"]
+atlas = ExtResource("2")
+region = Rect2(304, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a1_2"]
+atlas = ExtResource("2")
+region = Rect2(608, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a1_3"]
+atlas = ExtResource("2")
+region = Rect2(912, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a1_4"]
+atlas = ExtResource("2")
+region = Rect2(1216, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a1_5"]
+atlas = ExtResource("2")
+region = Rect2(1520, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a1_6"]
+atlas = ExtResource("2")
+region = Rect2(1824, 0, 304, 304)
+
+[sub_resource type="AtlasTexture" id="a1_7"]
+atlas = ExtResource("2")
+region = Rect2(2128, 0, 304, 304)
+
+[resource]
+animations = [{"frames": [{"duration": 1.0, "texture": SubResource("a0_0")}, {"duration": 1.0, "texture": SubResource("a0_1")}, {"duration": 1.0, "texture": SubResource("a0_2")}, {"duration": 1.0, "texture": SubResource("a0_3")}, {"duration": 1.0, "texture": SubResource("a0_4")}, {"duration": 1.0, "texture": SubResource("a0_5")}], "loop": false, "name": &"cast", "speed": 12.0},
+{"frames": [{"duration": 1.0, "texture": SubResource("a1_0")}, {"duration": 1.0, "texture": SubResource("a1_1")}, {"duration": 1.0, "texture": SubResource("a1_2")}, {"duration": 1.0, "texture": SubResource("a1_3")}, {"duration": 1.0, "texture": SubResource("a1_4")}, {"duration": 1.0, "texture": SubResource("a1_5")}, {"duration": 1.0, "texture": SubResource("a1_6")}, {"duration": 1.0, "texture": SubResource("a1_7")}], "loop": false, "name": &"impact", "speed": 16.0}]

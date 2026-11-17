@@ -1,0 +1,35 @@
+{
+  "name": "arcane spiral 2 cw",
+  "clips": {
+    "effect": {
+      "sheet": "effect.png",
+      "frame_size": [
+        614,
+        498
+      ],
+      "frames": 24,
+      "fps": 12,
+      "loop": true,
+      "pivot": [
+        307,
+        249
+      ]
+    },
+    "effect_smooth": {
+      "sheet": "effect_smooth.png",
+      "frame_size": [
+        614,
+        498
+      ],
+      "frames": 48,
+      "fps": 24,
+      "loop": true,
+      "pivot": [
+        307,
+        249
+      ],
+      "smooth_of": "effect"
+    }
+  },
+  "pivot_note": "Pivot is the centre point of the effect inside each frame (x, y in pixels)."
+}

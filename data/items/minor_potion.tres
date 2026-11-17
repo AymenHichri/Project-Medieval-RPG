@@ -1,14 +1,16 @@
 [gd_resource type="Resource" script_class="ItemData" format=3]
 
-[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_eqopv"]
-[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/052_health_potion.png" id="2_xi6cv"]
-[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="3_hseob"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_xi6cv"]
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/inventory_ui/icons/flask-round-large/flask-round-large_transparent_64.png" id="2_hseob"]
+[ext_resource type="Resource" path="res://data/fx/potion_burst.tres" id="3_hnhcv"]
+[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="4_p81pi"]
 
 [resource]
-script = ExtResource("3_hseob")
+script = ExtResource("4_p81pi")
 id = &"minor_potion"
 display_name = "Minor Potion"
-icon = ExtResource("2_xi6cv")
+icon = ExtResource("2_hseob")
 price = 20
 amount = 40
+impact_fx = ExtResource("3_hnhcv")
 description = "A bitter red draught. Restores 40 HP."
