@@ -1,4 +1,6 @@
-"""Record or verify SHA-256 checksums of the original asset zips in assests/.
+"""Record or verify SHA-256 checksums of the original asset zips in assests/ and its subfolders
+(audio_sources/ = original audio downloads, later/ = packs kept for later phases, not extracted yet).
+Names are recorded as paths relative to assests/ with forward slashes.
 
 Usage (run from the project root, with `python -I`):
     python -I tools/verify_source_assets.py --record   # write tools/source_assets.sha256
@@ -23,7 +25,13 @@ def sha256(path: str) -> str:
 
 
 def current() -> dict:
-    return {n: sha256(os.path.join(SRC, n)) for n in sorted(os.listdir(SRC)) if n.lower().endswith(".zip")}
+    found = {}
+    for dirpath, _dirs, files in os.walk(SRC):
+        for n in files:
+            if n.lower().endswith(".zip"):
+                full = os.path.join(dirpath, n)
+                found[os.path.relpath(full, SRC).replace(os.sep, "/")] = sha256(full)
+    return dict(sorted(found.items()))
 
 
 def main() -> int:

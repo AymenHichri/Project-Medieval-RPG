@@ -59,7 +59,7 @@ _Status: draft v1 (2026-11-13). Musical direction, sound categories, technical s
 | Originals | Original downloads (zip plus licence) are kept untouched in `assests/audio_sources/`; only processed copies go into `assets/audio/` |
 | Variation | Every frequent SFX has ≥ 3 variants or ±5% random pitch, so repeats don't sound mechanical |
 
-## 5. Audio architecture (design only; implemented in Phases 1, 6, 7 and 12)
+## 5. Audio architecture (design only; implemented in Phases 1, 6, 7, 7A and 12)
 
 To keep the project's "5 autoloads" rule, there is **one** `AudioManager` autoload that **composes** the three requested managers as child nodes with their own `class_name`. Each manager has one job and its own tests.
 

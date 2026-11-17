@@ -5,7 +5,7 @@
 *.tmp
 
 # Original downloaded asset zips (2.6 GB) — never committed; checksums in tools/source_assets.sha256
-assests/*.zip
+assests/**/*.zip
 
 # OS / editor noise
 Thumbs.db
