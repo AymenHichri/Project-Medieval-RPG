@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_d2b1b"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/037_iron_helm.png" id="2_uoj81"]
+[ext_resource type="Script" path="res://scripts/resources/equipment_data.gd" id="3_d43kj"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="4_5s5wf"]
+
+[sub_resource type="Resource" id="Resource_phfrf"]
+script = ExtResource("4_5s5wf")
+max_hp = 10
+defense = 3
+
+[resource]
+script = ExtResource("3_d43kj")
+category = 2
+stat_bonus = SubResource("Resource_phfrf")
+id = &"iron_helm"
+display_name = "Iron Helm"
+icon = ExtResource("2_uoj81")
+price = 80
+usable_in_field = false
+usable_in_battle = false
+target_mode = 4
+effect = 7
+description = "A dented iron cap. Max HP +10, DEF +3."

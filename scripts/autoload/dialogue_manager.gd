@@ -4,6 +4,7 @@ extends Node
 ## or interact while `is_active` is true (see `PlayerController.can_act()`).
 ## Supports multi-line text, speaker names, an optional portrait (passed by the NPC), choices,
 ## `goto`, `set_flag`, `give_item` and conditional entry (`conditions.if_flag` → `use`).
+## `say(lines)` shows plain lines without a JSON file (Phase 9: chests, "Found 2 Minor Potion!").
 
 signal dialogue_started(dialogue_id: StringName)
 signal dialogue_finished(dialogue_id: StringName)
@@ -34,9 +35,26 @@ func start(dialogue_id: StringName, portrait: Texture2D = null) -> void:
 	if is_active:
 		push_warning("DialogueManager: '%s' ignored, a dialogue is already open" % dialogue_id)
 		return
-	runner = DialogueRunner.open(dialogue_id, GameState)
-	if runner == null:
+	var opened: DialogueRunner = DialogueRunner.open(dialogue_id, GameState)
+	if opened == null:
 		return
+	await _run(opened, portrait)
+
+
+## Shows plain lines (no speaker) one after another and returns when they are closed. Ignored while
+## another dialogue runs. `id` is what `dialogue_started`/`dialogue_finished` report.
+func say(lines: PackedStringArray, id: StringName = &"message") -> void:
+	if is_active:
+		push_warning("DialogueManager: say() ignored, a dialogue is already open")
+		return
+	var entries: Array = []
+	for line: String in lines:
+		entries.append({"text": line})
+	await _run(DialogueRunner.from_data({"id": String(id), "lines": entries}, GameState), null)
+
+
+func _run(opened: DialogueRunner, portrait: Texture2D) -> void:
+	runner = opened
 	is_active = true
 	dialogue_started.emit(runner.dialogue_id)
 	while not runner.is_finished():

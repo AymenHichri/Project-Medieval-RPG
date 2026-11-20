@@ -19,6 +19,12 @@ const COURTYARD_ASH: String = "res://assets/vendor/sovdigital/castle_courtyard/C
 const COURTYARD_PROP_DIR: String = "res://scenes/world/props/courtyard"
 ## Placeholder portrait for the Elder (Gimble's has no elder; risk R5).
 const ELDER_PORTRAIT: String = "res://assets/vendor/gimbles/portraits/framed/256px/11_witch_hunter.png"
+## Phase 9: the merchant stands in front of the market stall.
+const MERCHANT_AT: Vector2 = Vector2(2420, 1700)
+const MERCHANT_STOCK: Array[StringName] = [
+	&"minor_potion", &"mana_potion", &"holy_water", &"soul_gem", &"warding_torch",
+	&"iron_helm", &"kite_shield", &"battle_axe", &"silver_stake", &"pilgrims_chalice",
+]
 
 const TILE: int = MapBuildKit.TILE
 ## Map size in tiles (32×24 = 4096×3072 px).
@@ -149,6 +155,10 @@ func _build_props(world: Node2D) -> void:
 	# Phase 8: the Warden waits by the road south to the graveyard and joins when asked.
 	_kit.recruit(world, "Warden", Vector2(2300, 2420), &"warden_meet", "W", "res://data/characters/warden.tres",
 			&"warden_joined", &"warden_agreed")
+	# Phase 9: the merchant keeps the market stall; a supply crate between the east cottages holds
+	# the party's first weapon.
+	_kit.merchant(world, "Merchant", MERCHANT_AT, &"merchant_greeting", "S", MERCHANT_STOCK)
+	_kit.chest(world, "ChestLongsword", Vector2(3120, 1470), &"worn_longsword", 1, &"chest_village_longsword")
 
 
 func _build_trees(world: Node2D) -> void:

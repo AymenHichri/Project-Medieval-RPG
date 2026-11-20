@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_gy8cu"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/073_soul_gem.png" id="2_64rba"]
+[ext_resource type="Resource" path="res://data/fx/holy_light.tres" id="3_kq1pk"]
+[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="4_bwfdl"]
+
+[resource]
+script = ExtResource("4_bwfdl")
+id = &"soul_gem"
+display_name = "Soul Gem"
+icon = ExtResource("2_64rba")
+price = 120
+effect = 3
+amount = 50
+impact_fx = ExtResource("3_kq1pk")
+description = "A shard that still holds a heartbeat. Raises a fallen ally with 50 HP."

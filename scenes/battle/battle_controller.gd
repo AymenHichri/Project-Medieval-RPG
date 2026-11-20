@@ -27,7 +27,10 @@ const DEFAULT_BACKGROUND: PackedScene = preload("res://scenes/battle/backgrounds
 var level_up_preview: Callable
 
 var engine: BattleEngine
-## Battle items and their counts. Using one spends it (through the engine's item callback).
+## The party's Inventory (Phase 9): the Items menu lists its battle items and using one removes it
+## from there (through the engine's item callback). Null = the `items` counts below are used.
+var inventory: Inventory
+## Battle items and their counts when there is no inventory (tests, the debug battle).
 var items: Dictionary[ItemData, int] = {}
 var sprites: Dictionary[Combatant, BattleSprite] = {}
 var result: BattleResult
@@ -51,14 +54,16 @@ var _running: bool = false
 
 
 ## Runs the whole battle and returns its result (also emitted as `finished`).
-## `battle_items`: what the party can use (copied; counts go down as items are used).
+## `battle_items`: what the party can use (copied; counts go down as items are used), ignored when
+## `bag` is given: then items come from, and are spent in, that Inventory.
 func start(setup: BattleSetup, party: Array[Combatant], rng: RandomNumberGenerator = null,
-		battle_items: Dictionary[ItemData, int] = {}) -> BattleResult:
+		battle_items: Dictionary[ItemData, int] = {}, bag: Inventory = null) -> BattleResult:
 	assert(not _running, "a BattleController runs one battle")
 	_running = true
 	if rng == null:
 		rng = RandomNumberGenerator.new()
 		rng.randomize()
+	inventory = bag
 	items = battle_items.duplicate()
 	engine = BattleEngine.new()
 	engine.setup(setup, party, rng, _consume_item)
@@ -211,11 +216,11 @@ func _complete_command(member: Combatant, command: StringName) -> BattleAction:
 					return BattleAction.use_skill(member, skill, targets)
 		&"items":
 			while true:
-				var item: ItemData = await command_menu.choose_item(items)
+				var item: ItemData = await command_menu.choose_item(item_counts())
 				if item == null:
 					return null
 				var targets: Array[Combatant] = await _choose_targets(member, item.target_mode,
-						item.effect == ItemData.Effect.REVIVE)
+						item.effect == ItemData.Effect.REVIVE, item.foe_damage > 0)
 				if not targets.is_empty():
 					return BattleAction.use_item(member, item, targets)
 		&"defend":
@@ -226,7 +231,9 @@ func _complete_command(member: Combatant, command: StringName) -> BattleAction:
 
 
 ## Lets the player pick targets for `mode` ([] = cancelled). `fallen` lists defeated allies (Revive).
-func _choose_targets(user: Combatant, mode: Targeting.Mode, fallen: bool = false) -> Array[Combatant]:
+## `and_foes` adds the living enemies after the allies (Holy Water can also be thrown at a foe).
+func _choose_targets(user: Combatant, mode: Targeting.Mode, fallen: bool = false,
+		and_foes: bool = false) -> Array[Combatant]:
 	if mode == Targeting.Mode.SELF:
 		return [user]
 	var side: Array[Combatant] = engine.enemies if Targeting.targets_opponents(mode) else engine.party
@@ -234,20 +241,31 @@ func _choose_targets(user: Combatant, mode: Targeting.Mode, fallen: bool = false
 	for c: Combatant in side:
 		if c.is_alive() != fallen:
 			candidates.append(sprites[c])
+	if and_foes and mode == Targeting.Mode.ONE_ALLY:
+		for c: Combatant in ActionResolver.living(engine.enemies):
+			candidates.append(sprites[c])
 	var all: bool = mode == Targeting.Mode.ALL_ENEMIES or mode == Targeting.Mode.ALL_ALLIES
 	var start: int = maxi(0, candidates.find(sprites.get(user))) if not Targeting.targets_opponents(mode) else 0
 	return await target_selector.choose(candidates, all, start)
 
 
+## The battle items the party has now, with their counts.
+func item_counts() -> Dictionary[ItemData, int]:
+	return inventory.battle_items() if inventory != null else items
+
+
 func _has_items() -> bool:
-	for item: ItemData in items:
-		if items[item] > 0 and item.usable_in_battle:
+	var counts: Dictionary[ItemData, int] = item_counts()
+	for item: ItemData in counts:
+		if counts[item] > 0 and item.usable_in_battle:
 			return true
 	return false
 
 
 ## Engine callback: spends one `item`; false when none is left.
 func _consume_item(item: ItemData) -> bool:
+	if inventory != null:
+		return inventory.remove(item.id)
 	var count: int = items.get(item, 0) as int
 	if count <= 0:
 		return false

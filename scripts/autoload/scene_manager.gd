@@ -160,8 +160,7 @@ func start_battle(setup: BattleSetup) -> BattleResult:
 	is_transitioning = false
 	# Not awaited: the battle's intro message plays while the screen fades in.
 	fade_in(BATTLE_FADE_IN_SECONDS)
-	var result: BattleResult = await _battle.start(setup, GameState.party.combatants(), rng, GameState.battle_items())
-	GameState.sync_battle_items(_battle.items)
+	var result: BattleResult = await _battle.start(setup, GameState.party.combatants(), rng, {}, GameState.inventory)
 	await end_battle(result)
 	return result
 

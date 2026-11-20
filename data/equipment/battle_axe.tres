@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_uagdh"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/015_battle_axe.png" id="2_7bjot"]
+[ext_resource type="Script" path="res://scripts/resources/equipment_data.gd" id="3_c57y3"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="4_pg3my"]
+
+[sub_resource type="Resource" id="Resource_bn6i2"]
+script = ExtResource("4_pg3my")
+max_hp = 0
+attack = 12
+agility = -2
+
+[resource]
+script = ExtResource("3_c57y3")
+stat_bonus = SubResource("Resource_bn6i2")
+id = &"battle_axe"
+display_name = "Battle Axe"
+icon = ExtResource("2_7bjot")
+price = 180
+usable_in_field = false
+usable_in_battle = false
+target_mode = 4
+effect = 7
+description = "A heavy bearded axe. ATK +12, AGI -2."

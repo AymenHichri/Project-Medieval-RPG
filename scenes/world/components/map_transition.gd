@@ -13,6 +13,9 @@ const GROUP: StringName = &"map_transitions"
 @export var target_spawn: StringName = &""
 ## Size of the trigger rectangle (px), centred on this node.
 @export var size: Vector2 = Vector2(256, 96)
+## Named SFX library sound played as the player goes through (Phase 9: `door` for doors and
+## gates; empty = none, e.g. an open road).
+@export var sound: StringName = &""
 
 @onready var _shape: CollisionShape2D = %Shape
 
@@ -35,6 +38,8 @@ func _on_body_entered(body: Node2D) -> void:
 	var player: PlayerController = body as PlayerController
 	if player == null or not player.input_enabled or SceneManager.is_transitioning:
 		return
+	if not sound.is_empty():
+		AudioManager.sfx.play_ui_named(sound)
 	# Deferred: the old map is freed during the change, which is not allowed inside a
 	# physics callback such as body_entered.
 	SceneManager.change_map.call_deferred(target_map, target_spawn)

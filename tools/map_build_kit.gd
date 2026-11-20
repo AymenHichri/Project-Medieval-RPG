@@ -28,6 +28,10 @@ const INTERACTABLE_SCENE: String = "res://scenes/world/components/interactable.t
 const NPC_SCENE: String = "res://scenes/world/components/npc.tscn"
 const REST_POINT_SCENE: String = "res://scenes/world/components/rest_point.tscn"
 const RECRUIT_NPC_SCENE: String = "res://scenes/world/components/recruit_npc.tscn"
+const SHOP_NPC_SCENE: String = "res://scenes/world/components/shop_npc.tscn"
+const CHEST_SCENE: String = "res://scenes/world/components/chest.tscn"
+const ITEM_DIR: String = "res://data/items"
+const EQUIPMENT_DIR: String = "res://data/equipment"
 const ENCOUNTER_ZONE_SCENE: String = "res://scenes/world/components/encounter_zone.tscn"
 const FOG_SHADER: String = "res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader"
 const FOG_MASK: String = "res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png"
@@ -273,6 +277,41 @@ func recruit(world: Node2D, node_name: String, at: Vector2, dialogue_id: StringN
 	person.joined_flag = joined_flag
 	person.join_if_flag = join_if_flag
 	return person
+
+
+## A merchant who opens the shop after its greeting (Phase 9). `stock`: item / equipment ids.
+func merchant(world: Node2D, node_name: String, at: Vector2, dialogue_id: StringName, facing: String,
+		stock: Array[StringName]) -> ShopNpc:
+	var person: ShopNpc = scene(world, SHOP_NPC_SCENE, node_name, at) as ShopNpc
+	person.dialogue_id = dialogue_id
+	person.facing = facing
+	var items: Array[ItemData] = []
+	for id: StringName in stock:
+		items.append(item(id))
+	person.stock = items
+	return person
+
+
+## A chest opened once (Phase 9): `item_id` × `count` (empty id = gold only), remembered by `flag`.
+func chest(world: Node2D, node_name: String, at: Vector2, item_id: StringName, count: int, flag: StringName,
+		gold: int = 0) -> Chest:
+	var box: Chest = scene(world, CHEST_SCENE, node_name, at) as Chest
+	if not item_id.is_empty():
+		box.item = item(item_id)
+	box.count = count
+	box.gold = gold
+	box.opened_flag = flag
+	return box
+
+
+## An item or equipment resource by id.
+func item(id: StringName) -> ItemData:
+	for dir: String in [ITEM_DIR, EQUIPMENT_DIR]:
+		var path: String = dir.path_join(String(id) + ".tres")
+		if ResourceLoader.exists(path):
+			return load(path) as ItemData
+	push_error("MapBuildKit: unknown item " + String(id))
+	return null
 
 
 ## Adds a RestPoint (full heal + its dialogue) to a placed prop.

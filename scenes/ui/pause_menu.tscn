@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="1_pause"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menus/settings_menu.tscn" id="2_settings"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menus/status_page.tscn" id="3_status"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menus/inventory_page.tscn" id="4_inventory"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menus/equipment_page.tscn" id="5_equipment"]
 
 [node name="PauseMenu" type="CanvasLayer"]
 layer = 30
@@ -45,7 +47,6 @@ theme_override_constants/separation = 24
 [node name="Tabs" type="TabBar" parent="Root/Center/Panel/Content"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_mode = 0
 
 [node name="Body" type="HBoxContainer" parent="Root/Center/Panel/Content"]
 layout_mode = 2
@@ -59,6 +60,16 @@ theme_override_constants/separation = 16
 
 [node name="StatusPage" parent="Root/Center/Panel/Content/Body/Party" instance=ExtResource("3_status")]
 unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InventoryPage" parent="Root/Center/Panel/Content/Body/Party" instance=ExtResource("4_inventory")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="EquipmentPage" parent="Root/Center/Panel/Content/Body/Party" instance=ExtResource("5_equipment")]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="Gold" type="Label" parent="Root/Center/Panel/Content/Body/Party"]

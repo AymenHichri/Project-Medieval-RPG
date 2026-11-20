@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_w4c5l"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/133_gold_coins.png" id="2_ydeju"]
+[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="3_7rxmw"]
+
+[resource]
+script = ExtResource("3_7rxmw")
+id = &"gold_coins"
+display_name = "Gold Coins"
+icon = ExtResource("2_ydeju")
+usable_in_field = false
+usable_in_battle = false
+effect = 6
+amount = 25
+description = "A tarnished handful of crowns. Worth 25 gold."

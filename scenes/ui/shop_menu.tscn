@@ -1,0 +1,127 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/shop_menu.gd" id="1_shop"]
+
+[node name="ShopMenu" type="CanvasLayer"]
+layer = 30
+script = ExtResource("1_shop")
+
+[node name="Root" type="Control" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0706, 0.0588, 0.0784, 0.6)
+
+[node name="Center" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1400, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="Root/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Header" type="HBoxContainer" parent="Root/Center/Panel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Title" type="Label" parent="Root/Center/Panel/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderLabel"
+text = "Merchant"
+
+[node name="Gold" type="Label" parent="Root/Center/Panel/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"NameLabel"
+
+[node name="Body" type="HBoxContainer" parent="Root/Center/Panel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Buttons" type="VBoxContainer" parent="Root/Center/Panel/Content/Body"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BuyButton" type="Button" parent="Root/Center/Panel/Content/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+toggle_mode = true
+text = "Buy"
+
+[node name="SellButton" type="Button" parent="Root/Center/Panel/Content/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+toggle_mode = true
+text = "Sell"
+
+[node name="LeaveButton" type="Button" parent="Root/Center/Panel/Content/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+text = "Leave"
+
+[node name="Scroll" type="ScrollContainer" parent="Root/Center/Panel/Content/Body"]
+custom_minimum_size = Vector2(620, 560)
+layout_mode = 2
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="List" type="VBoxContainer" parent="Root/Center/Panel/Content/Body/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Detail" type="VBoxContainer" parent="Root/Center/Panel/Content/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="ItemName" type="Label" parent="Root/Center/Panel/Content/Body/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+
+[node name="Owned" type="Label" parent="Root/Center/Panel/Content/Body/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+
+[node name="ItemDescription" type="Label" parent="Root/Center/Panel/Content/Body/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_type_variation = &"BodyLabel"
+autowrap_mode = 3
+
+[node name="Message" type="Label" parent="Root/Center/Panel/Content/Body/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_type_variation = &"LoreLabel"
+autowrap_mode = 3

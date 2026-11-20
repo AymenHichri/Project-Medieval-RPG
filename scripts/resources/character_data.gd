@@ -11,3 +11,7 @@ extends Resource
 @export var visual: CombatantVisual
 @export var starting_skills: Array[SkillData] = []
 @export var skill_unlocks: Array[SkillUnlock] = []
+## The equipment slots this character can fill (Phase 9). A slot left out stays empty.
+@export var allowed_equipment: Array[EquipmentData.Category] = [
+	EquipmentData.Category.WEAPON, EquipmentData.Category.SHIELD,
+	EquipmentData.Category.HELM, EquipmentData.Category.ACCESSORY]

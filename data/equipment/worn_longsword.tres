@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_lbc2b"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/001_worn_longsword.png" id="2_a17gm"]
+[ext_resource type="Script" path="res://scripts/resources/equipment_data.gd" id="3_fijvh"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="4_kwt11"]
+
+[sub_resource type="Resource" id="Resource_8nvb6"]
+script = ExtResource("4_kwt11")
+max_hp = 0
+attack = 6
+
+[resource]
+script = ExtResource("3_fijvh")
+stat_bonus = SubResource("Resource_8nvb6")
+id = &"worn_longsword"
+display_name = "Worn Longsword"
+icon = ExtResource("2_a17gm")
+price = 60
+usable_in_field = false
+usable_in_battle = false
+target_mode = 4
+effect = 7
+description = "Nicked and dull, but it holds an edge. ATK +6."

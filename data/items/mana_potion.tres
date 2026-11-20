@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_cqxrg"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/053_mana_potion.png" id="2_2lr3n"]
+[ext_resource type="Resource" path="res://data/fx/potion_burst.tres" id="3_oxnmb"]
+[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="4_vdrt3"]
+
+[resource]
+script = ExtResource("4_vdrt3")
+id = &"mana_potion"
+display_name = "Mana Potion"
+icon = ExtResource("2_2lr3n")
+price = 30
+effect = 1
+amount = 15
+impact_fx = ExtResource("3_oxnmb")
+description = "A cold blue tincture that tastes of iron. Restores 15 MP."

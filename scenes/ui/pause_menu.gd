@@ -1,19 +1,26 @@
 class_name PauseMenu
 extends CanvasLayer
 ## Exploration pause menu (PROJECT_PLAN.md Phase 7): opened with `menu` (or the HUD's MENU button)
-## while the player can act. Pauses the game. Gimble's panel with a tab list (Party now; Items,
-## Equipment and Journal arrive in Phases 9–10 and are shown disabled), the Party tab's status
-## page (Phase 8: StatusPage), and Resume / Settings / Quit to Title. `cancel` or `menu` closes it
-## (or the settings page first).
+## while the player can act. Pauses the game. Gimble's panel with a tab bar (Party: StatusPage,
+## Phase 8; Items: InventoryPage and Equipment: EquipmentPage, Phase 9; Journal arrives in
+## Phase 10 and is shown disabled), the gold, and Resume / Settings / Quit to Title. The tab bar
+## takes focus (left/right switches tabs). `cancel` steps back inside a page first (choosing a
+## target or a piece of gear), else closes the menu; `menu` always closes it.
 
 signal opened
 signal closed
 
-## Tabs in order; only the first exists so far.
+## Tabs in order (Journal arrives in Phase 10).
 const TABS: PackedStringArray = ["Party", "Items", "Equipment", "Journal"]
+const TAB_PARTY: int = 0
+const TAB_ITEMS: int = 1
+const TAB_EQUIPMENT: int = 2
+const TAB_JOURNAL: int = 3
 
 @onready var _tabs: TabBar = %Tabs
 @onready var status_page: StatusPage = %StatusPage
+@onready var inventory_page: InventoryPage = %InventoryPage
+@onready var equipment_page: EquipmentPage = %EquipmentPage
 @onready var _gold: Label = %Gold
 @onready var _resume: Button = %ResumeButton
 @onready var _settings_button: Button = %SettingsButton
@@ -26,11 +33,13 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i: int in TABS.size():
 		_tabs.add_tab(TABS[i])
-		_tabs.set_tab_disabled(i, i > 0)
+		_tabs.set_tab_disabled(i, i == TAB_JOURNAL)
+	_tabs.tab_changed.connect(show_tab)
 	_resume.pressed.connect(close)
 	_settings_button.pressed.connect(_on_settings_pressed)
 	_quit.pressed.connect(_on_quit_pressed)
 	settings_menu.closed.connect(_on_settings_closed)
+	GameState.gold_changed.connect(_on_gold_changed)
 	UiSounds.attach(_panel)
 	visible = false
 
@@ -63,9 +72,38 @@ func close() -> void:
 	closed.emit()
 
 
-## Rewrites the Party tab and the gold from GameState.
+## Rewrites the shown tab and the gold from GameState.
 func refresh() -> void:
-	status_page.refresh(status_page.shown)
+	show_tab(_tabs.current_tab)
+
+
+## Shows one tab's page (Party, Items or Equipment) and refreshes it.
+func show_tab(tab: int) -> void:
+	if _tabs.current_tab != tab:
+		_tabs.set_current_tab(tab)  # Emits tab_changed, which calls this again.
+		return
+	status_page.visible = tab == TAB_PARTY
+	inventory_page.visible = tab == TAB_ITEMS
+	equipment_page.visible = tab == TAB_EQUIPMENT
+	match tab:
+		TAB_PARTY:
+			status_page.refresh(status_page.shown)
+		TAB_ITEMS:
+			inventory_page.refresh()
+		TAB_EQUIPMENT:
+			equipment_page.refresh()
+	_refresh_gold()
+
+
+func current_tab() -> int:
+	return _tabs.current_tab
+
+
+func _on_gold_changed(_gold_now: int) -> void:
+	_refresh_gold()
+
+
+func _refresh_gold() -> void:
 	_gold.text = "Gold  %d" % GameState.gold
 
 
@@ -98,7 +136,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if settings_menu.visible:
 		return  # The settings page handles its own `cancel`.
+	if event.is_action_pressed(&"cancel") and _page_steps_back():
+		get_viewport().set_input_as_handled()
+		UiSounds.cancel()
+		_refresh_gold()
+		return
 	if event.is_action_pressed(&"cancel") or event.is_action_pressed(&"menu"):
 		get_viewport().set_input_as_handled()
 		UiSounds.cancel()
 		close()
+
+
+## Lets the shown page undo its sub-step (target or gear choice). True when it did.
+func _page_steps_back() -> bool:
+	if inventory_page.visible:
+		return inventory_page.handle_cancel()
+	if equipment_page.visible:
+		return equipment_page.handle_cancel()
+	return false

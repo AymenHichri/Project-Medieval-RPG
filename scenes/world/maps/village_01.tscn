@@ -40,6 +40,20 @@
 [ext_resource type="Resource" path="res://data/audio/music/mus_town_hamlet.tres" id="audio_music"]
 [ext_resource type="PackedScene" path="res://scenes/world/components/recruit_npc.tscn" id="80_recruit"]
 [ext_resource type="Resource" path="res://data/characters/warden.tres" id="81_warden"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/shop_npc.tscn" id="90_shop"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/chest.tscn" id="91_chest"]
+[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="92_item_data"]
+[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="93_minor_potion"]
+[ext_resource type="Resource" path="res://data/items/mana_potion.tres" id="94_mana_potion"]
+[ext_resource type="Resource" path="res://data/items/holy_water.tres" id="95_holy_water"]
+[ext_resource type="Resource" path="res://data/items/soul_gem.tres" id="96_soul_gem"]
+[ext_resource type="Resource" path="res://data/items/warding_torch.tres" id="97_warding_torch"]
+[ext_resource type="Resource" path="res://data/equipment/iron_helm.tres" id="98_iron_helm"]
+[ext_resource type="Resource" path="res://data/equipment/kite_shield.tres" id="99_kite_shield"]
+[ext_resource type="Resource" path="res://data/equipment/battle_axe.tres" id="100_battle_axe"]
+[ext_resource type="Resource" path="res://data/equipment/silver_stake.tres" id="101_silver_stake"]
+[ext_resource type="Resource" path="res://data/equipment/pilgrims_chalice.tres" id="102_pilgrims_chalice"]
+[ext_resource type="Resource" path="res://data/equipment/worn_longsword.tres" id="103_worn_longsword"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h2o4h"]
 normal = Vector2(1, 0)
@@ -223,6 +237,16 @@ dialogue_id = &"warden_meet"
 character = ExtResource("81_warden")
 joined_flag = &"warden_joined"
 join_if_flag = &"warden_agreed"
+
+[node name="Merchant" parent="World" instance=ExtResource("90_shop")]
+position = Vector2(2420, 1700)
+stock = Array[ExtResource("92_item_data")]([ExtResource("93_minor_potion"), ExtResource("94_mana_potion"), ExtResource("95_holy_water"), ExtResource("96_soul_gem"), ExtResource("97_warding_torch"), ExtResource("98_iron_helm"), ExtResource("99_kite_shield"), ExtResource("100_battle_axe"), ExtResource("101_silver_stake"), ExtResource("102_pilgrims_chalice")])
+dialogue_id = &"merchant_greeting"
+
+[node name="ChestLongsword" parent="World" instance=ExtResource("91_chest")]
+position = Vector2(3120, 1470)
+item = ExtResource("103_worn_longsword")
+opened_flag = &"chest_village_longsword"
 
 [node name="OakTree1" parent="World" unique_id=1091003060 instance=ExtResource("29_81qe0")]
 position = Vector2(170, 640)

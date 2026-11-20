@@ -12,18 +12,22 @@
 [ext_resource type="Resource" path="res://data/audio/sfx/sfx_reward_item.tres" id="10_2t21s"]
 [ext_resource type="Resource" path="res://data/audio/sfx/sfx_progress_levelup.tres" id="11_050hm"]
 [ext_resource type="Resource" path="res://data/audio/sfx/sfx_progress_rest.tres" id="12_tfr7v"]
+[ext_resource type="Resource" path="res://data/audio/sfx/sfx_ui_equip.tres" id="13_8862e"]
 
 [resource]
 script = ExtResource("1_lib")
 ui = Dictionary[StringName, ExtResource("1_b27fb")]({
+&"buy": ExtResource("9_fub1v"),
 &"cancel": ExtResource("5_2sva2"),
 &"confirm": ExtResource("4_vc4v8"),
 &"denied": ExtResource("8_wf26n"),
+&"equip": ExtResource("13_8862e"),
 &"focus": ExtResource("3_8862e"),
 &"levelup": ExtResource("11_050hm"),
 &"open": ExtResource("7_pn3l1"),
 &"rest": ExtResource("12_tfr7v"),
 &"reward_gold": ExtResource("9_fub1v"),
 &"reward_item": ExtResource("10_2t21s"),
+&"sell": ExtResource("9_fub1v"),
 &"tick": ExtResource("6_j7rql")
 })

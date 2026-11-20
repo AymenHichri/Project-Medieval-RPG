@@ -48,6 +48,7 @@ func _initialize() -> void:
 	_panels(theme)
 	_buttons(theme, fonts)
 	_widgets(theme, fonts)
+	_slots(theme, fonts)
 	_save(theme, THEME_PATH)
 
 	if missing_fonts.is_empty():
@@ -199,6 +200,34 @@ func _widgets(theme: Theme, fonts: Dictionary[String, FontVariation]) -> void:
 	theme.set_color("font_hovered_color", "TabBar", palette.parchment_light)
 	theme.set_color("font_selected_color", "TabBar", palette.gold)
 	theme.set_color("font_disabled_color", "TabBar", palette.panel_iron)
+
+
+## Phase 9 item slots (inventory grid, equipment, shop): `SlotButton` is a Button drawn as Gimble's
+## 36 px slot (2× = 72 px; the 64 px item icon sits inside), `slot_selected` when focused, hovered
+## or pressed. `SlotCountLabel` is the stack count in the slot's corner.
+func _slots(theme: Theme, fonts: Dictionary[String, FontVariation]) -> void:
+	theme.set_type_variation("SlotButton", "Button")
+	var normal: StyleBoxTexture = _nine_slice("slots/slot_normal_36x36.png", 3, 3, 3, 3)
+	var selected: StyleBoxTexture = _nine_slice("slots/slot_selected_36x36.png", 3, 3, 3, 3)
+	for box: StyleBoxTexture in [normal, selected]:
+		box.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_STRETCH
+		box.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_STRETCH
+		box.set_content_margin_all(4)
+	theme.set_stylebox("normal", "SlotButton", normal)
+	theme.set_stylebox("disabled", "SlotButton", normal)
+	theme.set_stylebox("hover", "SlotButton", selected)
+	theme.set_stylebox("pressed", "SlotButton", selected)
+	theme.set_stylebox("hover_pressed", "SlotButton", selected)
+	theme.set_stylebox("focus", "SlotButton", selected)
+	theme.set_constant("icon_max_width", "SlotButton", 64)
+	theme.set_color("icon_disabled_color", "SlotButton", Color(palette.parchment_dim, 0.6))
+
+	theme.set_type_variation("SlotCountLabel", "Label")
+	theme.set_font("font", "SlotCountLabel", fonts["font_numeric"])
+	theme.set_font_size("font_size", "SlotCountLabel", 22)
+	theme.set_color("font_color", "SlotCountLabel", palette.parchment_light)
+	theme.set_color("font_outline_color", "SlotCountLabel", palette.bg_abyss)
+	theme.set_constant("outline_size", "SlotCountLabel", 6)
 
 
 func _flat(bg: Color, border: Color, border_width: int) -> StyleBoxFlat:

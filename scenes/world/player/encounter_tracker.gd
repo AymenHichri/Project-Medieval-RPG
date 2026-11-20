@@ -93,11 +93,18 @@ func force_encounter() -> bool:
 	return _trigger(current_table())
 
 
+## One step: rolls for an encounter, then ticks the rate modifiers, so a modifier lasting N steps
+## covers exactly N rolls (the Warding Torch's 200).
 func _take_step() -> bool:
 	steps_since_last += 1
 	total_steps += 1
-	GameState.tick_encounter_modifiers()
 	step_taken.emit(steps_since_last)
+	var triggered: bool = _roll_step()
+	GameState.tick_encounter_modifiers()
+	return triggered
+
+
+func _roll_step() -> bool:
 	var table: EncounterTable = current_table()
 	if table == null or not encounters_enabled:
 		return false

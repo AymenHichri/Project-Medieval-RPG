@@ -1,0 +1,8 @@
+{
+	"id": "merchant_greeting",
+	"conditions": { "if_flag": "met_merchant", "use": "merchant_again" },
+	"lines": [
+		{ "speaker": "Merchant Oswin", "set_flag": "met_merchant", "text": "Customers! Still breathing ones, even. The road's been shut since the dead got restless." },
+		{ "speaker": "Merchant Oswin", "text": "Tonics, holy water, honest steel. I buy back too, at half what I ask. Times are hard." }
+	]
+}

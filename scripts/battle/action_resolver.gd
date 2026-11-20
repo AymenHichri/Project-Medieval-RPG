@@ -6,6 +6,9 @@ extends RefCounted
 ## Taunt status (Provoke), chosen when the action resolves, so a Provoke used first this round
 ## already counts. Then, if its target is guarded, it strikes the living guardian instead (a
 ## COVERED event comes first). Area actions are never redirected.
+## Phase 9: a plain attack has the element of the attacker's weapon (Silver Stake: HOLY). An item
+## with `foe_damage` used on an opponent deals that damage of its element instead of its effect
+## (Holy Water on a skeleton); DAMAGE items use their element and the target's affinity.
 
 ## Flee: chance = FLEE_BASE_CHANCE + (party agility − enemy agility, averaged) × FLEE_PER_AGILITY.
 const FLEE_BASE_CHANCE: float = 0.5
@@ -84,7 +87,7 @@ func _attack(action: BattleAction) -> Array[BattleEvent]:
 		return [_failed(action.actor, &"no_target")]
 	var events: Array[BattleEvent] = []
 	target = _cover(action.actor, target, events)
-	events.append_array(_physical_hit(action.actor, target, BASIC_ATTACK_POWER, &"attack", Elements.Element.PHYSICAL))
+	events.append_array(_physical_hit(action.actor, target, BASIC_ATTACK_POWER, &"attack", action.actor.attack_element()))
 	return events
 
 
@@ -139,6 +142,8 @@ func _item(action: BattleAction) -> Array[BattleEvent]:
 		for c: Combatant in action.targets:
 			if not c.is_alive():
 				targets.append(c)
+	elif _aimed_at_foe(action):
+		targets = _skill_targets(action, Targeting.Mode.ONE_ENEMY, true)
 	else:
 		targets = _skill_targets(action, item.target_mode, item.effect == ItemData.Effect.DAMAGE)
 	if targets.is_empty():
@@ -147,6 +152,10 @@ func _item(action: BattleAction) -> Array[BattleEvent]:
 		return [_failed(actor, &"no_item")]
 	var events: Array[BattleEvent] = []
 	for target: Combatant in targets:
+		if target.side != actor.side:
+			var amount: int = item.foe_damage if item.effect != ItemData.Effect.DAMAGE else item.amount
+			events.append_array(_item_damage(actor, target, amount, item.element))
+			continue
 		match item.effect:
 			ItemData.Effect.HEAL_HP:
 				var amount: int = roundi(item.amount * StatusEffects.healing_received_multiplier(target))
@@ -158,9 +167,21 @@ func _item(action: BattleAction) -> Array[BattleEvent]:
 				events.append_array(StatusEffects.cure(target, item.cures))
 			ItemData.Effect.REVIVE:
 				events.append(BattleEvent.new(BattleEvent.Type.REVIVED, {&"target": target, &"amount": target.revive(item.amount)}))
-			ItemData.Effect.DAMAGE:
-				events.append_array(_apply_damage(actor, target, item.amount, Elements.Element.PHYSICAL, false, Elements.NORMAL))
 	return events
+
+
+## An item used on one opponent: a DAMAGE item, or an ally item with `foe_damage` thrown at a foe.
+func _aimed_at_foe(action: BattleAction) -> bool:
+	if not action.item.can_target_foes() or action.targets.is_empty():
+		return false
+	return action.targets[0].side != action.actor.side
+
+
+## Fixed item damage of `element`, scaled by the target's affinity (Holy Water: ×2 on the undead).
+func _item_damage(actor: Combatant, target: Combatant, amount: int, element: Elements.Element) -> Array[BattleEvent]:
+	var mult: float = DamageCalculator.element_multiplier(target, element)
+	var dealt: int = clampi(roundi(amount * mult), 0, DamageCalculator.MAX_DAMAGE)
+	return _apply_damage(actor, target, dealt, element, false, mult)
 
 
 ## STATUS, CURE and GUARD skills on one target.

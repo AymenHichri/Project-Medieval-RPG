@@ -9,7 +9,7 @@ const MusicTest: GDScript = preload("res://tests/unit/test_music_manager.gd")
 
 var _tree: SceneTree = Engine.get_main_loop() as SceneTree
 var _gold: int = 0
-var _items: Dictionary[StringName, int] = {}
+var _items: Inventory
 
 
 func before_each() -> void:
@@ -18,7 +18,9 @@ func before_each() -> void:
 	SceneManager.auto_battles = true
 	SceneManager.battle_rng = BattleFixtures.rng(3)
 	_gold = GameState.gold
-	_items = GameState.items.duplicate()
+	_items = GameState.inventory
+	GameState.inventory = Inventory.new()
+	GameState.gold = _gold
 	GameState.party.clear()
 	GameState.ensure_party()
 
@@ -36,7 +38,7 @@ func after_each() -> void:
 	AudioManager.music.stop(0.0)
 	GameState.current_map = ""
 	GameState.gold = _gold
-	GameState.items = _items
+	GameState.inventory = _items
 	GameState.party.clear()
 
 

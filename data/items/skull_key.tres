@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_pgr8n"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/081_skull_key.png" id="2_qga76"]
+[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="3_33qvc"]
+
+[resource]
+script = ExtResource("3_33qvc")
+id = &"skull_key"
+display_name = "Skull Key"
+icon = ExtResource("2_qga76")
+usable_in_field = false
+usable_in_battle = false
+is_key_item = true
+effect = 7
+description = "An iron key with a grinning skull for a bow. It must open something among the graves."

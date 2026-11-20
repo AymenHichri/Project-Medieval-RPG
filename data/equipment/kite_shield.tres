@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_um7b1"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/048_kite_shield.png" id="2_gyb3t"]
+[ext_resource type="Script" path="res://scripts/resources/equipment_data.gd" id="3_6r5ch"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="4_dxd8q"]
+
+[sub_resource type="Resource" id="Resource_6g1pm"]
+script = ExtResource("4_dxd8q")
+max_hp = 0
+defense = 6
+spirit = 2
+
+[resource]
+script = ExtResource("3_6r5ch")
+category = 1
+stat_bonus = SubResource("Resource_6g1pm")
+id = &"kite_shield"
+display_name = "Kite Shield"
+icon = ExtResource("2_gyb3t")
+price = 100
+usable_in_field = false
+usable_in_battle = false
+target_mode = 4
+effect = 7
+description = "Oak and iron, painted with a faded saint. DEF +6, SPR +2."

@@ -9,16 +9,16 @@ const GRAVEYARD: String = "res://scenes/world/maps/graveyard_01.tscn"
 var _tree: SceneTree = Engine.get_main_loop() as SceneTree
 var _map: Map
 var _flags: Dictionary[StringName, Variant] = {}
-var _items: Dictionary[StringName, int] = {}
+var _items: Inventory
 var _party: Party
 
 
 func before_each() -> void:
 	_flags = GameState.flags.duplicate()
-	_items = GameState.items.duplicate()
+	_items = GameState.inventory
+	GameState.inventory = Inventory.new()
 	_party = GameState.party
 	GameState.flags = {}
-	GameState.items = {}
 	GameState.party = Party.new()
 	GameState.ensure_party()
 
@@ -29,7 +29,7 @@ func after_each() -> void:
 	if _tree.paused:
 		_tree.paused = false
 	GameState.flags = _flags
-	GameState.items = _items
+	GameState.inventory = _items
 	GameState.party = _party
 
 

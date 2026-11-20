@@ -30,6 +30,15 @@ func _ready() -> void:
 	set_focused(false)
 
 
+## Changes the verb shown in the prompt ("Open" → "Search").
+func set_prompt(text: String) -> void:
+	prompt_text = text
+	if _prompt == null:
+		return
+	_prompt.text = PROMPT_MARK + text
+	_prompt.position = prompt_offset - Vector2(_prompt.size.x / 2.0, _prompt.size.y)
+
+
 ## Shows or hides the prompt (called by the InteractionProbe).
 func set_focused(focused: bool) -> void:
 	_prompt.visible = focused

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_yti50"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/143_torch.png" id="2_fevlv"]
+[ext_resource type="Script" path="res://scripts/resources/item_data.gd" id="3_n4axv"]
+
+[resource]
+script = ExtResource("3_n4axv")
+id = &"warding_torch"
+display_name = "Warding Torch"
+icon = ExtResource("2_fevlv")
+price = 60
+usable_in_battle = false
+target_mode = 3
+effect = 5
+amount = 200
+ward_mult = 0.25
+description = "Pitch and blessed ash. The dead shun its light: fewer encounters for 200 steps."

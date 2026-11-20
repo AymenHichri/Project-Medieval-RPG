@@ -3,6 +3,9 @@ extends RefCounted
 ## A playable character's live progress (PROJECT_PLAN.md §6.4): level, total XP and the stats of
 ## that level. Its `combatant` is the same object across battles, so HP/MP, learned skills and
 ## level stats carry from one battle to the next. `data` (a .tres) is never mutated.
+## Phase 9: gear is worn in the combatant's `equipment` slots; the effective stats (level stats +
+## gear) are computed on demand by the combatant, never stored. `equip_from`/`unequip_to` move
+## gear between the slots and an Inventory.
 
 var data: CharacterData
 var level: int = 1
@@ -73,8 +76,8 @@ func _level_up(rng: RandomNumberGenerator) -> LevelUp:
 	for stat: StringName in StatBlock.NAMES:
 		stats.set(stat, stats.get_stat(stat) + up.gains.get_stat(stat))
 	if combatant.is_alive():
-		combatant.hp = mini(combatant.hp + up.gains.max_hp, stats.max_hp)
-	combatant.mp = mini(combatant.mp + up.gains.max_mp, stats.max_mp)
+		combatant.hp = mini(combatant.hp + up.gains.max_hp, combatant.max_hp())
+	combatant.mp = mini(combatant.mp + up.gains.max_mp, combatant.max_mp())
 	for skill: SkillData in Progression.skills_learned_at(data, level):
 		if not skill in combatant.skills:
 			combatant.skills.append(skill)
@@ -84,8 +87,66 @@ func _level_up(rng: RandomNumberGenerator) -> LevelUp:
 
 ## Full HP and MP, statuses cleared (rest points).
 func heal_full() -> void:
-	combatant.hp = stats.max_hp
-	combatant.mp = stats.max_mp
+	combatant.hp = combatant.max_hp()
+	combatant.mp = combatant.max_mp()
 	combatant.statuses.clear()
 	combatant.is_defending = false
 	combatant.guarded_by = null
+
+
+# --- equipment ------------------------------------------------------------------------------
+
+## The item worn in `slot` (null = empty).
+func equipped(slot: EquipmentData.Category) -> EquipmentData:
+	return combatant.equipment.get(slot) as EquipmentData
+
+
+## The character may wear `item` (its slot is in CharacterData.allowed_equipment).
+func can_equip(item: EquipmentData) -> bool:
+	return item != null and item.category in data.allowed_equipment
+
+
+## Wears `item` in its slot, taking it out of `inventory`; what the slot held goes back into the
+## inventory. False (nothing changes) when the character can't wear it or the inventory has none.
+func equip_from(inventory: Inventory, item: EquipmentData) -> bool:
+	if not can_equip(item) or not inventory.has(item.id):
+		return false
+	var old: EquipmentData = equipped(item.category)
+	if old == item:
+		return true
+	if old != null and not inventory.has_room(old.id):
+		return false
+	inventory.remove(item.id)
+	if old != null:
+		inventory.add(old.id)
+	combatant.equipment[item.category] = item
+	combatant.clamp_to_max()
+	return true
+
+
+## Takes off what `slot` holds and puts it in `inventory`. False when the slot is empty or the
+## inventory has no room for it.
+func unequip_to(inventory: Inventory, slot: EquipmentData.Category) -> bool:
+	var old: EquipmentData = equipped(slot)
+	if old == null or inventory.add(old.id) < 1:
+		return false
+	combatant.equipment.erase(slot)
+	combatant.clamp_to_max()
+	return true
+
+
+## Every stat as it would read with `item` in `slot` (null = the slot emptied), for the
+## equipment page's preview. Nothing changes.
+func stats_with(slot: EquipmentData.Category, item: EquipmentData) -> Dictionary[StringName, int]:
+	var worn: Dictionary[EquipmentData.Category, EquipmentData] = combatant.equipment
+	var trial: Dictionary[EquipmentData.Category, EquipmentData] = worn.duplicate()
+	if item != null:
+		trial[slot] = item
+	else:
+		trial.erase(slot)
+	combatant.equipment = trial
+	var out: Dictionary[StringName, int] = {}
+	for stat: StringName in StatBlock.NAMES:
+		out[stat] = combatant.stat(stat)
+	combatant.equipment = worn
+	return out

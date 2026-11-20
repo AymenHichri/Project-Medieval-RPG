@@ -1,10 +1,11 @@
 extends Node
 ## Autoload `GameState`: the data of the current play session.
-## Flags, gold, item counts, the party (levels, XP, recruits) and encounter-rate modifiers.
-## The full Inventory arrives in Phase 9, quests and serialisation later.
+## Flags, the inventory (items, key items, gold), the party (levels, XP, recruits, gear) and
+## encounter-rate modifiers. Quests and serialisation arrive later.
 
 signal flag_changed(flag: StringName, value: Variant)
 signal gold_changed(gold: int)
+## The inventory's items changed (picked up, used, bought, sold, equipped).
 signal items_changed
 ## A party member gained a level (emitted once per level, from `apply_battle_rewards`).
 signal member_leveled(member: PartyMember, level_up: LevelUp)
@@ -13,13 +14,22 @@ signal member_joined(member: PartyMember)
 
 ## The character a new game starts with (recruits join through `recruit`).
 const STARTING_CHARACTER: String = "res://data/characters/knight.tres"
-## Item ids are the file names in this folder.
-const ITEM_DIR: String = "res://data/items"
-
-var gold: int = 0
+## Gold, read from and written to the inventory.
+var gold: int:
+	get:
+		return inventory.gold
+	set(value):
+		inventory.gold = value
 var flags: Dictionary[StringName, Variant] = {}
-## Item id → count (only ids with a count > 0). The full Inventory replaces this in Phase 9.
-var items: Dictionary[StringName, int] = {}
+## Items, key items and gold (Phase 9). Assigning a new one (tests) moves the signals to it.
+var inventory: Inventory:
+	set(value):
+		if inventory != null and inventory.changed.is_connected(_on_inventory_changed):
+			inventory.changed.disconnect(_on_inventory_changed)
+			inventory.gold_changed.disconnect(_on_gold_changed)
+		inventory = value if value != null else Inventory.new()
+		inventory.changed.connect(_on_inventory_changed)
+		inventory.gold_changed.connect(_on_gold_changed)
 var current_map: String = ""
 var play_time: float = 0.0
 ## Encounter-rate multipliers by id (PROJECT_PLAN.md §6.2), ticked once per step.
@@ -31,14 +41,17 @@ var party: Party = Party.new()
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
+func _init() -> void:
+	inventory = Inventory.new()
+
+
 func _ready() -> void:
 	rng.randomize()
 
 
 func new_game() -> void:
-	gold = 0
 	flags.clear()
-	items.clear()
+	inventory.clear()
 	encounter_rate_modifiers.clear()
 	current_map = ""
 	play_time = 0.0
@@ -55,53 +68,53 @@ func get_flag(flag: StringName, default: Variant = false) -> Variant:
 	return flags.get(flag, default)
 
 
+## Adds (or, negative, takes) gold. Never below 0.
 func add_gold(amount: int) -> void:
-	gold = maxi(0, gold + amount)
-	gold_changed.emit(gold)
+	inventory.add_gold(amount)
 
 
 # --- items ----------------------------------------------------------------------------------
 
 func item_count(id: StringName) -> int:
-	return items.get(id, 0) as int
+	return inventory.count(id)
 
 
-## Adds (or, with a negative amount, removes) items. Counts never go below 0.
-func add_item(id: StringName, amount: int = 1) -> void:
-	set_item_count(id, item_count(id) + amount)
+## Adds items (dialogue `give_item`, chests, drops); a negative amount removes them (never below
+## 0). Returns how many were added (see Inventory.add).
+func add_item(id: StringName, amount: int = 1) -> int:
+	if amount < 0:
+		inventory.remove(id, mini(-amount, inventory.count(id)))
+		return 0
+	return inventory.add(id, amount)
 
 
-func set_item_count(id: StringName, count: int) -> void:
-	if count > 0:
-		items[id] = count
-	else:
-		items.erase(id)
+## The ItemData of an item id (`data/items/` or `data/equipment/`), or null.
+static func item_data(id: StringName) -> ItemData:
+	return Inventory.item_data(id)
+
+
+## Uses an item outside battle on `target` (ignored for items that act on the whole party or
+## need no target). Spends one when it did something; false otherwise.
+func use_item(item: ItemData, target: PartyMember = null) -> bool:
+	if item == null or not inventory.has(item.id):
+		return false
+	var targets: Array[Combatant] = []
+	if item.target_mode == Targeting.Mode.ALL_ALLIES:
+		targets = party.combatants()
+	elif target != null:
+		targets = [target.combatant]
+	if not FieldItems.apply(item, targets, encounter_rate_modifiers):
+		return false
+	inventory.remove(item.id)
+	return true
+
+
+func _on_inventory_changed() -> void:
 	items_changed.emit()
 
 
-## The ItemData of an item id (`data/items/<id>.tres`), or null.
-static func item_data(id: StringName) -> ItemData:
-	var path: String = ITEM_DIR.path_join(String(id) + ".tres")
-	if not ResourceLoader.exists(path):
-		push_warning("GameState: unknown item '%s'" % id)
-		return null
-	return load(path) as ItemData
-
-
-## The items the party carries into a battle, as the BattleController expects them.
-func battle_items() -> Dictionary[ItemData, int]:
-	var out: Dictionary[ItemData, int] = {}
-	for id: StringName in items:
-		var data: ItemData = item_data(id)
-		if data != null and data.usable_in_battle:
-			out[data] = items[id]
-	return out
-
-
-## Writes back the counts left after a battle (items used in it are gone).
-func sync_battle_items(remaining: Dictionary[ItemData, int]) -> void:
-	for data: ItemData in remaining:
-		set_item_count(data.id, remaining[data])
+func _on_gold_changed(value: int) -> void:
+	gold_changed.emit(value)
 
 
 # --- party ----------------------------------------------------------------------------------
@@ -192,9 +205,13 @@ func remove_encounter_modifier(id: StringName) -> void:
 	encounter_rate_modifiers.erase(id)
 
 
-## Product of all rate modifiers (equipment multipliers join it in Phase 9).
+## Product of all rate modifiers and of the gear the party wears (`encounter_rate_mult`).
 func get_encounter_multiplier() -> float:
-	return RateModifier.product(encounter_rate_modifiers)
+	var mult: float = RateModifier.product(encounter_rate_modifiers)
+	for member: PartyMember in party.members:
+		for slot: EquipmentData.Category in member.combatant.equipment:
+			mult *= member.combatant.equipment[slot].encounter_rate_mult
+	return mult
 
 
 ## One step walked: counts down the timed modifiers and drops the expired ones.

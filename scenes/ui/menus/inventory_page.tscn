@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/menus/inventory_page.gd" id="1_inv"]
+
+[node name="InventoryPage" type="VBoxContainer"]
+texture_filter = 1
+offset_right = 1100.0
+offset_bottom = 600.0
+theme_override_constants/separation = 16
+script = ExtResource("1_inv")
+
+[node name="Categories" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Body" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 32
+
+[node name="Scroll" type="ScrollContainer" parent="Body"]
+custom_minimum_size = Vector2(648, 480)
+layout_mode = 2
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Grid" type="GridContainer" parent="Body/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 8
+
+[node name="Detail" type="VBoxContainer" parent="Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="ItemName" type="Label" parent="Body/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+
+[node name="ItemInfo" type="Label" parent="Body/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+
+[node name="ItemDescription" type="Label" parent="Body/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_type_variation = &"BodyLabel"
+autowrap_mode = 3
+
+[node name="TargetsBox" type="VBoxContainer" parent="Body/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TargetsLabel" type="Label" parent="Body/Detail/TargetsBox"]
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "Use on whom?"
+
+[node name="Targets" type="VBoxContainer" parent="Body/Detail/TargetsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Message" type="Label" parent="Body/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_type_variation = &"LoreLabel"
+autowrap_mode = 3

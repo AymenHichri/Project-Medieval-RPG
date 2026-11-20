@@ -41,6 +41,12 @@ const SFX: Dictionary = {
 	&"sfx_reward_item": [-10.0, 0.96, 1.04, 100, "UI"],
 	&"sfx_progress_levelup": [-6.0, 1.0, 1.0, 200, "UI"],
 	&"sfx_progress_rest": [-8.0, 1.0, 1.0, 500, "UI"],
+	&"sfx_ui_equip": [-10.0, 0.95, 1.05, 80, "UI"],
+	# Phase 9 chests and doors: no source in the supplied packs yet (AUDIO_CATALOG.md), skipped
+	# until their files exist; the game plays a fallback (see SFX_FALLBACKS in the callers).
+	&"sfx_interact_chest_open": [-8.0, 0.96, 1.04, 200, "SFX"],
+	&"sfx_interact_chest_locked": [-8.0, 0.96, 1.04, 200, "SFX"],
+	&"sfx_interact_door": [-8.0, 0.96, 1.04, 300, "SFX"],
 	# Footsteps by surface and battle sounds: no source yet (docs/AUDIO_REQUIREMENTS.md), so these
 	# are skipped until their files exist.
 	&"sfx_footsteps_stone": [-16.0, 0.92, 1.08, 60, "SFX"],
@@ -59,6 +65,10 @@ const LIBRARY_UI: Dictionary = {
 	&"tick": &"sfx_ui_tick", &"open": &"sfx_ui_open", &"denied": &"sfx_ui_denied",
 	&"reward_gold": &"sfx_reward_gold", &"reward_item": &"sfx_reward_item",
 	&"levelup": &"sfx_progress_levelup", &"rest": &"sfx_progress_rest",
+	# Phase 9: shop, equipment, chests, doors. Buying and selling reuse the gold sound.
+	&"buy": &"sfx_reward_gold", &"sell": &"sfx_reward_gold", &"equip": &"sfx_ui_equip",
+	&"chest_open": &"sfx_interact_chest_open", &"chest_locked": &"sfx_interact_chest_locked",
+	&"door": &"sfx_interact_door",
 }
 const LIBRARY_FOOTSTEPS: Dictionary = {
 	&"stone": &"sfx_footsteps_stone", &"grass": &"sfx_footsteps_grass",

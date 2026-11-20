@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_r0fyw"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/item_icons/64px/096_silver_stake.png" id="2_k2gny"]
+[ext_resource type="Script" path="res://scripts/resources/equipment_data.gd" id="3_sk8ip"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="4_n5eig"]
+
+[sub_resource type="Resource" id="Resource_ee0mt"]
+script = ExtResource("4_n5eig")
+max_hp = 0
+attack = 3
+agility = 2
+
+[resource]
+script = ExtResource("3_sk8ip")
+stat_bonus = SubResource("Resource_ee0mt")
+attack_element = 4
+id = &"silver_stake"
+display_name = "Silver Stake"
+icon = ExtResource("2_k2gny")
+price = 150
+usable_in_field = false
+usable_in_battle = false
+target_mode = 4
+effect = 7
+description = "A silver-shod dagger for the restless dead. ATK +3, AGI +2; attacks deal Holy damage."

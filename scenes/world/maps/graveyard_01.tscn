@@ -37,6 +37,9 @@
 [ext_resource type="Resource" path="res://data/audio/music/mus_dungeon_graveyard.tres" id="audio_music"]
 [ext_resource type="PackedScene" path="res://scenes/world/components/recruit_npc.tscn" id="80_recruit"]
 [ext_resource type="Resource" path="res://data/characters/hexblade.tres" id="81_hexblade"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/chest.tscn" id="91_chest"]
+[ext_resource type="Resource" path="res://data/items/soul_gem.tres" id="92_soul_gem"]
+[ext_resource type="Resource" path="res://data/items/gold_coins.tres" id="93_gold_coins"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2n12d"]
 normal = Vector2(1, 0)
@@ -317,6 +320,17 @@ dialogue_id = &"hexblade_meet"
 character = ExtResource("81_hexblade")
 joined_flag = &"hexblade_joined"
 join_if_flag = &"hexblade_agreed"
+
+[node name="ChestSoulGem" parent="World" instance=ExtResource("91_chest")]
+position = Vector2(2620, 960)
+item = ExtResource("92_soul_gem")
+opened_flag = &"chest_graveyard_soul_gem"
+
+[node name="ChestCoins" parent="World" instance=ExtResource("91_chest")]
+position = Vector2(2300, 2260)
+item = ExtResource("93_gold_coins")
+count = 2
+opened_flag = &"chest_graveyard_coins"
 
 [node name="GnarledTree1" parent="World" unique_id=768431089 instance=ExtResource("24_taan8")]
 position = Vector2(240, 820)

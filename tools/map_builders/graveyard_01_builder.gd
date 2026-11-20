@@ -167,6 +167,9 @@ func _build_setpieces(world: Node2D) -> void:
 	# Phase 8: the Hexblade studies the crypt ward at the far end of the graveyard, and joins when asked.
 	_kit.recruit(world, "Hexblade", Vector2(1700, 920), &"hexblade_meet", "SW", "res://data/characters/hexblade.tres",
 			&"hexblade_joined", &"hexblade_agreed")
+	# Phase 9: two supply crates left by the gravediggers.
+	_kit.chest(world, "ChestSoulGem", Vector2(2620, 960), &"soul_gem", 1, &"chest_graveyard_soul_gem")
+	_kit.chest(world, "ChestCoins", Vector2(2300, 2260), &"gold_coins", 2, &"chest_graveyard_coins")
 
 	var trees: Array[Vector2] = [Vector2(240, 820), Vector2(2860, 880), Vector2(260, 2240), Vector2(2830, 2230)]
 	for i: int in trees.size():

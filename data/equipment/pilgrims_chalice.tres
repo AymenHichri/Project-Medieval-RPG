@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_ryiwk"]
+[ext_resource type="Texture2D" path="res://assets/vendor/dfgui/2x/dfgui_icon-goblet.png" id="2_uxmfs"]
+[ext_resource type="Script" path="res://scripts/resources/equipment_data.gd" id="3_hqdiv"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="4_k3l3f"]
+
+[sub_resource type="Resource" id="Resource_wqaqr"]
+script = ExtResource("4_k3l3f")
+max_hp = 0
+spirit = 3
+
+[resource]
+script = ExtResource("3_hqdiv")
+category = 3
+stat_bonus = SubResource("Resource_wqaqr")
+resist = Dictionary[int, float]({
+5: 0.5
+})
+id = &"pilgrims_chalice"
+display_name = "Pilgrim's Chalice"
+icon = ExtResource("2_uxmfs")
+price = 140
+usable_in_field = false
+usable_in_battle = false
+target_mode = 4
+effect = 7
+description = "A pewter cup from the old pilgrim road. SPR +3; resists Shadow."

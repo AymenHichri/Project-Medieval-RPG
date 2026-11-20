@@ -11,18 +11,18 @@ const WALK_FRAMES: int = 600
 var _tree: SceneTree = Engine.get_main_loop() as SceneTree
 var _map: Map
 var _flags: Dictionary[StringName, Variant] = {}
-var _items: Dictionary[StringName, int] = {}
+var _items: Inventory
 var _party: Party
 var _speed: Settings.TextSpeed
 
 
 func before_each() -> void:
 	_flags = GameState.flags.duplicate()
-	_items = GameState.items.duplicate()
+	_items = GameState.inventory
+	GameState.inventory = Inventory.new()
 	_party = GameState.party
 	_speed = Settings.text_speed
 	GameState.flags = {}
-	GameState.items = {}
 	GameState.party = Party.new()
 	GameState.ensure_party()
 	_map = (load(VILLAGE) as PackedScene).instantiate() as Map
@@ -37,7 +37,7 @@ func after_each() -> void:
 		_map.free()
 	_map = null
 	GameState.flags = _flags
-	GameState.items = _items
+	GameState.inventory = _items
 	GameState.party = _party
 	Settings.text_speed = _speed
 

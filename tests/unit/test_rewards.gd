@@ -5,26 +5,26 @@ const WOLF: String = "res://data/enemies/wolf.tres"
 
 var _saved_party: Party
 var _saved_gold: int = 0
-var _saved_items: Dictionary[StringName, int] = {}
+var _saved_items: Inventory
 var _saved_rng: RandomNumberGenerator
 
 
 func before_each() -> void:
 	_saved_party = GameState.party
 	_saved_gold = GameState.gold
-	_saved_items = GameState.items.duplicate()
+	_saved_items = GameState.inventory
+	GameState.inventory = Inventory.new()
 	_saved_rng = GameState.rng
 	GameState.party = Party.new()
 	GameState.ensure_party()
 	GameState.gold = 0
-	GameState.items = {}
 	GameState.rng = BattleFixtures.rng(5)
 
 
 func after_each() -> void:
 	GameState.party = _saved_party
 	GameState.gold = _saved_gold
-	GameState.items = _saved_items
+	GameState.inventory = _saved_items
 	GameState.rng = _saved_rng
 
 

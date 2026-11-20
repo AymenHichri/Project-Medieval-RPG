@@ -60,9 +60,18 @@ func play_ui(sfx: SfxSet) -> AudioStreamPlayer:
 	return player
 
 
-## Plays a named UI sound from the library ("focus", "confirm", "cancel", "tick", ...).
-func play_ui_named(sound: StringName) -> AudioStreamPlayer:
+## Plays a named UI sound from the library ("focus", "confirm", "cancel", "tick", ...). When the
+## library has no streams for it yet (not sourced), `fallback` plays instead (if given).
+func play_ui_named(sound: StringName, fallback: StringName = &"") -> AudioStreamPlayer:
+	if not fallback.is_empty() and not has_ui_sound(sound):
+		sound = fallback
 	return play_ui(library.ui.get(sound) as SfxSet)
+
+
+## The library has at least one stream for this UI sound.
+func has_ui_sound(sound: StringName) -> bool:
+	var sfx: SfxSet = library.ui.get(sound) as SfxSet if library != null else null
+	return sfx != null and not sfx.streams.is_empty()
 
 
 ## Plays a positional sound at a world position. Returns the voice used, or null when skipped.

@@ -1023,25 +1023,35 @@ Turn the systems into a short, coherent, playable experience matching §8.1.
 [Dependencies: **Phase 8**]
 
 **Tasks**
-- [ ] `Inventory` (stacks, key items, `add/remove/count/has`, signals).
-- [ ] `equipment_data.gd` and `CharacterData.allowed_equipment`. Item and equipment files that match the Gimble's icons: Minor Potion (health potion), Mana Potion, Holy Water (cures Curse; HOLY damage vs undead), Soul Gem (revive), Warding Torch (encounter rate ×0.25 for 200 steps), Gold Coins (pickup); Worn Longsword, Battle Axe, Silver Stake (dagger, +HOLY), Iron Helm, Kite Shield, and an accessory with a dfgui icon (goblet: "Pilgrim's Chalice", SHADOW resist).
-- [ ] Equip/unequip on `PartyMember`, effective stats computed on demand, category restrictions.
-- [ ] Battle "Items" submenu wired to `Inventory` via the `consume_item` callable.
-- [ ] `scenes/ui/menus/inventory_page.tscn` (field use, targets, category tabs, scrollable grid of Gimble's slots) and `equipment_page.tscn` (4 slots, stat-diff preview ▲ `heal` / ▼ `blood`).
-- [ ] SFX: chest open/locked, door, gold and item pickup, buy/sell, equip.
-- [ ] `chest.tscn` (Interactable, opened flag persisted in `GameState.flags`).
-- [ ] `shop_menu.tscn` + merchant NPC (buy/sell at 50%).
-- [ ] Gimble's item icons via `ItemData.icon` (64 px), shown in Gimble's 36 px slots (2× = 72 px, `slot_selected` for focus).
+- [x] `Inventory` (stacks, key items, `add/remove/count/has`, signals).
+  - *As built (2026-11-20):* `scripts/rpg/inventory.gd` (RefCounted in `GameState.inventory`): stacks by id capped at 99 (`add` returns how many fit), key items in their own list (one each), and **the gold** (§6.4; `GameState.gold` reads and writes it). Picking up an item whose effect is `GOLD` (Gold Coins, 25 each) adds gold instead. Signals `changed` and `gold_changed`, relayed as `GameState.items_changed` / `gold_changed`. The Phase 6–8 `GameState.items` dictionary and `battle_items()`/`sync_battle_items()` are gone; `item_count`/`add_item` remain as thin wrappers (dialogue `give_item`).
+- [x] `equipment_data.gd` and `CharacterData.allowed_equipment`. Item and equipment files that match the Gimble's icons: Minor Potion (health potion), Mana Potion, Holy Water (cures Curse; HOLY damage vs undead), Soul Gem (revive), Warding Torch (encounter rate ×0.25 for 200 steps), Gold Coins (pickup); Worn Longsword, Battle Axe, Silver Stake (dagger, +HOLY), Iron Helm, Kite Shield, and an accessory with a dfgui icon (goblet: "Pilgrim's Chalice", SHADOW resist).
+  - *As built:* new items and gear come from `tools/build_items.gd` (run after `build_battle_data.gd`); `data/equipment/` holds the gear. `ItemData` gains `is_key_item`, `element`, `foe_damage` (an ally item that can also be thrown at a foe), `ward_mult`, and the effects `WARD`, `GOLD`, `NONE`. Holy Water: cures Curse on an ally, or 15 HOLY damage on a foe (30 on skeletons); battle-only, since statuses end with the battle. Mana Potion 15 MP (30 g), Soul Gem revives with 50 HP (120 g), Warding Torch 60 g. Gear: Worn Longsword ATK +6 (60 g, village chest), Battle Axe ATK +12 AGI −2 (180 g), Silver Stake ATK +3 AGI +2 with HOLY attacks (150 g), Iron Helm HP +10 DEF +3 (80 g), Kite Shield DEF +6 SPR +2 (100 g), Pilgrim's Chalice SPR +3, Shadow ×0.5 (140 g). The Minor Potion keeps its SovDigital HD icon (Phase 7). Also a key item, the **Skull Key** (Gimble's `081_skull_key`), not placed yet (Phase 10). The Hexblade can't use shields (`allowed_equipment`). No starting gear, so the slice balance (`test_balance.gd`) is unchanged.
+- [x] Equip/unequip on `PartyMember`, effective stats computed on demand, category restrictions.
+  - *As built:* gear lives in `Combatant.equipment` (slot → item). `Combatant.stat()` = level stats + Σ gear bonuses, read by `effective_stat`, `max_hp/max_mp` and the HP/MP clamps; `affinity()` multiplies the gear's `resist`; `attack_element()` gives plain attacks the weapon's element. `PartyMember.equip_from(inventory, item)` / `unequip_to(inventory, slot)` move gear between the bag and the slot (HP/MP clamp when a bonus leaves); `stats_with(slot, item)` previews without changing anything. `EquipmentData.encounter_rate_mult` joins `GameState.get_encounter_multiplier()`.
+- [x] Battle "Items" submenu wired to `Inventory` via the `consume_item` callable.
+  - *As built:* `BattleController.start(..., bag)` takes the Inventory (SceneManager passes `GameState.inventory`); the menu lists `Inventory.battle_items()` and the engine callback removes from it, so nothing is copied back after the battle. An item with `foe_damage` offers the living enemies as targets after the allies.
+- [x] `scenes/ui/menus/inventory_page.tscn` (field use, targets, category tabs, scrollable grid of Gimble's slots) and `equipment_page.tscn` (4 slots, stat-diff preview ▲ `heal` / ▼ `blood`).
+  - *As built:* the pause menu's Items and Equipment tabs are enabled (the tab bar now takes focus; Journal stays disabled). Items page: Items / Equipment / Key Items buttons, an 8-column grid of `ItemSlot`s (new widget, theme variation `SlotButton`: Gimble's slot ×2, `slot_selected` on focus, count in the corner via `SlotCountLabel`), name/description, and a member list for targeted items (members it would not help are disabled; `FieldItems` refuses an item that does nothing, so it is not wasted). Equipment page: member buttons, the four slots as `ItemRow`s, a choice list (wearable gear + Remove), and the eight stats with ▲ (`heal`) / ▼ (`blood_bright`) previews on focus. `cancel` steps back from a target or gear choice before closing the menu.
+- [x] SFX: chest open/locked, door, gold and item pickup, buy/sell, equip.
+  - *As built:* new library names `buy`/`sell` (the gold sound), `equip` (new `sfx_ui_equip`: Kenney `switch_002`, darkened like the other UI sounds; **listen**), `chest_open`, `chest_locked`, `door`. No source for chests and doors: their sets stay silent; a locked chest falls back to `denied` (`SFXManager.play_ui_named(sound, fallback)`), loot plays `reward_item`/`reward_gold`. `MapTransition.sound` can play `door` (no door exists yet).
+- [x] `chest.tscn` (Interactable, opened flag persisted in `GameState.flags`).
+  - *As built:* `scenes/world/components/chest.tscn/.gd`: `item` × `count` and/or `gold`, `opened_flag`, optional `required_key` (a key item kept, not consumed). Shows "Found …" through the new `DialogueManager.say(lines)`. Placeholder art: the castle-courtyard crate (`intact` shut, `broken` opened; no chest sprite in the kits). Placed: village (Worn Longsword, between the east cottages), graveyard (Soul Gem by the obelisk; 2 Gold Coins = 50 gold by the burial cart). Maps patched directly, and `MapBuildKit.chest()` puts them in the builders.
+- [x] `shop_menu.tscn` + merchant NPC (buy/sell at 50%).
+  - *As built:* `Shop` (pure rules: `buy`, `sell`, `sell_price` = half, rounded down; key items and price-0 items can't be sold) and `scenes/ui/shop_menu.tscn` (Buy / Sell / Leave, item rows with prices, pauses the game). `ShopNpc` (`shop_npc.tscn`) opens it after its greeting. **Merchant Oswin** stands at the village market stall (`merchant_greeting.json`, then `merchant_again.json`), selling the consumables and all gear except the Worn Longsword. Placeholder look: Knight black recolour.
+- [x] Gimble's item icons via `ItemData.icon` (64 px), shown in Gimble's 36 px slots (2× = 72 px, `slot_selected` for focus).
 
 **Automated verification**
-- [ ] `test_inventory.gd`: stack cap 99, remove below zero rejected, key items cannot be sold.
-- [ ] `test_equipment.gd`: bonuses applied/removed, invalid category rejected, element resist feeds `DamageCalculator`.
-- [ ] `test_shop.gd`: buy with insufficient gold rejected; sell price rounding.
-- [ ] `test_encounter_modifier_item.gd`: using a Warding Torch adds a ×0.25 modifier active for exactly 200 steps.
-- [ ] `tools/check.ps1` exits 0.
+- [x] `test_inventory.gd`: stack cap 99, remove below zero rejected, key items cannot be sold. (Also: Gold Coins, gold limits, battle items, GameState delegation.)
+- [x] `test_equipment.gd`: bonuses applied/removed, invalid category rejected, element resist feeds `DamageCalculator`. (Also: swaps, HP clamp, preview, Silver Stake HOLY attacks, gear encounter multiplier.)
+- [x] `test_shop.gd`: buy with insufficient gold rejected; sell price rounding. (Also: full stack, sell more than held, key items.)
+- [x] `test_encounter_modifier_item.gd`: using a Warding Torch adds a ×0.25 modifier active for exactly 200 steps. (The EncounterTracker now rolls before ticking, so the 200th step's roll is still warded.)
+- [x] Extra: `test_field_items.gd`, `test_battle_items.gd` (Holy Water on a skeleton and on an ally, Soul Gem, battle spending from the Inventory), `test_inventory_menus.gd` (tabs, Items page use, Equipment page equip/preview/cancel, Hexblade shield slot) and `test_chest_and_shop.gd` (chest once and still open after a map round trip, graveyard chests, locked chest, merchant → shop, buy/sell).
+- [x] `tools/check.ps1` exits 0. (Run as `tools/check.sh` from WSL: 345 tests, 0 failures.) Outside the suite: windowed captures of the chests, the merchant, the Items and Equipment tabs and the shop.
 
 **Manual verification**
 - [ ] Buy a potion, use it in the field and in battle, equip a sword and see ATK change in menu and damage, open a chest once (it stays open after leaving and returning to the map).
+- [ ] Listen to the new equip sound.
 
 ---
 
@@ -1205,7 +1215,9 @@ Turn the systems into a short, coherent, playable experience matching §8.1.
 6. Optional: the full Gimble's packs (more item/status icons, portraits, backgrounds, bar colours). Filenames match the sampler, so they are a drop-in upgrade.
 7. Source and licence of the `dfgui` kit (`All Assets.zip`).
 8. Icons for Sleep/Stun and elemental spells (frost, lightning, holy, shadow), if the full packs don't cover them.
-8. Alegreya font files + `OFL.txt`.
+9. A world chest sprite (shut and open) in the HD style; chests use the courtyard supply crate until then (Phase 9).
+10. SFX: chest open, chest locked, wooden door / iron gate (Phase 9 hooks are built and silent).
+11. Alegreya font files + `OFL.txt`.
 
 ---
 

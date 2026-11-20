@@ -3,22 +3,22 @@ extends TestCase
 ## the conditional entry picks the alternate dialogue once its flag is set.
 
 var _flags: Dictionary[StringName, Variant] = {}
-var _items: Dictionary[StringName, int] = {}
+var _items: Inventory
 var _gold: int = 0
 
 
 func before_each() -> void:
 	_flags = GameState.flags.duplicate()
-	_items = GameState.items.duplicate()
+	_items = GameState.inventory
+	GameState.inventory = Inventory.new()
 	_gold = GameState.gold
 	GameState.flags = {}
-	GameState.items = {}
 	GameState.gold = 0
 
 
 func after_each() -> void:
 	GameState.flags = _flags
-	GameState.items = _items
+	GameState.inventory = _items
 	GameState.gold = _gold
 
 

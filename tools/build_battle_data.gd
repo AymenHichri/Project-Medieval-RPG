@@ -5,6 +5,7 @@ extends SceneTree
 ##   godot --headless --path <project> -s res://tools/build_battle_data.gd
 ## This script is the source of truth for the numbers until the files are tuned in the Inspector.
 ## Re-running it overwrites those files.
+## Phase 9 items and equipment come from tools/build_items.gd (run it after this one).
 
 const STATUS_DIR: String = "res://data/status_effects"
 const SKILL_DIR: String = "res://data/skills"
@@ -246,7 +247,8 @@ func _build_potion() -> ItemData:
 	return _save(potion, ITEM_DIR) as ItemData
 
 
-## Phase 8: cures Curse (its HOLY damage against the undead arrives with Phase 9's items).
+## Phase 8: cures Curse. Phase 9: thrown at a foe in battle it deals 15 HOLY damage (×2 on the
+## undead). Statuses end with the battle, so it is battle-only.
 func _build_holy_water(statuses: Dictionary[StringName, StatusEffectData]) -> ItemData:
 	var water: ItemData = ItemData.new()
 	water.id = &"holy_water"
@@ -256,7 +258,10 @@ func _build_holy_water(statuses: Dictionary[StringName, StatusEffectData]) -> It
 	water.target_mode = Targeting.Mode.ONE_ALLY
 	water.effect = ItemData.Effect.CURE_STATUS
 	water.cures = [statuses[&"curse"]]
-	water.description = "Water from the old chapel font. Lifts a Curse."
+	water.usable_in_field = false
+	water.element = Elements.Element.HOLY
+	water.foe_damage = 15
+	water.description = "Water from the old chapel font. Lifts a Curse, or burns the dead for 15 Holy damage."
 	water.impact_fx = _fx[&"holy_light"]
 	return _save(water, ITEM_DIR) as ItemData
 
@@ -351,6 +356,9 @@ func _build_hexblade(skills: Dictionary[StringName, SkillData], visual: Combatan
 	hexblade.growth = _save_as(growth, GROWTH_DIR.path_join("hexblade_growth.tres")) as GrowthCurve
 	hexblade.starting_skills = [skills[&"ember"], skills[&"frost"], skills[&"spark"], skills[&"minor_heal"]]
 	hexblade.skill_unlocks = [_unlock(3, skills[&"hex"])]
+	# Phase 9: a spellblade carries no shield.
+	hexblade.allowed_equipment = [EquipmentData.Category.WEAPON, EquipmentData.Category.HELM,
+			EquipmentData.Category.ACCESSORY]
 	hexblade.visual = visual
 	hexblade.portrait = _texture(PORTRAITS + "35_witch.png")
 	_save(hexblade, CHARACTER_DIR)
