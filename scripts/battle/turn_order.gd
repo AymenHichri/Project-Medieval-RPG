@@ -1,6 +1,7 @@
 class_name TurnOrder
 extends RefCounted
-## Orders a round's actions: Flee, then Defend, then everything else by agility × random spread.
+## Orders a round's actions: Flee, then Defend and priority skills (Guard), then everything else
+## by agility × random spread.
 ## Ties keep submission order (party actions are submitted before enemy actions).
 
 ## Random spread on agility each round.
@@ -35,6 +36,8 @@ static func priority(action: BattleAction) -> int:
 			return 2
 		BattleAction.Kind.DEFEND:
 			return 1
+		BattleAction.Kind.SKILL:
+			return action.skill.priority if action.skill != null else 0
 	return 0
 
 

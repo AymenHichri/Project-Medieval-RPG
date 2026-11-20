@@ -544,7 +544,7 @@ Flee    → success chance from party vs enemy agility; on fail the party loses 
 | 6 | Random encounters | 3, 5 | S–M (≈1 wk) | World → battle → world loop |
 | 7 | 🎯 **Milestone 1: vertical slice** | 6 | M (≈1–2 wk) | The slice defined in §8.1 |
 | 7A | **Audio setup** (built 2026-11-17; listening check open) | 7 (+ user-supplied audio) | S–M (≈1 wk) | The slice with music, jingles and UI sounds (no ambience/combat SFX: no source) |
-| 8 | Party and progression, status effects | 7A | M | 3-member party, levels, statuses |
+| 8 | Party and progression, status effects (built 2026-11-20; playtest open) | 7A | M | 3-member party, levels, statuses |
 | 9 | Inventory, equipment, items, shop | 8 | M | Items in field/battle, gear, shop |
 | 10 | Dialogue, NPCs, quests, boss | 9 | M–L | Quest chain, two-phase boss |
 | 11 | Save/load and Chapter 1 content | 10 | L | Complete first chapter |
@@ -991,19 +991,27 @@ Turn the systems into a short, coherent, playable experience matching §8.1.
 [Dependencies: **Phase 7A**]
 
 **Tasks**
-- [ ] `Party` with up to 3 active members, `PartyMember` (data, level, xp, hp/mp, learned skills).
-- [ ] Two placeholder members: `data/characters/warden.tres` (Knight black recolour, tank, Provoke/Guard skills) and `hexblade.tres` (Knight gold recolour, Ember/Frost/Spark + Minor Heal).
-- [ ] Skill unlocks per level (`SkillUnlock {level, skill}`), shown on the results screen.
-- [ ] Status effects inflicted by enemies (Goblin "Serrated Stab" → Bleed, Wolf "Rend" → Bleed, Skeleton "Grave Chill" → Curse, boss "Blood Mist" → Bleed on all), Blessed via a Warden skill, status icons in the HUD, cures via skill/item.
-- [ ] Battle HUD and command flow for 3 members (cancel steps back between members).
-- [ ] `scenes/ui/menus/status_page.tscn` (pause menu "Party" tab): stats in `NumericLabel`, level, XP `StatBar` (dfgui purple), element resistances as coloured text tags, active statuses, and framed Gimble's portraits (Knight portrait for the Knight; Witch Hunter and Witch portraits as placeholders for the Warden and Hexblade).
-- [ ] Party recruitment trigger: an event `Interactable` that adds a member and sets a flag.
+- [x] `Party` with up to 3 active members, `PartyMember` (data, level, xp, hp/mp, learned skills).
+  - *As built (2026-11-20):* `Party` gains `remove`, `is_full`, `member_by_id`, `has_character`, `living_members`; members keep their slot when they fall, so a revived one acts in its old place. `PartyMember.create(character, start_level, rng)` levels a recruit up to `start_level` (rolled gains, skills learned, then full HP/MP). `GameState.recruit(character, flag)` adds a member at the leader's level, sets the flag and emits `member_joined`; it refuses duplicates and a full party.
+- [x] Two placeholder members: `data/characters/warden.tres` (Knight black recolour, tank, Provoke/Guard skills) and `hexblade.tres` (Knight gold recolour, Ember/Frost/Spark + Minor Heal).
+  - *As built:* written by `tools/build_battle_data.gd` with their own growth files and battle visuals (`data/visuals/warden|hexblade.tres`; the recolours have only the base sheets, so skills and spells use `attack2`). **Warden** (HP 150, DEF 28): Provoke, Guard, Blessing, Purify; Benediction at level 4. **Hexblade** (MP 36, MAG 28): Ember, Frost, Spark (all foes, LIGHTNING), Minor Heal; Hex (SHADOW, may Curse) at level 3. New `SkillData.Effect` values: `STATUS` (applies `inflicts`), `CURE` (removes `cures`) and `GUARD`; new `SkillData.priority` (Provoke and Guard act first, like Defend). Provoke applies the new **Taunt** status (`draws_attacks`, tag "TNT", 2 rounds): enemies aim single-target actions at the holder, both when choosing (EnemyAI) and when the action resolves, so a Provoke used first that round already counts. Guard: the Warden defends, and single-target blows aimed at the chosen ally hit the Warden instead (`COVERED` event) until round end; area attacks are not covered. New effects: frost impact, spark impact, shadow impact, holy light.
+- [x] Skill unlocks per level (`SkillUnlock {level, skill}`), shown on the results screen.
+  - *As built:* already worked from Phase 7 ("X learned Y!" lines); now covered by tests, including recruits that join above level 1.
+- [x] Status effects inflicted by enemies (Goblin "Serrated Stab" → Bleed, Wolf "Rend" → Bleed, Skeleton "Grave Chill" → Curse, boss "Blood Mist" → Bleed on all), Blessed via a Warden skill, status icons in the HUD, cures via skill/item.
+  - *As built:* each enemy uses its status attack once for every 5 plain attacks; Bleed lands 25% of the time, Curse 30% (`ENEMY_BLEED_CHANCE`, `ENEMY_CURSE_CHANCE`). `blood_mist.tres` exists but no enemy uses it until the boss (Phase 10). Blessed: Warden's Blessing (one ally) and Benediction (all). Cures: Warden's Purify (Bleed, Burn, Curse) and the new **Holy Water** item (cures Curse; Gimble's `058_holy_water` icon; dropped by skeletons, 2 given by the Hexblade). A support skill that changes nothing shows "No effect". Balance: the solo Knight now averages about 3.7 fights before resting with 6% deaths (was 4.2 and 3%); the simulated player heals at 50% HP while Bleeding. Status-effect SFX: none (no source in the supplied packs).
+- [x] Battle HUD and command flow for 3 members (cancel steps back between members).
+  - *As built:* the Phase 5 HUD and command flow already handled several members; checked with three (HUD rows, battle slots, cancel stepping back). Stances (Provoke, Guard) glow in place without a swing.
+- [x] `scenes/ui/menus/status_page.tscn` (pause menu "Party" tab): stats in `NumericLabel`, level, XP `StatBar` (dfgui purple), element resistances as coloured text tags, active statuses, and framed Gimble's portraits (Knight portrait for the Knight; Witch Hunter and Witch portraits as placeholders for the Warden and Hexblade).
+  - *As built:* `StatusPage` replaces the Phase 7 text summary (the pause panel is now 1500 px wide). One button per member; the XP bar shows progress through the current level. Resistances read the combatant's affinities (empty until Phase 9 equipment, so "None"). Portraits are `CharacterData.portrait`.
+- [x] Party recruitment trigger: an event `Interactable` that adds a member and sets a flag.
+  - *As built:* `scenes/world/components/recruit_npc.tscn/.gd` (`RecruitNpc` extends `Npc`): takes its sprite and portrait from the character, joins through `GameState.recruit()` after its dialogue if `join_if_flag` was set by the player's choice, fades out, and is gone on later visits. The **Warden** waits by the road south of the village square (`warden_meet.json`), the **Hexblade** at the crypt in the graveyard (`hexblade_meet.json`). Both maps were patched directly (no terrain re-roll), and `MapBuildKit.recruit()` puts them in the builders too.
 
 **Automated verification**
-- [ ] `test_party.gd`: add/remove, max 3, dead member excluded from XP and turn order, revive restores ordering.
-- [ ] `test_skill_unlocks.gd`: learning at the exact level, multi-level skips learn all intermediate skills once.
-- [ ] `test_battle_engine_party.gd`: 3-member seeded battle; status inflicted and cured; all-party wipe = DEFEAT.
-- [ ] `tools/check.ps1` exits 0.
+- [x] `test_party.gd`: add/remove, max 3, dead member excluded from XP and turn order, revive restores ordering. (Also: recruiting at the leader's level, duplicates and a full party refused.)
+- [x] `test_skill_unlocks.gd`: learning at the exact level, multi-level skips learn all intermediate skills once. (Also: no duplicate of a starting skill, recruits above level 1, the results-screen lines.)
+- [x] `test_battle_engine_party.gd`: 3-member seeded battle; status inflicted and cured; all-party wipe = DEFEAT. (Also: Holy Water, Blessing/Benediction, Provoke, Guard and its limits.)
+- [x] Extra: `test_party_battle_smoke.gd` (3 battlers and HUD rows, cancel steps back, Guard and Purify through the real menus, status badges) and `test_recruitment.gd` (accept/decline, flags, NPC gone on return, Holy Water gift, Party tab).
+- [x] `tools/check.ps1` exits 0. (Run as `tools/check.sh` from WSL: 289 tests, 0 failures.) Outside the suite: windowed captures of the Party tab and a 3-member battle.
 
 **Manual verification**
 - [ ] Recruit both members, fight with 3, inflict and cure Bleed and Curse, apply Blessed, and check the Party page shows correct stats after level-ups.

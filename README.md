@@ -88,14 +88,14 @@ These systems exist in the repository and are covered by automated tests. Most o
 | **Exploration** | Free 8-direction movement for the Knight with direction-aware idle and walk animations, a following camera with per-map bounds, and Y-sorted maps |
 | **Maps** | Two maps: `village_01` (a village) and `graveyard_01` (a necropolis outskirts area), connected by fade transitions and spawn points |
 | **Interaction** | An interaction probe and examinable objects (headstone, sarcophagus, bone pyre, notice board) showing text in a dialogue box |
-| **Dialogue and NPCs** | JSON dialogues with speaker names, portraits, a typewriter effect, choices, jumps, story flags, item gifts and flag-dependent alternate dialogues. One NPC: the Elder in `village_01`, whose answer depends on an earlier choice |
-| **Progression** | A party (one member for now) with levels, XP and stat growth (`round(12 × L^1.6)` XP per level, ±1 random per stat), skill unlocks, and level-ups shown on the results screen |
-| **Slice flow** | Final title screen with a live graveyard backdrop, a new-game intro card, a pause menu (party summary, settings, quit to title), a settings menu (volume sliders, fullscreen, text speed, saved to `user://settings.cfg`), a rest point (the village well) and a Game Over screen |
+| **Dialogue and NPCs** | JSON dialogues with speaker names, portraits, a typewriter effect, choices, jumps, story flags, item gifts and flag-dependent alternate dialogues. NPCs: the Elder in `village_01`, whose answer depends on an earlier choice, and two recruits (the Warden in the village, the Hexblade in the graveyard) who join the party when asked |
+| **Party and progression** | A party of up to three (Knight, Warden, Hexblade; recruits join at the leader's level) with levels, XP and stat growth (`round(12 × L^1.6)` XP per level, ±1 random per stat), per-level skill unlocks shown on the results screen, and XP shared between the members still standing |
+| **Slice flow** | Final title screen with a live graveyard backdrop, a new-game intro card, a pause menu (a Party status page with portrait, level, XP, HP/MP, stats, resistances, statuses and skills; settings; quit to title), a settings menu (volume sliders, fullscreen, text speed, saved to `user://settings.cfg`), a rest point (the village well) and a Game Over screen |
 | **Random encounters** | Encounter zones with step-based rolls, a grace period after entering a map or finishing a battle, and weighted enemy groups including a rare group |
-| **Battle logic** | A deterministic, node-free rules engine: turn order, physical and magic damage, critical hits, elemental affinities, Defend, Flee, enemy AI, rewards, and two-phase enemy support |
+| **Battle logic** | A deterministic, node-free rules engine: turn order, physical and magic damage, critical hits, elemental affinities, Defend, Flee, enemy AI, rewards, and two-phase enemy support. Support skills: buffs (Blessing), cures (Purify), Provoke (enemies must target the Warden) and Guard (the Warden takes single blows aimed at an ally). Enemies inflict Bleed and Curse |
 | **Battle presentation** | Side-view battle scene with command menu, target selection, HP/MP bars, damage popups, battle messages, hit and spell effects (blood, sparks, embers, fire impacts, healing bursts) and a results screen |
 | **World ↔ battle loop** | Walking into an encounter starts a battle and returns the player to the same position afterwards |
-| **Content data** | One playable character (Knight); four enemies (Wolf, Goblin Scout, Skeleton, Charred Skeleton); five skills (Attack, Charged Strike, Whirlwind, Ember, Minor Heal); one item (Minor Potion); six status effects (Bleed, Burn, Curse, Blessed, Sleep, Stun) |
+| **Content data** | Three playable characters (Knight, Warden, Hexblade; the last two are Knight recolours); four enemies (Wolf, Goblin Scout, Skeleton, Charred Skeleton), each with a status attack (Rend, Serrated Stab, Grave Chill); 19 skills; two items (Minor Potion, Holy Water); seven status effects (Bleed, Burn, Curse, Blessed, Sleep, Stun, Taunt) |
 | **UI foundation** | A generated theme and colour palette (including sliders, check boxes, option buttons and tabs), UI sounds wired into every menu, and a typography specimen scene |
 | **Audio architecture** | An `AudioManager` with music, sound-effect and ambience managers: crossfades, battle music push/pop, jingles, pooled sound effects with variants, pitch and cooldowns, and footsteps by ground surface. Slice audio (Phase 7A): music for the title, village, graveyard and battle, victory/level-up/game-over jingles, UI, reward and rest sounds. Footsteps, combat, monster and ambience sounds have their hooks but no files yet |
 | **Atmosphere** | Vendor ambience and weather shaders used in the existing maps |
@@ -105,7 +105,7 @@ These systems exist in the repository and are covered by automated tests. Most o
 
 Nothing in this list is finished.
 
-- **Party:** up to three active members with their own stats, skills, motivations and secrets.
+- **Party story:** motivations and secrets for the companions, and their own art (they are Knight recolours for now).
 - **Inventory and equipment:** items in the field and in battle, four equipment slots and shops.
 - **Dialogue and quests:** full branching dialogue, NPCs, a quest journal and story flags.
 - **Boss encounters:** scripted, non-random battles including a two-phase boss.
@@ -275,7 +275,7 @@ Other tools (asset extraction, theme rebuild, map rebuild, project settings) are
 
 **Stage: pre-alpha. Milestone 1 (the vertical slice) is built and awaiting its playtest.**
 
-The slice plays from start to finish: title screen, intro, the village at dusk, a conversation with the Elder, the graveyard with random battles against wolves, goblins and skeletons, levelling up, resting at the well, and Game Over. It has music, jingles and UI sounds (Phase 7A; no footsteps, combat or ambience sounds yet), uses Godot's default font (the Alegreya and Cinzel files are not added), and has one playable character with placeholder NPC art.
+The slice plays from start to finish: title screen, intro, the village at dusk, a conversation with the Elder, the graveyard with random battles against wolves, goblins and skeletons, levelling up, resting at the well, and Game Over. It has music, jingles and UI sounds (Phase 7A; no footsteps, combat or ambience sounds yet), uses Godot's default font (the Alegreya and Cinzel files are not added), and has one playable character with placeholder NPC art. Phase 8 adds two recruitable companions (the Warden and the Hexblade), status attacks and cures, and the Party status page.
 
 ### Roadmap
 
@@ -291,7 +291,7 @@ From [`PROJECT_PLAN.md`](PROJECT_PLAN.md). Phase sizes are rough estimates, not 
 | 6 | Random encounters | Done (manual review open) |
 | 7 | **Milestone 1: vertical slice** | Built; playtest and review open |
 | 7A | Audio setup | Pipeline, hooks and slice music/UI audio built; listening check open |
-| 8 | Party, progression, status effects in play | Planned |
+| 8 | Party, progression, status effects in play | Built; manual playtest open |
 | 9 | Inventory, equipment, items, shop | Planned |
 | 10 | Dialogue, NPCs, quests, boss | Planned |
 | 11 | Save/load and Chapter 1 content | Planned |
@@ -301,7 +301,8 @@ From [`PROJECT_PLAN.md`](PROJECT_PLAN.md). Phase sizes are rough estimates, not 
 
 - No music or sound effects yet. Everything is wired, so adding them is data work (see `AUDIO_CATALOG.md`).
 - The Alegreya and Cinzel font files have not been added.
-- Only one hero sprite (the Knight). Other party members will use placeholder recolours until matching art is found.
+- Only one hero sprite (the Knight). The Warden and Hexblade use its black and gold recolours, which have no special moves (their skills reuse the second attack), until matching art is found.
+- No status-effect sounds (no source in the supplied audio packs).
 - No NPC sprites, and no forest, cave or dungeon tilesets.
 - The `dfgui` UI kit has an unknown source and licence. This blocks a public release until it is resolved.
 

@@ -3,9 +3,11 @@ extends Resource
 ## A battle technique (SKILL, physical) or spell (MAGIC).
 ## Physical: `power` is a percentage of a basic attack (100 = one normal hit).
 ## Magic damage and healing: `power` is the spell's flat base (see DamageCalculator).
+## Support effects (Phase 8): STATUS applies `inflicts` (Blessing, Provoke), CURE removes `cures`
+## (Purify), GUARD makes the user defend and take the single-target blows aimed at its target.
 
 enum Category { SKILL, MAGIC }
-enum Effect { DAMAGE, HEAL }
+enum Effect { DAMAGE, HEAL, STATUS, CURE, GUARD }
 
 @export var id: StringName
 @export var display_name: String = ""
@@ -22,6 +24,10 @@ enum Effect { DAMAGE, HEAL }
 ## Status inflicted on each damaged target with probability `inflict_chance`.
 @export var inflicts: StatusEffectData
 @export_range(0.0, 1.0, 0.01) var inflict_chance: float = 0.0
+## Statuses removed from each target by a CURE skill (empty = all).
+@export var cures: Array[StatusEffectData] = []
+## Acts before ordinary actions of the round, like Defend (Guard: 1).
+@export_range(0, 1) var priority: int = 0
 ## Logical animation the presenter plays (Phase 5), e.g. &"whirlwind".
 @export var anim_key: StringName = &"attack"
 ## Effect the presenter plays on each target as the skill lands (null = the target's own hit
@@ -32,3 +38,8 @@ enum Effect { DAMAGE, HEAL }
 ## Played on each target as it lands, with `impact_fx` (null = the default hit sound).
 @export var impact_sfx: SfxSet
 @export_multiline var description: String = ""
+
+
+## Damages its targets (the only kind enemies pick at random, see EnemyAI).
+func is_offensive() -> bool:
+	return effect == Effect.DAMAGE

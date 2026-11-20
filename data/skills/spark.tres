@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_wjih3"]
+[ext_resource type="Resource" path="res://data/fx/spark_impact.tres" id="2_2v3hq"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="3_rd53j"]
+
+[resource]
+script = ExtResource("3_rd53j")
+id = &"spark"
+display_name = "Spark"
+category = 1
+mp_cost = 7
+power = 12
+scaling_stat = &"magic"
+element = 3
+target_mode = 1
+anim_key = &"cast"
+impact_fx = ExtResource("2_2v3hq")
+description = "Crackling light leaps between every foe."

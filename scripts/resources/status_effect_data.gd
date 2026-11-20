@@ -3,7 +3,7 @@ extends Resource
 ## A status effect definition (Bleed, Burn, Curse, Blessed, Sleep, Stun…).
 ## Applying it again to a target that already has it refreshes its duration (no stacking).
 
-enum Kind { BLEED, BURN, CURSE, BLESSED, SLEEP, STUN }
+enum Kind { BLEED, BURN, CURSE, BLESSED, SLEEP, STUN, TAUNT }
 
 @export var id: StringName
 @export var display_name: String = ""
@@ -24,6 +24,8 @@ enum Kind { BLEED, BURN, CURSE, BLESSED, SLEEP, STUN }
 @export var stat_mult: Dictionary[StringName, float] = {}
 ## Multiplier on healing the holder receives (Curse: 0.5).
 @export_range(0.0, 2.0, 0.05) var healing_received_mult: float = 1.0
+## Opponents aim their single-target actions at the holder (Taunt, from Provoke).
+@export var draws_attacks: bool = false
 ## Removed when the holder takes damage (Sleep).
 @export var wears_off_on_hit: bool = false
 ## Element of the status. A target immune to a non-physical element is unaffected (Burn vs FIRE).

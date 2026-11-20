@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FxSpec" format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/effects/spell/effects/frost/godot/frost_spriteframes.tres" id="1_4rr1p"]
+[ext_resource type="Script" path="res://scripts/resources/fx_spec.gd" id="2_057x8"]
+
+[resource]
+script = ExtResource("2_057x8")
+frames = ExtResource("1_4rr1p")
+animation = &"impact"
+scale = 0.8

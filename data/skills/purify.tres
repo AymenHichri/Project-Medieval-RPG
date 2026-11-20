@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_c8ajf"]
+[ext_resource type="Resource" path="res://data/status_effects/bleed.tres" id="2_vkfnr"]
+[ext_resource type="Resource" path="res://data/status_effects/burn.tres" id="3_qfkpd"]
+[ext_resource type="Resource" path="res://data/status_effects/curse.tres" id="4_8i8wp"]
+[ext_resource type="Resource" path="res://data/fx/holy_light.tres" id="5_xnlbk"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="6_df2yp"]
+
+[resource]
+script = ExtResource("6_df2yp")
+id = &"purify"
+display_name = "Purify"
+category = 1
+effect = 3
+mp_cost = 3
+power = 0
+target_mode = 2
+cures = Array[ExtResource("1_c8ajf")]([ExtResource("2_vkfnr"), ExtResource("3_qfkpd"), ExtResource("4_8i8wp")])
+anim_key = &"cast"
+impact_fx = ExtResource("5_xnlbk")
+description = "Closes wounds and lifts curses: cures Bleed, Burn and Curse."

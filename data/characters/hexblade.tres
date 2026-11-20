@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="CharacterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="1_o7hxn"]
+[ext_resource type="Resource" path="res://data/growth/hexblade_growth.tres" id="2_gxgv0"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/portraits/framed/256px/35_witch.png" id="3_ikxoh"]
+[ext_resource type="Script" path="res://scripts/resources/character_data.gd" id="4_s2v3t"]
+[ext_resource type="Script" path="res://scripts/resources/skill_unlock.gd" id="5_nuu6b"]
+[ext_resource type="Resource" path="res://data/skills/hex.tres" id="6_l7i50"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="7_d8sip"]
+[ext_resource type="Resource" path="res://data/skills/ember.tres" id="8_758tr"]
+[ext_resource type="Resource" path="res://data/skills/frost.tres" id="9_rquyb"]
+[ext_resource type="Resource" path="res://data/skills/spark.tres" id="10_fwu4f"]
+[ext_resource type="Resource" path="res://data/skills/minor_heal.tres" id="11_2t34a"]
+[ext_resource type="Resource" path="res://data/visuals/hexblade.tres" id="12_ex04h"]
+
+[sub_resource type="Resource" id="Resource_akiqs"]
+script = ExtResource("1_o7hxn")
+max_hp = 90
+max_mp = 36
+attack = 18
+defense = 12
+magic = 28
+spirit = 20
+agility = 14
+luck = 8
+
+[sub_resource type="Resource" id="Resource_te3my"]
+script = ExtResource("5_nuu6b")
+level = 3
+skill = ExtResource("6_l7i50")
+
+[resource]
+script = ExtResource("4_s2v3t")
+id = &"hexblade"
+display_name = "Hexblade"
+portrait = ExtResource("3_ikxoh")
+base_stats = SubResource("Resource_akiqs")
+growth = ExtResource("2_gxgv0")
+visual = ExtResource("12_ex04h")
+starting_skills = Array[ExtResource("7_d8sip")]([ExtResource("8_758tr"), ExtResource("9_rquyb"), ExtResource("10_fwu4f"), ExtResource("11_2t34a")])
+skill_unlocks = Array[ExtResource("5_nuu6b")]([SubResource("Resource_te3my")])

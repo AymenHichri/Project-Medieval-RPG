@@ -2,6 +2,10 @@ class_name ActionResolver
 extends RefCounted
 ## Executes one BattleAction and returns its events. Holds no battle state of its own: the sides,
 ## RNG and item callback are injected by BattleEngine (or a test).
+## Taunt and Guard (Phase 8): a single-target offensive action is drawn to a living opponent with a
+## Taunt status (Provoke), chosen when the action resolves, so a Provoke used first this round
+## already counts. Then, if its target is guarded, it strikes the living guardian instead (a
+## COVERED event comes first). Area actions are never redirected.
 
 ## Flee: chance = FLEE_BASE_CHANCE + (party agility − enemy agility, averaged) × FLEE_PER_AGILITY.
 const FLEE_BASE_CHANCE: float = 0.5
@@ -78,7 +82,10 @@ func _attack(action: BattleAction) -> Array[BattleEvent]:
 	var target: Combatant = _single_target(action, true)
 	if target == null:
 		return [_failed(action.actor, &"no_target")]
-	return _physical_hit(action.actor, target, BASIC_ATTACK_POWER, &"attack", Elements.Element.PHYSICAL)
+	var events: Array[BattleEvent] = []
+	target = _cover(action.actor, target, events)
+	events.append_array(_physical_hit(action.actor, target, BASIC_ATTACK_POWER, &"attack", Elements.Element.PHYSICAL))
+	return events
 
 
 func _skill(action: BattleAction) -> Array[BattleEvent]:
@@ -86,13 +93,20 @@ func _skill(action: BattleAction) -> Array[BattleEvent]:
 	var skill: SkillData = action.skill
 	if actor.mp < skill.mp_cost:
 		return [_failed(actor, &"not_enough_mp")]
-	var targets: Array[Combatant] = _skill_targets(action, skill.target_mode, skill.effect == SkillData.Effect.DAMAGE)
+	var offensive: bool = skill.is_offensive()
+	var targets: Array[Combatant] = _skill_targets(action, skill.target_mode, offensive)
 	if targets.is_empty():
 		return [_failed(actor, &"no_target")]
 	var events: Array[BattleEvent] = []
 	if skill.mp_cost > 0:
 		actor.mp -= skill.mp_cost
 		events.append(BattleEvent.new(BattleEvent.Type.MP_CHANGED, {&"target": actor, &"amount": -skill.mp_cost, &"mp": actor.mp}))
+	if not offensive and skill.effect != SkillData.Effect.HEAL:
+		for target: Combatant in targets:
+			events.append_array(_support(actor, target, skill))
+		return events
+	if offensive and Targeting.is_single(skill.target_mode):
+		targets[0] = _cover(actor, targets[0], events)
 	for chosen: Combatant in targets:
 		var hit_target: Combatant = chosen
 		for _hit: int in skill.hits:
@@ -149,6 +163,25 @@ func _item(action: BattleAction) -> Array[BattleEvent]:
 	return events
 
 
+## STATUS, CURE and GUARD skills on one target.
+func _support(actor: Combatant, target: Combatant, skill: SkillData) -> Array[BattleEvent]:
+	var events: Array[BattleEvent] = []
+	match skill.effect:
+		SkillData.Effect.STATUS:
+			if skill.inflicts != null and rng.randf() < skill.inflict_chance:
+				events = StatusEffects.apply(target, skill.inflicts, rng)
+		SkillData.Effect.CURE:
+			events = StatusEffects.cure(target, skill.cures)
+		SkillData.Effect.GUARD:
+			actor.is_defending = true
+			if target != actor:
+				target.guarded_by = actor
+			events = [BattleEvent.new(BattleEvent.Type.GUARDING, {&"actor": actor, &"target": target})]
+	if events.is_empty():
+		events.append(BattleEvent.new(BattleEvent.Type.NO_EFFECT, {&"target": target}))
+	return events
+
+
 func _flee(actor: Combatant) -> Array[BattleEvent]:
 	if not can_flee:
 		return [_failed(actor, &"cannot_flee")]
@@ -194,6 +227,22 @@ func _heal(actor: Combatant, target: Combatant, amount: int) -> BattleEvent:
 
 
 # --- targeting ------------------------------------------------------------------------------
+
+## The combatant a single-target blow from `actor` on `target` really strikes: a taunting
+## opponent if there is one (and `target` is not), then that one's living guardian when it has
+## one (adds a COVERED event), else the target.
+func _cover(actor: Combatant, target: Combatant, events: Array[BattleEvent]) -> Combatant:
+	if not target.draws_attacks():
+		for c: Combatant in living(opponents_of(actor)):
+			if c.draws_attacks():
+				target = c
+				break
+	var guardian: Combatant = target.guarded_by
+	if guardian == null or guardian == target or not guardian.is_alive() or guardian.side == actor.side:
+		return target
+	events.append(BattleEvent.new(BattleEvent.Type.COVERED, {&"target": guardian, &"protected": target}))
+	return guardian
+
 
 func _single_target(action: BattleAction, offensive: bool) -> Combatant:
 	var chosen: Combatant = action.targets[0] if not action.targets.is_empty() else null

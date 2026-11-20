@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FxSpec" format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/effects/ambient/effects/sparks_burst/godot/sparks_burst_spriteframes.tres" id="1_cd2tq"]
+[ext_resource type="Script" path="res://scripts/resources/fx_spec.gd" id="2_jofst"]
+
+[resource]
+script = ExtResource("2_jofst")
+frames = ExtResource("1_cd2tq")
+scale = 0.9
+tint = Color(1, 0.95, 0.7, 1)

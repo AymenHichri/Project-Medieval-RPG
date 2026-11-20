@@ -83,6 +83,9 @@ func _init() -> void:
 		BattleEvent.Type.ACTION_SKIPPED: _on_action_skipped,
 		BattleEvent.Type.ACTION_FAILED: _on_action_failed,
 		BattleEvent.Type.DEFENDING: _on_defending,
+		BattleEvent.Type.GUARDING: _on_guarding,
+		BattleEvent.Type.COVERED: _on_covered,
+		BattleEvent.Type.NO_EFFECT: _on_no_effect,
 		BattleEvent.Type.DAMAGE: _on_damage,
 		BattleEvent.Type.HEAL: _on_heal,
 		BattleEvent.Type.MP_CHANGED: _on_mp_changed,
@@ -218,7 +221,9 @@ func _cast(sprite: BattleSprite, skill: SkillData, impact: Array[BattleEvent]) -
 	_play_sfx(skill.cast_sfx, _action.actor if _action != null else null)
 	if sprite != null:
 		sprite.glow(spell_color(skill))
-		var anim: StringName = cast_anim(sprite)
+		# Stances (Provoke, Guard) are shown by the glow alone, without a swing.
+		var stance: bool = skill.category == SkillData.Category.SKILL and not skill.is_offensive()
+		var anim: StringName = &"" if stance else cast_anim(sprite)
 		if anim != &"" and sprite.start_logical(anim):
 			await sprite.wait_hit()
 		else:
@@ -263,14 +268,22 @@ static func cast_anim(sprite: BattleSprite) -> StringName:
 	return &""
 
 
+## Spells and support skills (heal, buff, cure, guard) are shown in place with a glow; only
+## damaging techniques step forward.
 static func _is_spell(skill: SkillData) -> bool:
-	return skill.category == SkillData.Category.MAGIC or skill.effect == SkillData.Effect.HEAL
+	return skill.category == SkillData.Category.MAGIC or not skill.is_offensive()
 
 
 ## Glow colour of a spell: healing green, else its element.
 static func spell_color(skill: SkillData) -> Color:
-	if skill.effect == SkillData.Effect.HEAL:
-		return PALETTE.heal
+	match skill.effect:
+		SkillData.Effect.HEAL:
+			return PALETTE.heal
+		SkillData.Effect.CURE:
+			return PALETTE.parchment_light
+		SkillData.Effect.STATUS, SkillData.Effect.GUARD:
+			if skill.element == Elements.Element.PHYSICAL:
+				return PALETTE.gold
 	match skill.element:
 		Elements.Element.FIRE:
 			return PALETTE.ember
@@ -334,6 +347,32 @@ func _on_defending(e: BattleEvent) -> void:
 	if sprite != null:
 		sprite.set_defending(true)
 	await _wait(MESSAGE_SECONDS)
+
+
+func _on_guarding(e: BattleEvent) -> void:
+	var actor: Combatant = e.get_value(&"actor") as Combatant
+	var ward: Combatant = e.subject()
+	var sprite: BattleSprite = sprites.get(actor) as BattleSprite
+	if ward != null and ward != actor:
+		message.show_text("%s stands guard over %s." % [actor.display_name, ward.display_name])
+	else:
+		message.show_text("%s braces for the blows." % actor.display_name)
+	_play_sfx(shared_sfx.get(&"defend") as SfxSet, actor)
+	if sprite != null:
+		sprite.set_defending(true)
+	await _wait(MESSAGE_SECONDS)
+
+
+## A guardian steps in front of the blow: a popup over it (the damage follows on it).
+func _on_covered(e: BattleEvent) -> void:
+	var guardian: Combatant = e.subject()
+	var ward: Combatant = e.get_value(&"protected") as Combatant
+	_popup(guardian, "Covers %s" % ward.display_name if ward != null else "Cover", DamagePopup.Kind.INFO,
+			_next_stack(guardian))
+
+
+func _on_no_effect(e: BattleEvent) -> void:
+	_popup(e.subject(), "No effect", DamagePopup.Kind.INFO, _next_stack(e.subject()))
 
 
 func _on_damage(e: BattleEvent) -> void:

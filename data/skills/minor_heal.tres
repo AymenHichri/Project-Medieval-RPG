@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="SkillData" format=3]
 
-[ext_resource type="Resource" path="res://data/fx/heal_burst.tres" id="1_densv"]
-[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_uk6cy"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_uk6cy"]
+[ext_resource type="Resource" path="res://data/fx/heal_burst.tres" id="2_51u4o"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="3_bwlct"]
 
 [resource]
-script = ExtResource("2_uk6cy")
+script = ExtResource("3_bwlct")
 id = &"minor_heal"
 display_name = "Minor Heal"
 category = 1
@@ -14,5 +15,5 @@ power = 20
 scaling_stat = &"magic"
 target_mode = 2
 anim_key = &"cast"
-impact_fx = ExtResource("1_densv")
+impact_fx = ExtResource("2_51u4o")
 description = "Mends a single ally's wounds."

@@ -13,6 +13,8 @@ var hp: int = 0
 var mp: int = 0
 var statuses: Array[ActiveStatus] = []
 var is_defending: bool = false
+## The ally covering this combatant this round (Guard): single-target blows aimed here hit it instead.
+var guarded_by: Combatant
 var affinities: Dictionary[Elements.Element, float] = {}
 var skills: Array[SkillData] = []
 var status_immunities: Array[StatusEffectData] = []
@@ -110,6 +112,7 @@ func take_damage(amount: int) -> int:
 	if hp == 0:
 		statuses.clear()
 		is_defending = false
+		guarded_by = null
 	return lost
 
 
@@ -135,6 +138,14 @@ func revive(amount: int) -> int:
 		return 0
 	hp = clampi(amount, 1, stats.max_hp)
 	return hp
+
+
+## Has a status that draws the opponents' single-target actions (Taunt).
+func draws_attacks() -> bool:
+	for status: ActiveStatus in statuses:
+		if status.data.draws_attacks:
+			return true
+	return false
 
 
 ## True when this enemy should switch to its second form now (checked by BattleEngine).

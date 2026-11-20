@@ -81,7 +81,7 @@ func execute_next() -> Array[BattleEvent]:
 	return events
 
 
-## Status ticks, Defend reset and the round-end marker.
+## Status ticks, Defend and Guard reset and the round-end marker.
 func end_round() -> Array[BattleEvent]:
 	_queue.clear()
 	var events: Array[BattleEvent] = []
@@ -90,6 +90,7 @@ func end_round() -> Array[BattleEvent]:
 		events.append_array(_check_phase_changes())
 	for c: Combatant in everyone():
 		c.is_defending = false
+		c.guarded_by = null
 	events.append(BattleEvent.new(BattleEvent.Type.ROUND_ENDED, {&"round": round_number}))
 	events.append_array(_check_end())
 	return events

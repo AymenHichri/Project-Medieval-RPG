@@ -27,6 +27,7 @@ const TRANSITION_SCENE: String = "res://scenes/world/components/map_transition.t
 const INTERACTABLE_SCENE: String = "res://scenes/world/components/interactable.tscn"
 const NPC_SCENE: String = "res://scenes/world/components/npc.tscn"
 const REST_POINT_SCENE: String = "res://scenes/world/components/rest_point.tscn"
+const RECRUIT_NPC_SCENE: String = "res://scenes/world/components/recruit_npc.tscn"
 const ENCOUNTER_ZONE_SCENE: String = "res://scenes/world/components/encounter_zone.tscn"
 const FOG_SHADER: String = "res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader"
 const FOG_MASK: String = "res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png"
@@ -258,6 +259,19 @@ func npc(world: Node2D, node_name: String, at: Vector2, dialogue_id: StringName,
 	person.facing = facing
 	if not portrait_path.is_empty():
 		person.portrait = load(portrait_path) as Texture2D
+	return person
+
+
+## A character who joins the party after its dialogue when `join_if_flag` is set (Phase 8).
+## Its sprite and portrait come from the character data.
+func recruit(world: Node2D, node_name: String, at: Vector2, dialogue_id: StringName, facing: String,
+		character_path: String, joined_flag: StringName, join_if_flag: StringName) -> RecruitNpc:
+	var person: RecruitNpc = scene(world, RECRUIT_NPC_SCENE, node_name, at) as RecruitNpc
+	person.dialogue_id = dialogue_id
+	person.facing = facing
+	person.character = load(character_path) as CharacterData
+	person.joined_flag = joined_flag
+	person.join_if_flag = join_if_flag
 	return person
 
 

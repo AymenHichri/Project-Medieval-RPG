@@ -38,6 +38,8 @@
 [ext_resource type="Shader" path="res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader" id="36_wtehw"]
 [ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png" id="37_lb283"]
 [ext_resource type="Resource" path="res://data/audio/music/mus_town_hamlet.tres" id="audio_music"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/recruit_npc.tscn" id="80_recruit"]
+[ext_resource type="Resource" path="res://data/characters/warden.tres" id="81_warden"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h2o4h"]
 normal = Vector2(1, 0)
@@ -213,6 +215,14 @@ facing = "SW"
 portrait = ExtResource("28_ldbp2")
 idle_animation_speed = 0.5
 dialogue_id = &"elder_intro"
+
+[node name="Warden" parent="World" instance=ExtResource("80_recruit")]
+position = Vector2(2300, 2420)
+facing = "W"
+dialogue_id = &"warden_meet"
+character = ExtResource("81_warden")
+joined_flag = &"warden_joined"
+join_if_flag = &"warden_agreed"
 
 [node name="OakTree1" parent="World" unique_id=1091003060 instance=ExtResource("29_81qe0")]
 position = Vector2(170, 640)

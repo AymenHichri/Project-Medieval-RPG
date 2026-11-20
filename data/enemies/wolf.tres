@@ -1,23 +1,28 @@
-[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://b3i6lrd7eyxri"]
+[gd_resource type="Resource" script_class="EnemyData" format=3]
 
-[ext_resource type="Script" uid="uid://bj5i8my5yylg5" path="res://scripts/resources/ai_profile.gd" id="1_2b6o2"]
-[ext_resource type="Script" uid="uid://brvsf4ijwjkpy" path="res://scripts/resources/skill_data.gd" id="2_cbmln"]
-[ext_resource type="Script" uid="uid://b72srxiw3ala3" path="res://scripts/resources/drop_entry.gd" id="3_xs001"]
-[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="4_r1ixo"]
-[ext_resource type="Script" uid="uid://dl3r35uf2aaj1" path="res://scripts/resources/enemy_data.gd" id="5_15fh4"]
-[ext_resource type="Script" uid="uid://drhp8m6p3th8i" path="res://scripts/resources/stat_block.gd" id="6_oax46"]
-[ext_resource type="Script" uid="uid://p6a311skgdev" path="res://scripts/resources/status_effect_data.gd" id="7_wnkrw"]
-[ext_resource type="Resource" path="res://data/visuals/wolf.tres" id="8_8roje"]
-
-[sub_resource type="Resource" id="Resource_yu703"]
-script = ExtResource("1_2b6o2")
-
-[sub_resource type="Resource" id="Resource_7ahrt"]
-script = ExtResource("3_xs001")
-item = ExtResource("4_r1ixo")
+[ext_resource type="Script" path="res://scripts/resources/ai_profile.gd" id="1_cbmln"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_xs001"]
+[ext_resource type="Resource" path="res://data/skills/rend.tres" id="3_r1ixo"]
+[ext_resource type="Script" path="res://scripts/resources/drop_entry.gd" id="4_15fh4"]
+[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="5_oax46"]
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="6_wnkrw"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="7_8roje"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="8_yu703"]
+[ext_resource type="Resource" path="res://data/visuals/wolf.tres" id="9_7ahrt"]
 
 [sub_resource type="Resource" id="Resource_mewbf"]
-script = ExtResource("6_oax46")
+script = ExtResource("1_cbmln")
+attack_weight = 5
+skill_weights = Dictionary[ExtResource("2_xs001"), int]({
+ExtResource("3_r1ixo"): 1
+})
+
+[sub_resource type="Resource" id="Resource_cnuug"]
+script = ExtResource("4_15fh4")
+item = ExtResource("5_oax46")
+
+[sub_resource type="Resource" id="Resource_yl0jq"]
+script = ExtResource("7_8roje")
 max_hp = 29
 attack = 19
 defense = 8
@@ -26,15 +31,16 @@ agility = 16
 luck = 6
 
 [resource]
-script = ExtResource("5_15fh4")
+script = ExtResource("6_wnkrw")
 id = &"wolf"
 display_name = "Wolf"
-stats = SubResource("Resource_mewbf")
+stats = SubResource("Resource_yl0jq")
 affinities = Dictionary[int, float]({
 1: 2.0
 })
-ai = SubResource("Resource_yu703")
+skills = Array[ExtResource("2_xs001")]([ExtResource("3_r1ixo")])
+ai = SubResource("Resource_mewbf")
 xp = 8
 gold = 5
-drops = Array[ExtResource("3_xs001")]([SubResource("Resource_7ahrt")])
-visual = ExtResource("8_8roje")
+drops = Array[ExtResource("4_15fh4")]([SubResource("Resource_cnuug")])
+visual = ExtResource("9_7ahrt")

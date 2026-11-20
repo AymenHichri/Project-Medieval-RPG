@@ -1,25 +1,30 @@
-[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://cxkdibgk2odr2"]
+[gd_resource type="Resource" script_class="EnemyData" format=3]
 
-[ext_resource type="Script" uid="uid://bj5i8my5yylg5" path="res://scripts/resources/ai_profile.gd" id="1_y3gpx"]
-[ext_resource type="Script" uid="uid://brvsf4ijwjkpy" path="res://scripts/resources/skill_data.gd" id="2_adbkd"]
-[ext_resource type="Script" uid="uid://b72srxiw3ala3" path="res://scripts/resources/drop_entry.gd" id="3_oo6cd"]
-[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="4_rp5e0"]
-[ext_resource type="Script" uid="uid://dl3r35uf2aaj1" path="res://scripts/resources/enemy_data.gd" id="5_lgg5f"]
-[ext_resource type="Script" uid="uid://drhp8m6p3th8i" path="res://scripts/resources/stat_block.gd" id="6_gtpg2"]
-[ext_resource type="Script" uid="uid://p6a311skgdev" path="res://scripts/resources/status_effect_data.gd" id="7_x4w3w"]
-[ext_resource type="Resource" path="res://data/visuals/goblin_scout.tres" id="8_y61o8"]
-
-[sub_resource type="Resource" id="Resource_17rar"]
-script = ExtResource("1_y3gpx")
-target_strategy = 1
-
-[sub_resource type="Resource" id="Resource_atan7"]
-script = ExtResource("3_oo6cd")
-item = ExtResource("4_rp5e0")
-chance = 0.2
+[ext_resource type="Script" path="res://scripts/resources/ai_profile.gd" id="1_adbkd"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_oo6cd"]
+[ext_resource type="Resource" path="res://data/skills/serrated_stab.tres" id="3_rp5e0"]
+[ext_resource type="Script" path="res://scripts/resources/drop_entry.gd" id="4_lgg5f"]
+[ext_resource type="Resource" path="res://data/items/minor_potion.tres" id="5_gtpg2"]
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="6_x4w3w"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="7_y61o8"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="8_17rar"]
+[ext_resource type="Resource" path="res://data/visuals/goblin_scout.tres" id="9_atan7"]
 
 [sub_resource type="Resource" id="Resource_uxtd3"]
-script = ExtResource("6_gtpg2")
+script = ExtResource("1_adbkd")
+attack_weight = 5
+skill_weights = Dictionary[ExtResource("2_oo6cd"), int]({
+ExtResource("3_rp5e0"): 1
+})
+target_strategy = 1
+
+[sub_resource type="Resource" id="Resource_17gf2"]
+script = ExtResource("4_lgg5f")
+item = ExtResource("5_gtpg2")
+chance = 0.2
+
+[sub_resource type="Resource" id="Resource_niwav"]
+script = ExtResource("7_y61o8")
 max_hp = 25
 attack = 17
 defense = 10
@@ -28,15 +33,16 @@ agility = 14
 luck = 10
 
 [resource]
-script = ExtResource("5_lgg5f")
+script = ExtResource("6_x4w3w")
 id = &"goblin_scout"
 display_name = "Goblin Scout"
-stats = SubResource("Resource_uxtd3")
+stats = SubResource("Resource_niwav")
 affinities = Dictionary[int, float]({
 3: 2.0
 })
-ai = SubResource("Resource_17rar")
+skills = Array[ExtResource("2_oo6cd")]([ExtResource("3_rp5e0")])
+ai = SubResource("Resource_uxtd3")
 xp = 7
 gold = 9
-drops = Array[ExtResource("3_oo6cd")]([SubResource("Resource_atan7")])
-visual = ExtResource("8_y61o8")
+drops = Array[ExtResource("4_lgg5f")]([SubResource("Resource_17gf2")])
+visual = ExtResource("9_atan7")

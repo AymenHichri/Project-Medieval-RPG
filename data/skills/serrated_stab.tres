@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_uwnqa"]
+[ext_resource type="Resource" path="res://data/status_effects/bleed.tres" id="2_6kq2d"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="3_n8tby"]
+
+[resource]
+script = ExtResource("3_n8tby")
+id = &"serrated_stab"
+display_name = "Serrated Stab"
+inflicts = ExtResource("2_6kq2d")
+inflict_chance = 0.25
+anim_key = &"skill"
+description = "A jagged blade. May cause Bleed."

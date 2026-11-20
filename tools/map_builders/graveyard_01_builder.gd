@@ -164,6 +164,9 @@ func _build_setpieces(world: Node2D) -> void:
 	_kit.prop(world, "dead-stump", "DeadStump", Vector2(700, 880))
 	_kit.prop(world, "burial-cart", "BurialCart", Vector2(1960, 2200))
 	_kit.scene(world, BONE_PILE, "BonePile", Vector2(2120, 820))
+	# Phase 8: the Hexblade studies the crypt ward at the far end of the graveyard, and joins when asked.
+	_kit.recruit(world, "Hexblade", Vector2(1700, 920), &"hexblade_meet", "SW", "res://data/characters/hexblade.tres",
+			&"hexblade_joined", &"hexblade_agreed")
 
 	var trees: Array[Vector2] = [Vector2(240, 820), Vector2(2860, 880), Vector2(260, 2240), Vector2(2830, 2230)]
 	for i: int in trees.size():

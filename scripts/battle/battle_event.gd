@@ -8,10 +8,13 @@ enum Type {
 	ACTION_SKIPPED,  ## actor, status (StatusEffectData)
 	ACTION_FAILED,   ## actor, reason (&"not_enough_mp", &"no_item", &"cannot_flee", &"no_target")
 	DEFENDING,       ## actor
+	GUARDING,        ## actor, target (the ally it covers; the actor also defends)
+	COVERED,         ## target (the guardian who takes the blow), protected (the ally aimed at)
 	DAMAGE,          ## target, amount, element, critical, weak, resisted, immune, source (actor or status)
 	HEAL,            ## target, amount, source
 	MP_CHANGED,      ## target, amount (negative = spent), mp
 	REVIVED,         ## target, amount
+	NO_EFFECT,       ## target (a support skill changed nothing, e.g. Purify on a healthy ally)
 	STATUS_APPLIED,  ## target, status, turns, refreshed
 	STATUS_RESISTED, ## target, status
 	STATUS_REMOVED,  ## target, status, reason (&"expired", &"hit", &"cured")

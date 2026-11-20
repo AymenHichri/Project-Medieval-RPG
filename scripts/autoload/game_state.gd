@@ -1,6 +1,6 @@
 extends Node
 ## Autoload `GameState`: the data of the current play session.
-## Flags, gold, item counts, the party (levels, XP) and encounter-rate modifiers.
+## Flags, gold, item counts, the party (levels, XP, recruits) and encounter-rate modifiers.
 ## The full Inventory arrives in Phase 9, quests and serialisation later.
 
 signal flag_changed(flag: StringName, value: Variant)
@@ -8,8 +8,10 @@ signal gold_changed(gold: int)
 signal items_changed
 ## A party member gained a level (emitted once per level, from `apply_battle_rewards`).
 signal member_leveled(member: PartyMember, level_up: LevelUp)
+## A character joined the party (`recruit`).
+signal member_joined(member: PartyMember)
 
-## The character a new game starts with (Phase 8 adds recruits).
+## The character a new game starts with (recruits join through `recruit`).
 const STARTING_CHARACTER: String = "res://data/characters/knight.tres"
 ## Item ids are the file names in this folder.
 const ITEM_DIR: String = "res://data/items"
@@ -111,6 +113,20 @@ func ensure_party() -> void:
 	var knight: CharacterData = load(STARTING_CHARACTER) as CharacterData
 	if knight != null:
 		party.add(PartyMember.create(knight))
+
+
+## Adds `character` to the party at the leader's level and sets `flag` (if given). Returns the
+## new member, or null when the party is full or already has this character.
+func recruit(character: CharacterData, flag: StringName = &"") -> PartyMember:
+	if character == null or party.is_full() or party.has_character(character.id):
+		return null
+	var level: int = party.leader().level if not party.is_empty() else 1
+	var member: PartyMember = PartyMember.create(character, level, rng)
+	party.add(member)
+	if not flag.is_empty():
+		set_flag(flag)
+	member_joined.emit(member)
+	return member
 
 
 ## Clears what only lasts for one battle (Defend, statuses) once it ends.

@@ -2,7 +2,8 @@ class_name BalanceSim
 extends RefCounted
 ## Slice balance check (PROJECT_PLAN.md Phase 7): a fresh level 1 Knight fights graveyard
 ## encounters back to back with XP and level-ups applied, played the way a sensible player would
-## (Minor Heal below 40% HP, Whirlwind on 2+ enemies while MP lasts, otherwise Attack; no items),
+## (Minor Heal below 40% HP, or 50% while Bleeding, Whirlwind on 2+ enemies while MP lasts,
+## otherwise Attack; no items),
 ## until HP falls below `rest_at` (time for the well) or the Knight dies.
 ## Target: 3–5 fights before resting. Used by tests/unit/test_balance.gd.
 
@@ -51,7 +52,8 @@ static func _play(engine: BattleEngine, me: Combatant, heal: SkillData, whirlwin
 		var foes: Array[Combatant] = ActionResolver.living(engine.enemies)
 		var actions: Array[BattleAction] = []
 		if me.can_act():
-			if me.hp_ratio() < 0.4 and me.mp >= heal.mp_cost:
+			var heal_below: float = 0.5 if me.has_status(&"bleed") else 0.4
+			if me.hp_ratio() < heal_below and me.mp >= heal.mp_cost:
 				actions.append(BattleAction.use_skill(me, heal, [me] as Array[Combatant]))
 			elif foes.size() >= 2 and me.mp >= whirlwind.mp_cost + heal.mp_cost:
 				actions.append(BattleAction.use_skill(me, whirlwind, foes))

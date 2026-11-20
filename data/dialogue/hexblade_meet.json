@@ -1,0 +1,14 @@
+{
+	"id": "hexblade_meet",
+	"lines": [
+		{ "speaker": "Hexblade", "set_flag": "met_hexblade", "text": "Careful. The ash by the crypt door still holds a ward, and it isn't mine." },
+		{ "speaker": "Hexblade", "text": "Someone has been binding the dead to this ground. I mean to learn who, and then I mean to cut the binding." },
+		{ "speaker": "Hexblade", "text": "Your steel and my spells would get there faster. Well?",
+		  "choices": [
+			{ "text": "Join us.", "set_flag": "hexblade_agreed", "goto": 3 },
+			{ "text": "We go alone.", "goto": 4 }
+		  ] },
+		{ "speaker": "Hexblade", "give_item": "holy_water:2", "goto": "end", "text": "Good. Take these vials; curses cling here. [Received 2 Holy Water. The Hexblade joins the party.]" },
+		{ "speaker": "Hexblade", "text": "Then mind the crypt. I'll be studying the ward." }
+	]
+}

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatusEffectData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_6qufm"]
+
+[resource]
+script = ExtResource("1_6qufm")
+id = &"taunt"
+display_name = "Taunt"
+kind = 6
+duration_turns = 2
+draws_attacks = true
+tag_text = "TNT"
+tag_color = Color(0.73333335, 0.19607843, 0.17254902, 1)

@@ -1,6 +1,7 @@
 extends SceneTree
-## Generates the battle data under res://data/ (statuses, skills, items, enemies, Knight, and
-## since Phase 5 the battle visuals in data/visuals/).
+## Generates the battle data under res://data/ (statuses, skills, items, enemies, the party
+## characters (Knight, and since Phase 8 the Warden and Hexblade recruits), and since Phase 5 the
+## battle visuals in data/visuals/).
 ##   godot --headless --path <project> -s res://tools/build_battle_data.gd
 ## This script is the source of truth for the numbers until the files are tuned in the Inspector.
 ## Re-running it overwrites those files.
@@ -20,6 +21,9 @@ const HUD_ICONS: String = "res://assets/vendor/gimbles/hud_icons/64px/"
 ## HD item icons from the SovDigital Inventory UI kit, used where the kit has the item (the
 ## Gimble's 64 px icons in assets/vendor/gimbles/item_icons/ cover the rest, from Phase 9).
 const HD_ITEM_ICONS: String = "res://assets/vendor/sovdigital/inventory_ui/icons/"
+const ITEM_ICONS: String = "res://assets/vendor/gimbles/item_icons/64px/"
+## Gimble's framed portraits (placeholders for the recruits, PROJECT_PLAN.md Phase 8).
+const PORTRAITS: String = "res://assets/vendor/gimbles/portraits/framed/256px/"
 
 
 var _failed: bool = false
@@ -34,9 +38,12 @@ func _initialize() -> void:
 	var statuses: Dictionary[StringName, StatusEffectData] = _build_statuses()
 	var skills: Dictionary[StringName, SkillData] = _build_skills(statuses)
 	var potion: ItemData = _build_potion()
+	var holy_water: ItemData = _build_holy_water(statuses)
 	var visuals: Dictionary[StringName, CombatantVisual] = _build_visuals()
-	_build_enemies(statuses, potion, visuals)
+	_build_enemies(statuses, skills, potion, holy_water, visuals)
 	_build_knight(skills, visuals[&"knight"])
+	_build_warden(skills, visuals[&"warden"])
+	_build_hexblade(skills, visuals[&"hexblade"])
 	print("battle data %s" % ("FAILED" if _failed else "written"))
 	quit(1 if _failed else 0)
 
@@ -75,6 +82,12 @@ func _build_statuses() -> Dictionary[StringName, StatusEffectData]:
 	stun.tag_text = "STN"
 	stun.tag_color = Color("d8d0b0")
 	out[&"stun"] = stun
+	# Phase 8: the Warden's Provoke. Enemies aim their single-target actions at the holder.
+	var taunt: StatusEffectData = _status(&"taunt", "Taunt", StatusEffectData.Kind.TAUNT, 2, "")
+	taunt.draws_attacks = true
+	taunt.tag_text = "TNT"
+	taunt.tag_color = Color("bb322c")
+	out[&"taunt"] = taunt
 	for id: StringName in out:
 		out[id] = _save(out[id], STATUS_DIR) as StatusEffectData
 	return out
@@ -111,9 +124,112 @@ func _build_skills(statuses: Dictionary[StringName, StatusEffectData]) -> Dictio
 	heal.description = "Mends a single ally's wounds."
 	heal.impact_fx = _fx[&"heal_burst"]
 	out[heal.id] = heal
+	_build_party_skills(statuses, out)
+	_build_enemy_skills(statuses, out)
 	for id: StringName in out:
 		out[id] = _save(out[id], SKILL_DIR) as SkillData
 	return out
+
+
+## Phase 8: the Warden (tank and support) and the Hexblade (spells).
+func _build_party_skills(statuses: Dictionary[StringName, StatusEffectData], out: Dictionary[StringName, SkillData]) -> void:
+	var provoke: SkillData = _skill(&"provoke", "Provoke", SkillData.Category.SKILL, 3, 0, Targeting.Mode.SELF)
+	provoke.effect = SkillData.Effect.STATUS
+	provoke.inflicts = statuses[&"taunt"]
+	provoke.inflict_chance = 1.0
+	provoke.priority = 1
+	provoke.description = "Bellow a challenge. Foes strike only at you this round and the next."
+	out[provoke.id] = provoke
+	var guard: SkillData = _skill(&"guard", "Guard", SkillData.Category.SKILL, 0, 0, Targeting.Mode.ONE_ALLY)
+	guard.effect = SkillData.Effect.GUARD
+	guard.priority = 1
+	guard.description = "Defend, and take the single blows aimed at an ally this round."
+	out[guard.id] = guard
+	var blessing: SkillData = _skill(&"blessing", "Blessing", SkillData.Category.MAGIC, 5, 0, Targeting.Mode.ONE_ALLY)
+	blessing.effect = SkillData.Effect.STATUS
+	blessing.inflicts = statuses[&"blessed"]
+	blessing.inflict_chance = 1.0
+	blessing.anim_key = &"cast"
+	blessing.impact_fx = _fx[&"holy_light"]
+	blessing.description = "A warding prayer: DEF and SPR up and slow healing for 3 rounds."
+	out[blessing.id] = blessing
+	var benediction: SkillData = _skill(&"benediction", "Benediction", SkillData.Category.MAGIC, 12, 0, Targeting.Mode.ALL_ALLIES)
+	benediction.effect = SkillData.Effect.STATUS
+	benediction.inflicts = statuses[&"blessed"]
+	benediction.inflict_chance = 1.0
+	benediction.anim_key = &"cast"
+	benediction.impact_fx = _fx[&"holy_light"]
+	benediction.description = "Blesses the whole party."
+	out[benediction.id] = benediction
+	var purify: SkillData = _skill(&"purify", "Purify", SkillData.Category.MAGIC, 3, 0, Targeting.Mode.ONE_ALLY)
+	purify.effect = SkillData.Effect.CURE
+	purify.cures = [statuses[&"bleed"], statuses[&"burn"], statuses[&"curse"]]
+	purify.anim_key = &"cast"
+	purify.impact_fx = _fx[&"holy_light"]
+	purify.description = "Closes wounds and lifts curses: cures Bleed, Burn and Curse."
+	out[purify.id] = purify
+	var frost: SkillData = _skill(&"frost", "Frost", SkillData.Category.MAGIC, 5, 22, Targeting.Mode.ONE_ENEMY)
+	frost.scaling_stat = &"magic"
+	frost.element = Elements.Element.FROST
+	frost.anim_key = &"cast"
+	frost.impact_fx = _fx[&"frost_impact"]
+	frost.description = "A lance of grave-cold ice."
+	out[frost.id] = frost
+	var spark: SkillData = _skill(&"spark", "Spark", SkillData.Category.MAGIC, 7, 12, Targeting.Mode.ALL_ENEMIES)
+	spark.scaling_stat = &"magic"
+	spark.element = Elements.Element.LIGHTNING
+	spark.anim_key = &"cast"
+	spark.impact_fx = _fx[&"spark_impact"]
+	spark.description = "Crackling light leaps between every foe."
+	out[spark.id] = spark
+	var hex: SkillData = _skill(&"hex", "Hex", SkillData.Category.MAGIC, 6, 14, Targeting.Mode.ONE_ENEMY)
+	hex.scaling_stat = &"magic"
+	hex.element = Elements.Element.SHADOW
+	hex.inflicts = statuses[&"curse"]
+	hex.inflict_chance = 0.6
+	hex.anim_key = &"cast"
+	hex.impact_fx = _fx[&"shadow_impact"]
+	hex.description = "A whispered malediction. May curse the target."
+	out[hex.id] = hex
+
+
+## Chance an enemy's status attack inflicts Bleed / Curse, and how many plain attacks an enemy
+## makes for each status attack (Phase 8, tuned so the solo Knight still meets the Phase 7 balance
+## target: about 3.7 fights before resting and 6% deaths, over 900 simulated sessions).
+const ENEMY_BLEED_CHANCE: float = 0.25
+const ENEMY_CURSE_CHANCE: float = 0.3
+const ENEMY_ATTACK_WEIGHT: int = 5
+
+## Phase 8: the enemies' status attacks (PROJECT_PLAN.md Phase 8). Blood Mist belongs to the boss
+## (Phase 10) and is not used by any enemy yet.
+func _build_enemy_skills(statuses: Dictionary[StringName, StatusEffectData], out: Dictionary[StringName, SkillData]) -> void:
+	var rend: SkillData = _skill(&"rend", "Rend", SkillData.Category.SKILL, 0, 90, Targeting.Mode.ONE_ENEMY)
+	rend.inflicts = statuses[&"bleed"]
+	rend.inflict_chance = ENEMY_BLEED_CHANCE
+	rend.anim_key = &"skill"
+	rend.description = "Tearing fangs. May cause Bleed."
+	out[rend.id] = rend
+	var stab: SkillData = _skill(&"serrated_stab", "Serrated Stab", SkillData.Category.SKILL, 0, 100, Targeting.Mode.ONE_ENEMY)
+	stab.inflicts = statuses[&"bleed"]
+	stab.inflict_chance = ENEMY_BLEED_CHANCE
+	stab.anim_key = &"skill"
+	stab.description = "A jagged blade. May cause Bleed."
+	out[stab.id] = stab
+	var chill: SkillData = _skill(&"grave_chill", "Grave Chill", SkillData.Category.SKILL, 0, 80, Targeting.Mode.ONE_ENEMY)
+	chill.element = Elements.Element.SHADOW
+	chill.inflicts = statuses[&"curse"]
+	chill.inflict_chance = ENEMY_CURSE_CHANCE
+	chill.anim_key = &"skill"
+	chill.description = "The touch of the grave. May Curse."
+	out[chill.id] = chill
+	var mist: SkillData = _skill(&"blood_mist", "Blood Mist", SkillData.Category.MAGIC, 0, 14, Targeting.Mode.ALL_ENEMIES)
+	mist.scaling_stat = &"magic"
+	mist.element = Elements.Element.SHADOW
+	mist.inflicts = statuses[&"bleed"]
+	mist.inflict_chance = 1.0
+	mist.anim_key = &"cast"
+	mist.description = "A crimson haze that opens every wound. Bleed on all."
+	out[mist.id] = mist
 
 
 func _build_potion() -> ItemData:
@@ -130,14 +246,31 @@ func _build_potion() -> ItemData:
 	return _save(potion, ITEM_DIR) as ItemData
 
 
+## Phase 8: cures Curse (its HOLY damage against the undead arrives with Phase 9's items).
+func _build_holy_water(statuses: Dictionary[StringName, StatusEffectData]) -> ItemData:
+	var water: ItemData = ItemData.new()
+	water.id = &"holy_water"
+	water.display_name = "Holy Water"
+	water.icon = _texture(ITEM_ICONS + "058_holy_water.png")
+	water.price = 30
+	water.target_mode = Targeting.Mode.ONE_ALLY
+	water.effect = ItemData.Effect.CURE_STATUS
+	water.cures = [statuses[&"curse"]]
+	water.description = "Water from the old chapel font. Lifts a Curse."
+	water.impact_fx = _fx[&"holy_light"]
+	return _save(water, ITEM_DIR) as ItemData
+
+
 ## Phase 7 balance pass: HP ×0.65 and attack ×0.85 of the Phase 4 numbers, so a level 1 Knight
 ## played sensibly (attacks, Whirlwind on groups, Minor Heal when low) wins 3–5 graveyard fights
 ## before needing the well (simulated: mean 4.2 fights, 300 runs).
-func _build_enemies(statuses: Dictionary[StringName, StatusEffectData], potion: ItemData,
-		visuals: Dictionary[StringName, CombatantVisual]) -> void:
+## Phase 8: each enemy also has its status attack (see ENEMY_ATTACK_WEIGHT).
+func _build_enemies(statuses: Dictionary[StringName, StatusEffectData], skills: Dictionary[StringName, SkillData],
+		potion: ItemData, holy_water: ItemData, visuals: Dictionary[StringName, CombatantVisual]) -> void:
 	var wolf: EnemyData = _enemy(&"wolf", "Wolf", StatBlock.create(29, 0, 19, 8, 0, 6, 16, 6), 8, 5)
 	wolf.affinities = {Elements.Element.FIRE: Elements.WEAK}
 	wolf.drops = [_drop(potion, 0.1)]
+	_give_skill(wolf, skills[&"rend"])
 	wolf.visual = visuals[&"wolf"]
 	_save(wolf, ENEMY_DIR)
 
@@ -145,6 +278,7 @@ func _build_enemies(statuses: Dictionary[StringName, StatusEffectData], potion: 
 	goblin.affinities = {Elements.Element.LIGHTNING: Elements.WEAK}
 	goblin.drops = [_drop(potion, 0.2)]
 	goblin.ai.target_strategy = AIProfile.TargetStrategy.LOWEST_HP
+	_give_skill(goblin, skills[&"serrated_stab"])
 	goblin.visual = visuals[&"goblin_scout"]
 	_save(goblin, ENEMY_DIR)
 
@@ -152,7 +286,8 @@ func _build_enemies(statuses: Dictionary[StringName, StatusEffectData], potion: 
 	var skeleton: EnemyData = _enemy(&"skeleton", "Skeleton", StatBlock.create(39, 0, 22, 16, 0, 4, 8, 4), 12, 7)
 	skeleton.affinities = {Elements.Element.HOLY: Elements.WEAK, Elements.Element.SHADOW: Elements.RESIST}
 	skeleton.status_immunities = undead
-	skeleton.drops = [_drop(potion, 0.15)]
+	skeleton.drops = [_drop(potion, 0.15), _drop(holy_water, 0.1)]
+	_give_skill(skeleton, skills[&"grave_chill"])
 	skeleton.visual = visuals[&"skeleton"]
 	_save(skeleton, ENEMY_DIR)
 
@@ -161,7 +296,8 @@ func _build_enemies(statuses: Dictionary[StringName, StatusEffectData], potion: 
 	var charred_immunities: Array[StatusEffectData] = undead.duplicate()
 	charred_immunities.append(statuses[&"burn"])
 	charred.status_immunities = charred_immunities
-	charred.drops = [_drop(potion, 0.6)]
+	charred.drops = [_drop(potion, 0.6), _drop(holy_water, 0.3)]
+	_give_skill(charred, skills[&"grave_chill"])
 	charred.visual = visuals[&"skeleton_charred"]
 	_save(charred, ENEMY_DIR)
 
@@ -184,7 +320,40 @@ func _build_knight(skills: Dictionary[StringName, SkillData], visual: CombatantV
 	unlock.skill = skills[&"charged_strike"]
 	knight.skill_unlocks = [unlock]
 	knight.visual = visual
+	knight.portrait = _texture(PORTRAITS + "01_knight.png")
 	_save(knight, CHARACTER_DIR)
+
+
+## Phase 8 recruit: the tank (Knight black recolour, Witch Hunter portrait as a placeholder).
+func _build_warden(skills: Dictionary[StringName, SkillData], visual: CombatantVisual) -> void:
+	var warden: CharacterData = CharacterData.new()
+	warden.id = &"warden"
+	warden.display_name = "Warden"
+	warden.base_stats = StatBlock.create(150, 16, 26, 28, 8, 18, 8, 6)
+	var growth: GrowthCurve = GrowthCurve.new()
+	growth.stat_gain_per_level = StatBlock.create(15, 2, 2, 3, 1, 2, 1, 1)
+	warden.growth = _save_as(growth, GROWTH_DIR.path_join("warden_growth.tres")) as GrowthCurve
+	warden.starting_skills = [skills[&"provoke"], skills[&"guard"], skills[&"blessing"], skills[&"purify"]]
+	warden.skill_unlocks = [_unlock(4, skills[&"benediction"])]
+	warden.visual = visual
+	warden.portrait = _texture(PORTRAITS + "11_witch_hunter.png")
+	_save(warden, CHARACTER_DIR)
+
+
+## Phase 8 recruit: the spellblade (Knight gold recolour, Witch portrait as a placeholder).
+func _build_hexblade(skills: Dictionary[StringName, SkillData], visual: CombatantVisual) -> void:
+	var hexblade: CharacterData = CharacterData.new()
+	hexblade.id = &"hexblade"
+	hexblade.display_name = "Hexblade"
+	hexblade.base_stats = StatBlock.create(90, 36, 18, 12, 28, 20, 14, 8)
+	var growth: GrowthCurve = GrowthCurve.new()
+	growth.stat_gain_per_level = StatBlock.create(8, 5, 1, 1, 3, 2, 1, 1)
+	hexblade.growth = _save_as(growth, GROWTH_DIR.path_join("hexblade_growth.tres")) as GrowthCurve
+	hexblade.starting_skills = [skills[&"ember"], skills[&"frost"], skills[&"spark"], skills[&"minor_heal"]]
+	hexblade.skill_unlocks = [_unlock(3, skills[&"hex"])]
+	hexblade.visual = visual
+	hexblade.portrait = _texture(PORTRAITS + "35_witch.png")
+	_save(hexblade, CHARACTER_DIR)
 
 
 # --- effects (FxSpec, SovDigital effect packs) -------------------------------------------------
@@ -197,6 +366,14 @@ func _build_fx() -> void:
 	_fx_spec(&"bone_sparks", "ambient/effects/sparks_burst", &"effect", 0.7)
 	_fx_spec(&"ember_sparks", "ambient/effects/ember_burst", &"effect", 0.8)
 	_fx_spec(&"fire_impact", "projectile/effects/fire", &"impact", 0.9)
+	# Phase 8: Frost, Spark, Hex and the Warden's holy light.
+	_fx_spec(&"frost_impact", "spell/effects/frost", &"impact", 0.8)
+	var spark: FxSpec = _fx_spec(&"spark_impact", "ambient/effects/sparks_burst", &"effect", 0.9)
+	spark.tint = Color(1.0, 0.95, 0.7)
+	_fx_spec(&"shadow_impact", "spell/effects/shadow_orb", &"effect", 0.6)
+	var holy: FxSpec = _fx_spec(&"holy_light", "spell/effects/energy_burst", &"effect", 0.4)
+	holy.tint = Color(1.0, 0.88, 0.55)
+	holy.anchor = FxSpec.Anchor.FEET
 	var heal: FxSpec = _fx_spec(&"heal_burst", "spell/effects/energy_burst", &"effect", 0.4)
 	heal.tint = Color(0.62, 1.0, 0.55)
 	heal.anchor = FxSpec.Anchor.FEET  # a ring on the ground
@@ -259,6 +436,18 @@ func _build_visuals() -> Dictionary[StringName, CombatantVisual]:
 	knight.hit_frames[&"cast"] = KNIGHT_CAST_LAST_FRAME
 	knight.hit_fx = _fx[&"blood_hit"]
 	out[&"knight"] = knight
+	# Phase 8 recruits: the Knight's black and gold recolours. They have only the base sheets, so
+	# skills use attack2 and spells the attack2 wind-up.
+	var recolour_anims: Array[StringName] = [&"idle", &"move", &"attack", &"skill", &"cast", &"hurt", &"death"]
+	var recolour_renames: Dictionary[StringName, StringName] = {&"move": &"run", &"skill": &"attack2", &"cast": &"attack2"}
+	for id: StringName in [&"warden", &"hexblade"]:
+		var colour: String = "black" if id == &"warden" else "gold"
+		var recolour: CombatantVisual = _visual(SOV + "knight/ColourVariations/%s/knight/" % colour, "knight", &"E",
+				KNIGHT_HEIGHT, recolour_anims, recolour_renames)
+		recolour.hit_frame = KNIGHT_ATTACK_HIT
+		recolour.hit_frames = {&"skill": KNIGHT_ATTACK2_HIT, &"cast": KNIGHT_ATTACK2_HIT}
+		recolour.hit_fx = _fx[&"blood_hit"]
+		out[id] = recolour
 
 	var common: Array[StringName] = [&"idle", &"move", &"attack", &"skill", &"cast", &"hurt", &"death"]
 	var renames: Dictionary[StringName, StringName] = {&"move": &"run", &"skill": &"attack2", &"cast": &"attack2"}
@@ -384,6 +573,20 @@ func _enemy(id: StringName, label: String, stats: StatBlock, xp: int, gold: int)
 	enemy.gold = gold
 	enemy.ai = AIProfile.new()
 	return enemy
+
+
+func _unlock(level: int, skill: SkillData) -> SkillUnlock:
+	var unlock: SkillUnlock = SkillUnlock.new()
+	unlock.level = level
+	unlock.skill = skill
+	return unlock
+
+
+## Adds an offensive skill the enemy uses once for every ENEMY_ATTACK_WEIGHT plain attacks.
+func _give_skill(enemy: EnemyData, skill: SkillData) -> void:
+	enemy.skills.append(skill)
+	enemy.ai.attack_weight = ENEMY_ATTACK_WEIGHT
+	enemy.ai.skill_weights[skill] = 1
 
 
 func _drop(item: ItemData, chance: float) -> DropEntry:

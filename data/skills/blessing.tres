@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_b0xbt"]
+[ext_resource type="Resource" path="res://data/fx/holy_light.tres" id="2_if0il"]
+[ext_resource type="Resource" path="res://data/status_effects/blessed.tres" id="3_fb2fc"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="4_h0m5k"]
+
+[resource]
+script = ExtResource("4_h0m5k")
+id = &"blessing"
+display_name = "Blessing"
+category = 1
+effect = 2
+mp_cost = 5
+power = 0
+target_mode = 2
+inflicts = ExtResource("3_fb2fc")
+inflict_chance = 1.0
+anim_key = &"cast"
+impact_fx = ExtResource("2_if0il")
+description = "A warding prayer: DEF and SPR up and slow healing for 3 rounds."

@@ -1,7 +1,8 @@
 class_name Party
 extends RefCounted
-## The active party (PROJECT_PLAN.md §6.4): up to MAX_ACTIVE members, in battle order.
-## Phase 7 has one member (the Knight); recruiting arrives in Phase 8.
+## The active party (PROJECT_PLAN.md §6.4): up to MAX_ACTIVE members, in battle order (the
+## order of the battle slots, the HUD rows and the command menu). A fallen member keeps its place,
+## so a revived one acts in its old slot again. Recruits join at the end (`GameState.recruit`).
 
 const MAX_ACTIVE: int = 3
 
@@ -14,6 +15,40 @@ func add(member: PartyMember) -> bool:
 		return false
 	members.append(member)
 	return true
+
+
+## Removes a member (the others keep their order). Returns false if it was not in the party.
+func remove(member: PartyMember) -> bool:
+	var i: int = members.find(member)
+	if i < 0:
+		return false
+	members.remove_at(i)
+	return true
+
+
+func is_full() -> bool:
+	return members.size() >= MAX_ACTIVE
+
+
+## The member playing the character `id` (null if none).
+func member_by_id(id: StringName) -> PartyMember:
+	for member: PartyMember in members:
+		if member.data.id == id:
+			return member
+	return null
+
+
+func has_character(id: StringName) -> bool:
+	return member_by_id(id) != null
+
+
+## Members still standing, in party order.
+func living_members() -> Array[PartyMember]:
+	var out: Array[PartyMember] = []
+	for member: PartyMember in members:
+		if member.is_alive():
+			out.append(member)
+	return out
 
 
 func clear() -> void:
@@ -57,4 +92,5 @@ func heal_all() -> void:
 func settle_after_battle() -> void:
 	for member: PartyMember in members:
 		member.combatant.is_defending = false
+		member.combatant.guarded_by = null
 		member.combatant.statuses.clear()

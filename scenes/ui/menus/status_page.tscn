@@ -1,0 +1,157 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/menus/status_page.gd" id="1_status"]
+[ext_resource type="PackedScene" path="res://scenes/ui/widgets/stat_bar.tscn" id="2_bar"]
+
+[node name="StatusPage" type="VBoxContainer"]
+texture_filter = 1
+offset_right = 1000.0
+offset_bottom = 600.0
+theme_override_constants/separation = 16
+script = ExtResource("1_status")
+
+[node name="Members" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Detail" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Portrait" type="TextureRect" parent="Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_vertical = 0
+stretch_mode = 5
+
+[node name="Info" type="VBoxContainer" parent="Detail"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="MemberName" type="Label" parent="Detail/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+
+[node name="Level" type="Label" parent="Detail/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+
+[node name="XpRow" type="HBoxContainer" parent="Detail/Info"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="XpLabel" type="Label" parent="Detail/Info/XpRow"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "XP"
+vertical_alignment = 1
+
+[node name="XpBar" parent="Detail/Info/XpRow" instance=ExtResource("2_bar")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+style = 2
+
+[node name="NextLevel" type="Label" parent="Detail/Info/XpRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+vertical_alignment = 1
+
+[node name="HpRow" type="HBoxContainer" parent="Detail/Info"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HpLabel" type="Label" parent="Detail/Info/HpRow"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "HP"
+vertical_alignment = 1
+
+[node name="HpBar" parent="Detail/Info/HpRow" instance=ExtResource("2_bar")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MpRow" type="HBoxContainer" parent="Detail/Info"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MpLabel" type="Label" parent="Detail/Info/MpRow"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "MP"
+vertical_alignment = 1
+
+[node name="MpBar" parent="Detail/Info/MpRow" instance=ExtResource("2_bar")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+style = 1
+
+[node name="Stats" type="GridContainer" parent="Detail/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 24
+columns = 6
+
+[node name="ResistanceRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ResistanceLabel" type="Label" parent="ResistanceRow"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+text = "Resistances"
+
+[node name="Resistances" type="HFlowContainer" parent="ResistanceRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 16
+
+[node name="StatusRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="StatusLabel" type="Label" parent="StatusRow"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+text = "Statuses"
+
+[node name="Statuses" type="HFlowContainer" parent="StatusRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+
+[node name="SkillRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SkillLabel" type="Label" parent="SkillRow"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+text = "Skills"
+
+[node name="Skills" type="Label" parent="SkillRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"SmallLabel"
+autowrap_mode = 3

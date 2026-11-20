@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_rph1t"]
+[ext_resource type="Resource" path="res://data/status_effects/taunt.tres" id="2_g24lg"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="3_0d20c"]
+
+[resource]
+script = ExtResource("3_0d20c")
+id = &"provoke"
+display_name = "Provoke"
+effect = 2
+mp_cost = 3
+power = 0
+target_mode = 4
+inflicts = ExtResource("2_g24lg")
+inflict_chance = 1.0
+priority = 1
+description = "Bellow a challenge. Foes strike only at you this round and the next."

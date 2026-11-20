@@ -146,6 +146,9 @@ func _build_props(world: Node2D) -> void:
 	_kit.rest_point(well, Vector2(0, 10), 96.0, 210.0)
 	# Phase 7: the Elder waits in the square's north-east quarter, facing the start spawn.
 	_kit.npc(world, "Elder", Vector2(2270, 1560), &"elder_intro", "SW", ELDER_PORTRAIT)
+	# Phase 8: the Warden waits by the road south to the graveyard and joins when asked.
+	_kit.recruit(world, "Warden", Vector2(2300, 2420), &"warden_meet", "W", "res://data/characters/warden.tres",
+			&"warden_joined", &"warden_agreed")
 
 
 func _build_trees(world: Node2D) -> void:

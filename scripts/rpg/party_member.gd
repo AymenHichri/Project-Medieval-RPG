@@ -15,11 +15,19 @@ var stats: StatBlock
 var combatant: Combatant
 
 
-static func create(character: CharacterData) -> PartyMember:
+## A new member at level 1, or at `start_level` (a recruit catching up with the party): every level
+## between is gained in turn (rolled stat gains, skills learned), then HP and MP are full.
+static func create(character: CharacterData, start_level: int = 1, rng: RandomNumberGenerator = null) -> PartyMember:
 	var member: PartyMember = PartyMember.new()
 	member.data = character
 	member.stats = character.base_stats.duplicate() as StatBlock
 	member.combatant = Combatant.from_character(character, member.stats)
+	if start_level > 1 and character.growth != null:
+		var roll: RandomNumberGenerator = rng if rng != null else RandomNumberGenerator.new()
+		member.xp = Progression.total_xp_for_level(character.growth, start_level)
+		while member.level < mini(start_level, character.growth.max_level):
+			member._level_up(roll)
+		member.heal_full()
 	return member
 
 
@@ -80,3 +88,4 @@ func heal_full() -> void:
 	combatant.mp = stats.max_mp
 	combatant.statuses.clear()
 	combatant.is_defending = false
+	combatant.guarded_by = null

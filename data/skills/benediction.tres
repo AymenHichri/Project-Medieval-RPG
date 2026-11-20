@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_ddymq"]
+[ext_resource type="Resource" path="res://data/fx/holy_light.tres" id="2_wuqtw"]
+[ext_resource type="Resource" path="res://data/status_effects/blessed.tres" id="3_piehv"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="4_adbi8"]
+
+[resource]
+script = ExtResource("4_adbi8")
+id = &"benediction"
+display_name = "Benediction"
+category = 1
+effect = 2
+mp_cost = 12
+power = 0
+target_mode = 3
+inflicts = ExtResource("3_piehv")
+inflict_chance = 1.0
+anim_key = &"cast"
+impact_fx = ExtResource("2_wuqtw")
+description = "Blesses the whole party."

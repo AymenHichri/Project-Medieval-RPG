@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_qubtn"]
+[ext_resource type="Resource" path="res://data/status_effects/bleed.tres" id="2_440g2"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="3_eqlij"]
+
+[resource]
+script = ExtResource("3_eqlij")
+id = &"blood_mist"
+display_name = "Blood Mist"
+category = 1
+power = 14
+scaling_stat = &"magic"
+element = 5
+target_mode = 1
+inflicts = ExtResource("2_440g2")
+inflict_chance = 1.0
+anim_key = &"cast"
+description = "A crimson haze that opens every wound. Bleed on all."

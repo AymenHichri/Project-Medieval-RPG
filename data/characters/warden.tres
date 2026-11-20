@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="CharacterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="1_ukdxu"]
+[ext_resource type="Resource" path="res://data/growth/warden_growth.tres" id="2_sx038"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/portraits/framed/256px/11_witch_hunter.png" id="3_yfodg"]
+[ext_resource type="Script" path="res://scripts/resources/character_data.gd" id="4_6pnrv"]
+[ext_resource type="Script" path="res://scripts/resources/skill_unlock.gd" id="5_1j27a"]
+[ext_resource type="Resource" path="res://data/skills/benediction.tres" id="6_4jfl1"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="7_d22is"]
+[ext_resource type="Resource" path="res://data/skills/provoke.tres" id="8_oojof"]
+[ext_resource type="Resource" path="res://data/skills/guard.tres" id="9_yd3e0"]
+[ext_resource type="Resource" path="res://data/skills/blessing.tres" id="10_i5tc6"]
+[ext_resource type="Resource" path="res://data/skills/purify.tres" id="11_a1bqi"]
+[ext_resource type="Resource" path="res://data/visuals/warden.tres" id="12_75nb7"]
+
+[sub_resource type="Resource" id="Resource_o7y5e"]
+script = ExtResource("1_ukdxu")
+max_hp = 150
+max_mp = 16
+attack = 26
+defense = 28
+magic = 8
+spirit = 18
+agility = 8
+luck = 6
+
+[sub_resource type="Resource" id="Resource_j6fix"]
+script = ExtResource("5_1j27a")
+level = 4
+skill = ExtResource("6_4jfl1")
+
+[resource]
+script = ExtResource("4_6pnrv")
+id = &"warden"
+display_name = "Warden"
+portrait = ExtResource("3_yfodg")
+base_stats = SubResource("Resource_o7y5e")
+growth = ExtResource("2_sx038")
+visual = ExtResource("12_75nb7")
+starting_skills = Array[ExtResource("7_d22is")]([ExtResource("8_oojof"), ExtResource("9_yd3e0"), ExtResource("10_i5tc6"), ExtResource("11_a1bqi")])
+skill_unlocks = Array[ExtResource("5_1j27a")]([SubResource("Resource_j6fix")])

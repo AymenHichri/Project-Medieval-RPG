@@ -1,6 +1,7 @@
 extends TestCase
 ## Slice balance (Phase 7): a level 1 Knight, played sensibly, wins 3–5 graveyard fights before
 ## needing to rest, and rarely dies when resting at 30% HP. See tools/balance_sim.gd.
+## Since Phase 8 the enemies also Bleed and Curse (about 3.7 fights, 6% deaths over 900 sessions).
 
 const TRIALS: int = 150
 

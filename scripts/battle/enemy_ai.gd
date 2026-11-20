@@ -2,6 +2,7 @@ class_name EnemyAI
 extends RefCounted
 ## Picks an enemy's action from its AIProfile: an optional heal rule, then a weighted random
 ## choice between attacking and each affordable skill, then a target by the profile's strategy.
+## A foe with a Taunt status (Provoke) draws every single-target action.
 
 
 static func choose(enemy: Combatant, engine: BattleEngine) -> BattleAction:
@@ -23,7 +24,7 @@ static func choose_from(enemy: Combatant, allies: Array[Combatant], foes: Array[
 	var weights: Array[int] = [profile.attack_weight]
 	for skill: SkillData in enemy.skills:
 		var weight: int = profile.skill_weights.get(skill, 0) as int
-		if weight > 0 and enemy.mp >= skill.mp_cost and skill.effect == SkillData.Effect.DAMAGE:
+		if weight > 0 and enemy.mp >= skill.mp_cost and skill.is_offensive():
 			options.append(skill)
 			weights.append(weight)
 	var picked: SkillData = options[maxi(0, pick_weighted(weights, rng))]
@@ -72,6 +73,12 @@ static func _pick_target(foes: Array[Combatant], strategy: AIProfile.TargetStrat
 		rng: RandomNumberGenerator) -> Combatant:
 	if foes.is_empty():
 		return null
+	var taunting: Array[Combatant] = []
+	for c: Combatant in foes:
+		if c.draws_attacks():
+			taunting.append(c)
+	if not taunting.is_empty():
+		foes = taunting
 	match strategy:
 		AIProfile.TargetStrategy.LOWEST_HP:
 			var lowest: Combatant = foes[0]

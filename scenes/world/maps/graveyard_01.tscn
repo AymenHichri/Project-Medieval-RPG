@@ -35,6 +35,8 @@
 [ext_resource type="Shader" path="res://assets/vendor/sovdigital/weather/godot/overlay_mix.gdshader" id="33_h3xtm"]
 [ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/weather/overlays/fog/fog_mask.png" id="34_3xdgh"]
 [ext_resource type="Resource" path="res://data/audio/music/mus_dungeon_graveyard.tres" id="audio_music"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/recruit_npc.tscn" id="80_recruit"]
+[ext_resource type="Resource" path="res://data/characters/hexblade.tres" id="81_hexblade"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2n12d"]
 normal = Vector2(1, 0)
@@ -307,6 +309,14 @@ position = Vector2(1960, 2200)
 
 [node name="BonePile" parent="World" unique_id=1307563822 instance=ExtResource("23_ao1ck")]
 position = Vector2(2120, 820)
+
+[node name="Hexblade" parent="World" instance=ExtResource("80_recruit")]
+position = Vector2(1700, 920)
+facing = "SW"
+dialogue_id = &"hexblade_meet"
+character = ExtResource("81_hexblade")
+joined_flag = &"hexblade_joined"
+join_if_flag = &"hexblade_agreed"
 
 [node name="GnarledTree1" parent="World" unique_id=768431089 instance=ExtResource("24_taan8")]
 position = Vector2(240, 820)

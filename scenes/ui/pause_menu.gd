@@ -2,17 +2,18 @@ class_name PauseMenu
 extends CanvasLayer
 ## Exploration pause menu (PROJECT_PLAN.md Phase 7): opened with `menu` (or the HUD's MENU button)
 ## while the player can act. Pauses the game. Gimble's panel with a tab list (Party now; Items,
-## Equipment and Journal arrive in Phases 8–10 and are shown disabled), a party summary, and
-## Resume / Settings / Quit to Title. `cancel` or `menu` closes it (or the settings page first).
+## Equipment and Journal arrive in Phases 9–10 and are shown disabled), the Party tab's status
+## page (Phase 8: StatusPage), and Resume / Settings / Quit to Title. `cancel` or `menu` closes it
+## (or the settings page first).
 
 signal opened
 signal closed
 
-## Tabs in order; only the first exists in Phase 7.
+## Tabs in order; only the first exists so far.
 const TABS: PackedStringArray = ["Party", "Items", "Equipment", "Journal"]
 
 @onready var _tabs: TabBar = %Tabs
-@onready var _summary: Label = %Summary
+@onready var status_page: StatusPage = %StatusPage
 @onready var _gold: Label = %Gold
 @onready var _resume: Button = %ResumeButton
 @onready var _settings_button: Button = %SettingsButton
@@ -62,21 +63,15 @@ func close() -> void:
 	closed.emit()
 
 
-## Rewrites the party summary from GameState.
+## Rewrites the Party tab and the gold from GameState.
 func refresh() -> void:
-	var lines: PackedStringArray = []
-	for member: PartyMember in GameState.party.members:
-		var c: Combatant = member.combatant
-		lines.append("%s    Lv %d" % [member.display_name(), member.level])
-		lines.append("HP %d / %d    MP %d / %d" % [c.hp, c.max_hp(), c.mp, c.max_mp()])
-		var next: int = member.xp_to_next_level()
-		lines.append("Next level: %s" % ("—" if next <= 0 else "%d XP" % next))
-	_summary.text = "\n".join(lines)
+	status_page.refresh(status_page.shown)
 	_gold.text = "Gold  %d" % GameState.gold
 
 
+## "Knight Lv 1, Warden Lv 1" (tests).
 func summary_text() -> String:
-	return _summary.text
+	return status_page.summary_text()
 
 
 func _on_settings_pressed() -> void:

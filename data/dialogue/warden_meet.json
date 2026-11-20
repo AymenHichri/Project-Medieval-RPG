@@ -1,0 +1,14 @@
+{
+	"id": "warden_meet",
+	"lines": [
+		{ "speaker": "Warden", "set_flag": "met_warden", "text": "You're bound for the graveyard road. I can see it in how you grip that sword." },
+		{ "speaker": "Warden", "text": "I kept the gate there for eleven years. Last week the gate began keeping me out." },
+		{ "speaker": "Warden", "text": "A shield goes further beside a blade. Shall I walk with you?",
+		  "choices": [
+			{ "text": "Walk with me.", "set_flag": "warden_agreed", "goto": 3 },
+			{ "text": "Not yet.", "goto": 4 }
+		  ] },
+		{ "speaker": "Warden", "goto": "end", "text": "Then keep behind my shield when the dead come close. [The Warden joins the party.]" },
+		{ "speaker": "Warden", "text": "As you like. I'll be here, watching the road." }
+	]
+}

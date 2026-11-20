@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_j1ivn"]
+[ext_resource type="Resource" path="res://data/fx/shadow_impact.tres" id="2_t7ni4"]
+[ext_resource type="Resource" path="res://data/status_effects/curse.tres" id="3_x0sv0"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="4_uxvdl"]
+
+[resource]
+script = ExtResource("4_uxvdl")
+id = &"hex"
+display_name = "Hex"
+category = 1
+mp_cost = 6
+power = 14
+scaling_stat = &"magic"
+element = 5
+inflicts = ExtResource("3_x0sv0")
+inflict_chance = 0.6
+anim_key = &"cast"
+impact_fx = ExtResource("2_t7ni4")
+description = "A whispered malediction. May curse the target."
