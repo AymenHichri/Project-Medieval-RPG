@@ -52,5 +52,8 @@ Applies to all code in this project. Source: `PROJECT_PLAN.md` §10. Visual and 
 - Every pure-logic class gets `tests/unit/test_<name>.gd`. Every scene type gets a smoke test.
 - Tests extend `TestCase`, use a seeded RNG, and never depend on wall-clock time.
 
+## Tech debt
+- When you take a shortcut (a placeholder, a hand-patched map, a check skipped), add a row to `TECH_DEBT.md` with how to check it later. Move fixed rows to its *Done* table.
+
 ## Version control
 - Small commits with imperative messages. Source zips are never committed (`.gitignore`).

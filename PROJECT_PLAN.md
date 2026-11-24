@@ -34,6 +34,7 @@ status: draft — awaiting user approval
 | `FONT_CATALOG.md` | Cinzel / Alegreya / Press Start 2P evaluation: licence, coverage, readability, Godot Theme setup |
 | `AUDIO_GUIDELINES.md` | Musical direction, SFX categories, technical standards, audio architecture design, audio tests |
 | `AUDIO_CATALOG.md` | Audio asset audit and implementation brief (Phase 7A Step 0a), licence acceptance rules, candidate sources, required track/SFX lists, hook-up table, licence record table |
+| `TECH_DEBT.md` (Phase 10) | Tech debt and optimisation backlog: release blockers to verify, what to profile in the first release build, code health, tests, placeholders |
 | `docs/asset_manifest.csv` (Phase 1) | Machine-readable licence record per external file. Checked by `test_asset_manifest.gd` |
 
 ---
@@ -1124,6 +1125,7 @@ Turn the systems into a short, coherent, playable experience matching §8.1.
 [Dependencies: **Phase 11**] (audio tasks build on the Phase 7A pipeline and depend on the user supplying audio)
 
 **Tasks**
+- [ ] Work through `TECH_DEBT.md`: its P1 rows and the "First release build checklist" (§6) run against the first exported build.
 - [ ] Full SFX library coverage for every category in `AUDIO_GUIDELINES.md` §3 (magic per element, all enemies, progression, weather), with ≥ 3 variants for frequent sounds.
 - [ ] Mix pass: loudness targets (music ≈ −18 LUFS, ambience ≈ −24 LUFS, SFX peaks ≤ −1 dBTP), loop seams checked, battle ducking tuned.
 - [ ] Settings additions: battle speed (presenter time scale), key rebinding (optional).
@@ -1268,5 +1270,6 @@ Each item has a **default** that the plan already assumes, so the plan stays act
 
 ## References
 - `ASSET_ANALYSIS.md`: full asset inventory and classifications.
+- `TECH_DEBT.md`: known shortcuts and what to check after the first release build.
 - `ART_GUIDELINES.md`, `UI_ASSET_CATALOG.md`, `FONT_CATALOG.md`, `AUDIO_GUIDELINES.md`, `AUDIO_CATALOG.md`: UI, typography and audio direction.
 - Vendor docs inside the zips: `README.txt` (characters: frame sizes, pivots, directions), `village/README.txt`, necropolis `README.txt` (Godot 4.6 TileSet usage, Y-sort, physics layers), `godot/ambience/README_AMBIENCE.txt`, `godot/weather/README_WEATHER.txt`, `WeatherEffectsFree/godot/fx_spawn/README_GODOT.txt`.
