@@ -57,10 +57,11 @@ static func healing_received_multiplier(target: Combatant) -> float:
 	return mult
 
 
-## The status that stops `target` acting, or null.
+## The status that stops `target` acting, or null. One that `starts_next_round` waits for the
+## round after it was applied.
 static func blocking_status(target: Combatant) -> ActiveStatus:
 	for status: ActiveStatus in target.statuses:
-		if status.data.skip_turn:
+		if status.data.skip_turn and not (status.data.starts_next_round and status.fresh):
 			return status
 	return null
 

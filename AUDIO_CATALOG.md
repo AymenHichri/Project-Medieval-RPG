@@ -197,8 +197,8 @@ Only assets the user approved in the final output are brought into the game. A p
 | `mus_forest` | Forest | Needed | — |
 | `mus_dungeon_graveyard` | Dungeon / graveyard | Needed | ✅ |
 | `mus_battle` | Regular battle | Needed | ✅ |
-| `mus_boss_assassin` | Boss | Needed | — |
-| `mus_story_sorrow`, `mus_story_dread` | Story moments | Needed | — |
+| `mus_boss_assassin` | Boss | **Interim** (Phase 10): AlkaKrab *Shadowforge Convergence*, loop edit; a real boss theme is still a commission candidate | — |
+| `mus_story_sorrow`, `mus_story_dread` | Story moments | **Interim** (Phase 10): Dreamgarden *ForgottenSouls_Loop* (sorrow), AlkaKrab *Dread March* (dread); played by the dialogue `music` key | — |
 | `jng_victory` | Victory jingle | Needed | ✅ |
 | `jng_gameover` | Game over | Needed | ✅ |
 | `jng_levelup` | Level up | Needed | ✅ |

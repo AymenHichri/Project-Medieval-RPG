@@ -1,0 +1,8 @@
+{
+	"id": "grave_widow_search",
+	"conditions": {"if_flag": "grave_widow_searched", "use": "grave_searched"},
+	"lines": [
+		{"text": "The widow's stone. The name has been chiselled away, and the soil at its foot was turned from below."},
+		{"set_flag": "grave_widow_searched", "text": "Under the fresh ash lies a scrap of black mourning veil, and the print of a narrow boot leading north, toward the crypt."}
+	]
+}

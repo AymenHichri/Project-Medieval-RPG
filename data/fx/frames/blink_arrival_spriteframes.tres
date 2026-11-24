@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/blade_assassin/effects/blink_arrival/blink_arrival.png" id="1_feo3m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw4s4"]
+atlas = ExtResource("1_feo3m")
+region = Rect2(0, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0b0b"]
+atlas = ExtResource("1_feo3m")
+region = Rect2(320, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4e6ua"]
+atlas = ExtResource("1_feo3m")
+region = Rect2(640, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6bao"]
+atlas = ExtResource("1_feo3m")
+region = Rect2(960, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j42b5"]
+atlas = ExtResource("1_feo3m")
+region = Rect2(1280, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b655f"]
+atlas = ExtResource("1_feo3m")
+region = Rect2(1600, 0, 320, 520)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aw4s4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0b0b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4e6ua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6bao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j42b5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b655f")
+}],
+"loop": 0,
+"name": &"effect",
+"speed": 12.0
+}]

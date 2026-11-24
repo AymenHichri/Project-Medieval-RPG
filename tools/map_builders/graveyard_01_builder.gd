@@ -15,6 +15,9 @@ const PROP_DIR: String = "res://scenes/world/props/necropolis"
 const MAP_PATH: String = "res://scenes/world/maps/graveyard_01.tscn"
 const VILLAGE_PATH: String = "res://scenes/world/maps/village_01.tscn"
 const ENCOUNTERS_PATH: String = "res://data/encounters/graveyard_outskirts.tres"
+## Phase 10: the example quest, its three graves and the boss behind the crypt door.
+const QUEST_PATH: String = "res://data/quests/silence_in_the_graveyard.tres"
+const BOSS_PATH: String = "res://data/bosses/blade_assassin.tres"
 
 const TILE: int = MapBuildKit.TILE
 ## Map size in tiles (24×20 = 3072×2560 px).
@@ -141,11 +144,19 @@ func _build_graves(world: Node2D) -> void:
 				var jitter: Vector2 = Vector2(((count * 37) % 41) - 20, ((count * 53) % 31) - 15)
 				var kind: String = KINDS[(row + column * 3 + side) % KINDS.size()]
 				count += 1
-				_kit.prop(world, kind, "Grave%02d" % count, Vector2(x, ROWS[row]) + jitter)
+				var grave: Node2D = _kit.prop(world, kind, "Grave%02d" % count, Vector2(x, ROWS[row]) + jitter)
+				# Phase 10: the old soldier's grave (west field) and the fresh mound (east field).
+				if count == 12:
+					var soldier: Interactable = _kit.interactable(grave, "Examine", &"examine_grave_soldier", Vector2(0, 8), 60.0, 150.0)
+					_kit.quest_target(soldier, QUEST_PATH, 0, &"grave_soldier_searched")
+				elif count == 23:
+					var fresh: Interactable = _kit.interactable(grave, "Examine", &"examine_grave_fresh", Vector2(0, 8), 72.0, 120.0)
+					_kit.quest_target(fresh, QUEST_PATH, 0, &"grave_fresh_searched")
 
-	# The one that can be examined: by the path, on the west side.
+	# The one that can be examined from the start: by the path, on the west side (the widow's grave).
 	var headstone: Node2D = _kit.prop(world, "headstone-round", "HeadstoneWeathered", Vector2(1250, 1500))
-	_kit.interactable(headstone, "Examine", &"examine_headstone", Vector2(0, 8), 60.0, 150.0)
+	var widow: Interactable = _kit.interactable(headstone, "Examine", &"examine_headstone", Vector2(0, 8), 60.0, 150.0)
+	_kit.quest_target(widow, QUEST_PATH, 0, &"grave_widow_searched")
 
 
 func _build_setpieces(world: Node2D) -> void:
@@ -170,6 +181,12 @@ func _build_setpieces(world: Node2D) -> void:
 	# Phase 9: two supply crates left by the gravediggers.
 	_kit.chest(world, "ChestSoulGem", Vector2(2620, 960), &"soul_gem", 1, &"chest_graveyard_soul_gem")
 	_kit.chest(world, "ChestCoins", Vector2(2300, 2260), &"gold_coins", 2, &"chest_graveyard_coins")
+	# Phase 10: a crate the Skull Key (from the fresh grave) opens, and the boss behind the crypt door.
+	var crypt_chest: Chest = _kit.chest(world, "ChestCrypt", Vector2(1900, 640), &"pilgrims_chalice", 1, &"chest_graveyard_crypt")
+	crypt_chest.required_key = _kit.item(&"skull_key")
+	var door: BossTrigger = _kit.boss_trigger(world, "CryptDoor", Vector2(1536, 600), BOSS_PATH, &"crypt_door_open",
+			&"crypt_door_sealed", &"crypt_door_silent")
+	_kit.quest_target(door, QUEST_PATH, 1, &"blade_assassin_defeated")
 
 	var trees: Array[Vector2] = [Vector2(240, 820), Vector2(2860, 880), Vector2(260, 2240), Vector2(2830, 2230)]
 	for i: int in trees.size():

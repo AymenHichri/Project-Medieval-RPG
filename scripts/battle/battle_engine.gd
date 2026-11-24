@@ -59,7 +59,8 @@ func begin_round(party_actions: Array[BattleAction]) -> void:
 			actions.append(action)
 	for enemy: Combatant in enemies:
 		if enemy.can_act():
-			actions.append(EnemyAI.choose(enemy, self))
+			for i: int in enemy.enemy_data.actions_per_round:
+				actions.append(EnemyAI.choose(enemy, self))
 	_queue = TurnOrder.sort(actions, rng)
 
 

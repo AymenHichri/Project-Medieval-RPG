@@ -33,4 +33,5 @@ func make_setup() -> BattleSetup:
 	setup.can_flee = false
 	setup.is_boss = true
 	setup.intro_text = group.intro_text
+	setup.victory_flag = defeated_flag
 	return setup

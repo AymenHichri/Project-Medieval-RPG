@@ -130,6 +130,8 @@ func _skill(action: BattleAction) -> Array[BattleEvent]:
 				events.append_array(_physical_hit(actor, hit_target, skill.power, skill.scaling_stat, skill.element))
 			if skill.inflicts != null and hit_target.is_alive() and rng.randf() < skill.inflict_chance:
 				events.append_array(StatusEffects.apply(hit_target, skill.inflicts, rng))
+	if skill.user_inflicts != null and actor.is_alive():
+		events.append_array(StatusEffects.apply(actor, skill.user_inflicts, rng))
 	return events
 
 

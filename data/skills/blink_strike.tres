@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_spafl"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_vbsct"]
+
+[resource]
+script = ExtResource("2_vbsct")
+id = &"blink_strike"
+display_name = "Blink Strike"
+power = 130
+anim_key = &"blink_strike"
+description = "It vanishes and strikes from the side you did not watch."

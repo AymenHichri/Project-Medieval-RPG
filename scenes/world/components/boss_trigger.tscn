@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/world/components/interactable.tscn" id="1_inter"]
+[ext_resource type="Script" path="res://scenes/world/components/boss_trigger.gd" id="2_boss"]
+
+[node name="BossTrigger" instance=ExtResource("1_inter")]
+script = ExtResource("2_boss")
+prompt_text = "Enter"
+radius = 96.0
+prompt_offset = Vector2(0, -200)

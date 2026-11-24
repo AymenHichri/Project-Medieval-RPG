@@ -5,6 +5,9 @@ extends Resource
 ## per-move keys named by `SkillData.anim_key` (e.g. whirlwind). A logical animation that is not
 ## mapped falls back to a stand-in (see BattleSprite.STAND_INS).
 
+## Injured idles used when `injured_idles` is empty: the vendor's half and quarter health idles.
+const DEFAULT_INJURED_IDLES: Dictionary[StringName, float] = {&"idle_hp50": 0.5, &"idle_hp25": 0.25}
+
 @export var sprite_frames: SpriteFrames
 ## Scale of the sprite on the battlefield.
 @export var battle_scale: float = 1.0
@@ -27,6 +30,14 @@ extends Resource
 @export var height: float = 150.0
 ## Effect played on this combatant when a physical blow lands (blood, sparks; null = none).
 @export var hit_fx: FxSpec
+## Injured idles (Phase 10): logical idle animation → HP fraction at or below which it replaces
+## `idle` (the lowest matching fraction wins). Empty = `DEFAULT_INJURED_IDLES`. A boss form that
+## ends at half HP uses its own fractions so both injured idles are seen before it changes.
+@export var injured_idles: Dictionary[StringName, float] = {}
+## Effect played on this combatant when it appears (a boss's blink arrival; null = none).
+@export var entrance_fx: FxSpec
+## Effect played on this combatant when it takes this form (a boss's phase change; null = none).
+@export var phase_fx: FxSpec
 
 @export_group("Sounds")
 ## Played as this combatant swings (Attack and melee skills).
@@ -37,6 +48,20 @@ extends Resource
 @export var cry_sfx: SfxSet
 ## Played when it falls.
 @export var death_sfx: SfxSet
+
+
+## The resting animation for a combatant at `hp_ratio` of its max HP: the mapped injured idle
+## with the lowest fraction it is at or below, else `idle`.
+func idle_for(hp_ratio: float) -> StringName:
+	var thresholds: Dictionary[StringName, float] = injured_idles if not injured_idles.is_empty() else DEFAULT_INJURED_IDLES
+	var best: StringName = &"idle"
+	var best_fraction: float = 2.0
+	for anim: StringName in thresholds:
+		var fraction: float = thresholds[anim]
+		if hp_ratio <= fraction and fraction < best_fraction and has_animation(anim):
+			best = anim
+			best_fraction = fraction
+	return best
 
 
 ## The SpriteFrames that hold logical animation `anim` (null if the visual has none).

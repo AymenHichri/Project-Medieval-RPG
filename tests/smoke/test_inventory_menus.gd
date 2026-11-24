@@ -56,7 +56,8 @@ func test_tabs_switch_pages() -> void:
 	var tabs: TabBar = menu.get_node("%Tabs") as TabBar
 	assert_false(tabs.is_tab_disabled(PauseMenu.TAB_ITEMS))
 	assert_false(tabs.is_tab_disabled(PauseMenu.TAB_EQUIPMENT))
-	assert_true(tabs.is_tab_disabled(PauseMenu.TAB_JOURNAL), "Journal waits for Phase 10")
+	assert_false(tabs.is_tab_disabled(PauseMenu.TAB_JOURNAL), "Journal since Phase 10")
+	assert_false(tabs.is_tab_disabled(PauseMenu.TAB_MAP))
 
 
 func test_items_page_lists_by_category() -> void:

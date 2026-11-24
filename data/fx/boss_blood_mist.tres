@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FxSpec" format=3]
+
+[ext_resource type="SpriteFrames" path="res://data/fx/frames/blood_mist_phase_two_spriteframes.tres" id="1_1hi6c"]
+[ext_resource type="Script" path="res://scripts/resources/fx_spec.gd" id="2_p5mr0"]
+
+[resource]
+script = ExtResource("2_p5mr0")
+frames = ExtResource("1_1hi6c")
+anchor = 1
+offset = Vector2(0, -80)
+scale = 0.8

@@ -1,0 +1,8 @@
+{
+	"id": "ilse_talk",
+	"conditions": {"if_flag": "elder_agreed", "use": "ilse_quest"},
+	"lines": [
+		{"speaker": "Sister Ilse", "text": "The well was blessed back when the chapel still had a priest. I keep it as best I can."},
+		{"speaker": "Sister Ilse", "text": "Rest there whenever you need. The water asks nothing back."}
+	]
+}

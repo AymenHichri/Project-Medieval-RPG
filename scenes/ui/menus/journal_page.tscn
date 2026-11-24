@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/menus/journal_page.gd" id="1_journal"]
+[ext_resource type="Texture2D" path="res://assets/vendor/gimbles/hud_icons/64px/51_quest.png" id="2_quest"]
+
+[node name="JournalPage" type="HBoxContainer"]
+texture_filter = 1
+offset_right = 1100.0
+offset_bottom = 600.0
+theme_override_constants/separation = 40
+script = ExtResource("1_journal")
+
+[node name="Lists" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ActiveHeader" type="Label" parent="Lists"]
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+text = "Active"
+
+[node name="Active" type="VBoxContainer" parent="Lists"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CompletedHeader" type="Label" parent="Lists"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+text = "Completed"
+
+[node name="Completed" type="VBoxContainer" parent="Lists"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Pages" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Empty" type="Label" parent="Pages"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_type_variation = &"LoreLabel"
+text = "No quests yet. Folk in the village may need a hand."
+autowrap_mode = 3
+
+[node name="Detail" type="VBoxContainer" parent="Pages"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleRow" type="HBoxContainer" parent="Pages/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="QuestIcon" type="TextureRect" parent="Pages/Detail/TitleRow"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_quest")
+stretch_mode = 5
+
+[node name="QuestTitle" type="Label" parent="Pages/Detail/TitleRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderLabel"
+autowrap_mode = 3
+
+[node name="Giver" type="Label" parent="Pages/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+
+[node name="Summary" type="Label" parent="Pages/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_type_variation = &"BodyLabel"
+autowrap_mode = 3
+
+[node name="Stage" type="Label" parent="Pages/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_type_variation = &"LoreLabel"
+autowrap_mode = 3
+
+[node name="History" type="Label" parent="Pages/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+autowrap_mode = 3

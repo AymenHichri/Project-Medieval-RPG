@@ -65,8 +65,8 @@ _Phase 7A Step 0a, audit Phase 3 (brief: `AUDIO_CATALOG.md` → "Audit brief"). 
 ## 7. Boss battles
 | ID | Slice | Need | Available | Status |
 |---|---|---|---|---|
-| `mus_boss_assassin` | — | Choir, organ, heavy percussion, leitmotif in minor | Nothing with percussion | Gap (Phase 10; commission candidate) |
-| Boss vocalisations | — | Breath, laugh, blade sounds | — | Gap |
+| `mus_boss_assassin` | — | Choir, organ, heavy percussion, leitmotif in minor | Nothing with percussion; Tracks `2. Shadowforge Convergence` (heavy, grinding) used as the interim since Phase 10 | Interim (commission candidate) |
+| Boss vocalisations | — | Breath, laugh, blade sounds | — | Gap (Phase 10 hooks: the boss visuals' `cry_sfx` / `death_sfx` stay empty) |
 
 ## 8. Divine encounters (forgotten gods, cosmic horror)
 | ID | Slice | Need | Available | Status |
@@ -79,7 +79,7 @@ _Phase 7A Step 0a, audit Phase 3 (brief: `AUDIO_CATALOG.md` → "Audit brief"). 
 |---|---|---|---|---|
 | `tick` (typewriter) | ✅ | Tiny dry tick, ≥ 3 variants | Kenney `tick_001/002/004` | **Have** |
 | Advance / choice | ✅ | Uses UI `confirm`/`focus` | Kenney | Have |
-| `mus_story_sorrow`, `mus_story_dread` | — | Solo instrument; slow build | Strings `ForgottenSouls_Loop` (sorrow), Tracks `5. Dread March` (dread) | Interim |
+| `mus_story_sorrow`, `mus_story_dread` | — | Solo instrument; slow build | Strings `ForgottenSouls_Loop` (sorrow), Tracks `5. Dread March` (dread) | Interim (in use since Phase 10, dialogue `music` key) |
 
 ## 10. UI
 | ID / set key | Slice | Need | Available (Kenney, played −10 to −14 dB and 10–20 % lower) | Status |

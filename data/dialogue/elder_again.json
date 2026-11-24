@@ -8,6 +8,6 @@
 			{ "text": "Fine. I'll look into it.", "set_flag": "elder_agreed", "goto": 2 },
 			{ "text": "Still no.", "goto": "end" }
 		  ] },
-		{ "speaker": "Elder Maren", "give_item": "minor_potion:2", "text": "Good. Take these, and mind the wolves. [Received 2 Minor Potions.]" }
+		{ "speaker": "Elder Maren", "give_item": "minor_potion:2", "start_quest": "silence_in_the_graveyard", "text": "Good. Three graves were opened from below; search them. Take these, and mind the wolves. [Received 2 Minor Potions.]" }
 	]
 }

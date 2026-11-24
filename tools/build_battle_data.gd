@@ -229,6 +229,7 @@ func _build_enemy_skills(statuses: Dictionary[StringName, StatusEffectData], out
 	mist.inflicts = statuses[&"bleed"]
 	mist.inflict_chance = 1.0
 	mist.anim_key = &"cast"
+	# The boss's effect (boss_blood_mist) is added by tools/build_boss.gd: re-run it after this.
 	mist.description = "A crimson haze that opens every wound. Bleed on all."
 	out[mist.id] = mist
 

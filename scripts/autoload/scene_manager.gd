@@ -59,6 +59,8 @@ var _level_up_pending: bool = false
 ## The map taken out of the tree during a battle (kept in memory, not freed).
 var _detached_world: Node
 var _battle: BattleController
+## The setup of the running battle (its `victory_flag` is set on a win).
+var _setup: BattleSetup
 
 
 func _ready() -> void:
@@ -131,6 +133,7 @@ func start_battle(setup: BattleSetup) -> BattleResult:
 		return null
 	is_transitioning = true
 	in_battle = true
+	_setup = setup
 	var tree: SceneTree = get_tree()
 	var world: Node = tree.current_scene
 	_set_player_input(world, false)
@@ -165,9 +168,9 @@ func start_battle(setup: BattleSetup) -> BattleResult:
 	return result
 
 
-## Finishes the running battle: applies a victory's rewards (the single place rewards are
-## applied), frees the battle, puts the map back, returns to the map music and fades in.
-## A defeat goes to `game_over()` instead.
+## Finishes the running battle: applies a victory's rewards and its setup's `victory_flag` (the
+## single place rewards are applied), frees the battle, puts the map back, returns to the map music
+## and fades in. A defeat goes to `game_over()` instead.
 func end_battle(result: BattleResult) -> void:
 	if not in_battle:
 		push_warning("SceneManager: end_battle without a battle")
@@ -175,6 +178,9 @@ func end_battle(result: BattleResult) -> void:
 	is_transitioning = true
 	if result != null and result.is_victory():
 		GameState.apply_battle_rewards(result)
+		if _setup != null and not _setup.victory_flag.is_empty():
+			GameState.set_flag(_setup.victory_flag)
+	_setup = null
 	GameState.settle_party_after_battle()
 	if result != null and result.outcome == BattleEngine.Outcome.DEFEAT:
 		await game_over()
@@ -249,6 +255,8 @@ func game_over() -> void:
 		_detached_world.free()
 		_detached_world = null
 	AudioManager.music.stop(0.0)
+	# The map whose music the battle pushed aside is gone: nothing to return to.
+	AudioManager.music.clear_stack()
 	AudioManager.ambience.set_duck(0.0, 0.0)
 	AudioManager.ambience.set_profile(null, 0.0)
 	in_battle = false

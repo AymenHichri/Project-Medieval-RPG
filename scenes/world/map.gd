@@ -5,7 +5,8 @@ extends Node2D
 ## player), `Spawns` (SpawnPoint markers), `Lights`, `Ambience` (vendor ambience controller)
 ## and `CameraBounds` (ReferenceRect). On ready it clamps the player's camera to the bounds,
 ## applies the visual mood, starts the map's music and ambience, adds the exploration HUD and the
-## pause menu (`menu` action), and, in debug builds, the F3 debug overlay. Random encounters: the player's EncounterTracker reports one, and the map
+## pause menu (`menu` action), and, in debug builds, the F3 debug overlay. Since Phase 10 it also
+## records the visit for the map page (MapAtlas). Random encounters: the player's EncounterTracker reports one, and the map
 ## turns it into a BattleSetup for `SceneManager.start_battle()` (§4.5).
 
 ## Loaded at runtime, not preloaded: the overlay script refers to `Map`, so a preload would
@@ -63,6 +64,23 @@ func _ready() -> void:
 		var overlay: DebugOverlay = (load(DEBUG_OVERLAY_PATH) as PackedScene).instantiate() as DebugOverlay
 		overlay.setup(self)
 		add_child(overlay)
+	_record_visit()
+
+
+## Phase 10 map page: remembers the visit, writes the map's markers and, on the first visit, takes
+## its picture (MapAtlas).
+func _record_visit() -> void:
+	if scene_file_path.is_empty():
+		return
+	GameState.visit_map(scene_file_path)
+	MapAtlas.save_info(self)
+	if MapAtlas.can_capture(scene_file_path):
+		_capture_picture.call_deferred()
+
+
+func _capture_picture() -> void:
+	if is_inside_tree():
+		await MapAtlas.capture(self)
 
 
 ## Opens the pause menu when the player is free to act (not in a dialogue, fade or battle).

@@ -25,6 +25,8 @@ signal opened
 func _ready() -> void:
 	super._ready()
 	_show_state()
+	if required_key != null:
+		GameState.items_changed.connect(_show_state)
 
 
 func is_opened() -> bool:
@@ -89,3 +91,4 @@ func _show_state() -> void:
 	if sprite.sprite_frames.has_animation(state):
 		sprite.play(state)
 	set_prompt("Search" if is_opened() else "Open")
+	set_icon(LOCKED_ICON if is_locked() and not is_opened() else null)

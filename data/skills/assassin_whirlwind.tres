@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_h3610"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_06p7t"]
+[ext_resource type="Resource" path="res://data/status_effects/stagger.tres" id="3_vkly0"]
+
+[resource]
+script = ExtResource("2_06p7t")
+id = &"assassin_whirlwind"
+display_name = "Whirlwind"
+power = 85
+target_mode = 1
+user_inflicts = ExtResource("3_vkly0")
+anim_key = &"whirlwind"
+description = "A spinning storm of blades that strikes every foe."

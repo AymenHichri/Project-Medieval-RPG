@@ -24,3 +24,23 @@ focus_mode = 0
 texture_normal = ExtResource("2_normal")
 texture_pressed = ExtResource("3_pressed")
 texture_hover = ExtResource("4_hover")
+
+[node name="Notice" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -360.0
+offset_top = 40.0
+offset_right = 360.0
+offset_bottom = 104.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"TooltipPanelContainer"
+
+[node name="NoticeText" type="Label" parent="Notice"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NameLabel"
+horizontal_alignment = 1

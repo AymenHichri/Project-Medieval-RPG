@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FxSpec" format=3]
+
+[ext_resource type="SpriteFrames" path="res://data/fx/frames/blink_arrival_spriteframes.tres" id="1_52y2e"]
+[ext_resource type="Script" path="res://scripts/resources/fx_spec.gd" id="2_c3qjw"]
+
+[resource]
+script = ExtResource("2_c3qjw")
+frames = ExtResource("1_52y2e")
+anchor = 1
+offset = Vector2(0, -150)
+scale = 0.8

@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="CombatantVisual" format=3]
+
+[ext_resource type="Resource" path="res://data/fx/boss_blink_arrival.tres" id="1_vuld8"]
+[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="2_r36ct"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/blade_assassin/characters/blade-assassin/godot/blade-assassin_spriteframes.tres" id="3_jtbho"]
+
+[resource]
+script = ExtResource("2_r36ct")
+sprite_frames = ExtResource("3_jtbho")
+battle_scale = 1.2
+offset = Vector2(4, -129)
+anim_map = Dictionary[StringName, StringName]({
+&"attack": &"attack3_W",
+&"blink_strike": &"attack_W",
+&"cast": &"attack4_W",
+&"death": &"death_W",
+&"hurt": &"hurt_W",
+&"idle": &"idle_W",
+&"idle_hp25": &"idle_hp25_W",
+&"idle_hp50": &"idle_hp50_W",
+&"move": &"run_W",
+&"phase_rush": &"attack2_W",
+&"skill": &"attack2_W",
+&"stagger": &"stagger_W",
+&"whirlwind": &"attack4_W"
+})
+hit_frame = 2
+hit_frames = Dictionary[StringName, int]({
+&"blink_strike": 3,
+&"cast": 4,
+&"phase_rush": 1,
+&"skill": 1,
+&"whirlwind": 4
+})
+height = 191.0
+injured_idles = Dictionary[StringName, float]({
+&"idle_hp25": 0.625,
+&"idle_hp50": 0.75
+})
+entrance_fx = ExtResource("1_vuld8")

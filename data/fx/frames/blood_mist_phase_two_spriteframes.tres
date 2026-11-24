@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/blade_assassin/effects/blood_mist_phase_two/blood_mist_phase_two.png" id="1_wheb2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1sfy"]
+atlas = ExtResource("1_wheb2")
+region = Rect2(0, 0, 320, 267)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7m14"]
+atlas = ExtResource("1_wheb2")
+region = Rect2(320, 0, 320, 267)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8mgux"]
+atlas = ExtResource("1_wheb2")
+region = Rect2(640, 0, 320, 267)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdvql"]
+atlas = ExtResource("1_wheb2")
+region = Rect2(960, 0, 320, 267)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asc18"]
+atlas = ExtResource("1_wheb2")
+region = Rect2(1280, 0, 320, 267)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tbabd"]
+atlas = ExtResource("1_wheb2")
+region = Rect2(1600, 0, 320, 267)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1sfy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7m14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8mgux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdvql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_asc18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tbabd")
+}],
+"loop": 0,
+"name": &"effect",
+"speed": 12.0
+}]

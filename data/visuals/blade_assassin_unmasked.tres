@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="CombatantVisual" format=3]
+
+[ext_resource type="Resource" path="res://data/fx/boss_blink_arrival_two.tres" id="1_y3sdc"]
+[ext_resource type="Script" path="res://scripts/resources/combatant_visual.gd" id="2_q1nog"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/blade_assassin/characters/blade-assassin-phase-two/godot/blade-assassin-phase-two_spriteframes.tres" id="3_ig2tq"]
+
+[resource]
+script = ExtResource("2_q1nog")
+sprite_frames = ExtResource("3_ig2tq")
+battle_scale = 1.2
+offset = Vector2(28, -193)
+anim_map = Dictionary[StringName, StringName]({
+&"attack": &"attack3_W",
+&"blink_strike": &"attack_W",
+&"blood_mist": &"attack5_W",
+&"bone_lance": &"attack6_W",
+&"cast": &"attack5_W",
+&"death": &"death_W",
+&"hurt": &"hurt_W",
+&"idle": &"idle_W",
+&"move": &"run_W",
+&"phase_rush": &"attack2_W",
+&"skill": &"attack2_W",
+&"whirlwind": &"attack4_W"
+})
+hit_frame = 3
+hit_frames = Dictionary[StringName, int]({
+&"blink_strike": 6,
+&"blood_mist": 9,
+&"bone_lance": 6,
+&"cast": 9,
+&"phase_rush": 1,
+&"skill": 1,
+&"whirlwind": 5
+})
+height = 222.0
+phase_fx = ExtResource("1_y3sdc")

@@ -26,6 +26,11 @@ enum Effect { DAMAGE, HEAL, STATUS, CURE, GUARD }
 @export_range(0.0, 1.0, 0.01) var inflict_chance: float = 0.0
 ## Statuses removed from each target by a CURE skill (empty = all).
 @export var cures: Array[StatusEffectData] = []
+## Status the user puts on itself after the skill (Phase 10: the boss's big attacks leave it
+## Staggered, an opening for the party). Null = none.
+@export var user_inflicts: StatusEffectData
+## Effect played on the user as the skill starts (the boss's phase trail). Null = none.
+@export var user_fx: FxSpec
 ## Acts before ordinary actions of the round, like Defend (Guard: 1).
 @export_range(0, 1) var priority: int = 0
 ## Logical animation the presenter plays (Phase 5), e.g. &"whirlwind".

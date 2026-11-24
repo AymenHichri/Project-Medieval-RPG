@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="StatusEffectData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_0fnia"]
+
+[resource]
+script = ExtResource("1_0fnia")
+id = &"stagger"
+display_name = "Staggered"
+kind = 7
+skip_turn = true
+starts_next_round = true
+stat_mult = Dictionary[StringName, float]({
+&"defense": 0.5,
+&"spirit": 0.5
+})
+tag_text = "STG"
+tag_color = Color(0.84705883, 0.627451, 0.22745098, 1)
+rest_anim = &"stagger"

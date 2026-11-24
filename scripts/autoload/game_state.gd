@@ -1,7 +1,8 @@
 extends Node
 ## Autoload `GameState`: the data of the current play session.
-## Flags, the inventory (items, key items, gold), the party (levels, XP, recruits, gear) and
-## encounter-rate modifiers. Quests and serialisation arrive later.
+## Flags, the inventory (items, key items, gold), the party (levels, XP, recruits, gear),
+## encounter-rate modifiers, the quest log (Phase 10) and the maps visited. Serialisation arrives in
+## Phase 11.
 
 signal flag_changed(flag: StringName, value: Variant)
 signal gold_changed(gold: int)
@@ -11,6 +12,10 @@ signal items_changed
 signal member_leveled(member: PartyMember, level_up: LevelUp)
 ## A character joined the party (`recruit`).
 signal member_joined(member: PartyMember)
+## A quest started, moved to another stage or was completed.
+signal quests_changed(quest: QuestData)
+## A map was entered for the first time (`visit_map`).
+signal map_visited(map_path: String)
 
 ## The character a new game starts with (recruits join through `recruit`).
 const STARTING_CHARACTER: String = "res://data/characters/knight.tres"
@@ -37,12 +42,27 @@ var encounter_rate_modifiers: Dictionary[StringName, RateModifier] = {}
 ## The active party. Its members' fighters are taken into every battle, so HP/MP, levels and
 ## learned skills carry over. Built by `new_game()` / `ensure_party()`.
 var party: Party = Party.new()
+## Started and completed quests (Phase 10). Moved on by `set_flag`. Assigning a new one (tests)
+## moves the `quests_changed` relay to it.
+var quests: QuestLog:
+	set(value):
+		if quests != null and quests.quest_started.is_connected(_on_quest_event):
+			quests.quest_started.disconnect(_on_quest_event)
+			quests.stage_advanced.disconnect(_on_stage_advanced)
+			quests.quest_completed.disconnect(_on_quest_event)
+		quests = value if value != null else QuestLog.new()
+		quests.quest_started.connect(_on_quest_event)
+		quests.stage_advanced.connect(_on_stage_advanced)
+		quests.quest_completed.connect(_on_quest_event)
+## Scene paths of the maps entered so far, in order (the map page lists them).
+var visited_maps: Array[String] = []
 ## Rolls the stat gains of level-ups. Seed it in tests; randomised on start-up.
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
 func _init() -> void:
 	inventory = Inventory.new()
+	quests = QuestLog.new()
 
 
 func _ready() -> void:
@@ -55,13 +75,43 @@ func new_game() -> void:
 	encounter_rate_modifiers.clear()
 	current_map = ""
 	play_time = 0.0
+	quests.clear()
+	visited_maps.clear()
 	party.clear()
 	ensure_party()
 
 
+## Sets a flag and moves the quests on (a flag can finish a quest stage) before `flag_changed`,
+## so listeners see the quests as they now stand.
 func set_flag(flag: StringName, value: Variant = true) -> void:
 	flags[flag] = value
+	quests.update(flags)
 	flag_changed.emit(flag, value)
+
+
+# --- quests and maps ------------------------------------------------------------------------
+
+## Starts the quest `data/quests/<quest_id>.tres` (dialogue `start_quest`). False when it is
+## unknown or already started.
+func start_quest(quest_id: StringName) -> bool:
+	return quests.start(QuestData.find(quest_id), flags)
+
+
+func _on_quest_event(quest: QuestData) -> void:
+	quests_changed.emit(quest)
+
+
+func _on_stage_advanced(quest: QuestData, _stage: int) -> void:
+	quests_changed.emit(quest)
+
+
+## Records that the player entered `map_path` (Map._ready). True the first time.
+func visit_map(map_path: String) -> bool:
+	if map_path.is_empty() or map_path in visited_maps:
+		return false
+	visited_maps.append(map_path)
+	map_visited.emit(map_path)
+	return true
 
 
 func get_flag(flag: StringName, default: Variant = false) -> Variant:

@@ -1,0 +1,8 @@
+{
+	"id": "crypt_door_open",
+	"lines": [
+		{"music": "mus_story_dread", "text": "The ash ward crumbles at your touch. The door grinds inward, and cold air breathes out of the dark."},
+		{"speaker": "Blade Assassin", "portrait": "43_vampire_lord", "text": "Three graves, three names, and you dug up every one of them. How diligent."},
+		{"speaker": "Blade Assassin", "portrait": "43_vampire_lord", "text": "I take what no one will miss. Soon no one will remember you either."}
+	]
+}

@@ -30,6 +30,7 @@ const REST_POINT_SCENE: String = "res://scenes/world/components/rest_point.tscn"
 const RECRUIT_NPC_SCENE: String = "res://scenes/world/components/recruit_npc.tscn"
 const SHOP_NPC_SCENE: String = "res://scenes/world/components/shop_npc.tscn"
 const CHEST_SCENE: String = "res://scenes/world/components/chest.tscn"
+const BOSS_TRIGGER_SCENE: String = "res://scenes/world/components/boss_trigger.tscn"
 const ITEM_DIR: String = "res://data/items"
 const EQUIPMENT_DIR: String = "res://data/equipment"
 const ENCOUNTER_ZONE_SCENE: String = "res://scenes/world/components/encounter_zone.tscn"
@@ -255,15 +256,37 @@ func interactable(target: Node2D, prompt: String, dialogue_id: StringName, offse
 	return area
 
 
-## A talking NPC standing at `at` (feet), facing `facing`, with an optional portrait.
+## A talking NPC standing at `at` (feet), facing `facing`, with an optional portrait and look
+## (SpriteFrames; empty = the scene's default).
 func npc(world: Node2D, node_name: String, at: Vector2, dialogue_id: StringName, facing: String,
-		portrait_path: String = "") -> Npc:
+		portrait_path: String = "", frames_path: String = "") -> Npc:
 	var person: Npc = scene(world, NPC_SCENE, node_name, at) as Npc
 	person.dialogue_id = dialogue_id
 	person.facing = facing
 	if not portrait_path.is_empty():
 		person.portrait = load(portrait_path) as Texture2D
+	if not frames_path.is_empty():
+		person.sprite_frames = load(frames_path) as SpriteFrames
 	return person
+
+
+## Ties an interactable to a quest (Phase 10): the target of `stage` until `done_flag` is set, or
+## (stage -1) the quest's giver.
+func quest_target(area: Interactable, quest_path: String, stage: int, done_flag: StringName = &"") -> void:
+	area.quest = load(quest_path) as QuestData
+	area.quest_stage = stage
+	area.quest_done_flag = done_flag
+
+
+## A fixed boss fight (Phase 10) at `at`: sealed until its encounter's flags are set.
+func boss_trigger(world: Node2D, node_name: String, at: Vector2, encounter_path: String, dialogue_id: StringName,
+		sealed_dialogue: StringName, after_dialogue: StringName) -> BossTrigger:
+	var trigger: BossTrigger = scene(world, BOSS_TRIGGER_SCENE, node_name, at) as BossTrigger
+	trigger.encounter = load(encounter_path) as BossEncounter
+	trigger.dialogue_id = dialogue_id
+	trigger.sealed_dialogue = sealed_dialogue
+	trigger.after_dialogue = after_dialogue
+	return trigger
 
 
 ## A character who joins the party after its dialogue when `join_if_flag` is set (Phase 8).

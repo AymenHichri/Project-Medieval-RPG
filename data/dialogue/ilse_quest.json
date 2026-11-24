@@ -1,0 +1,8 @@
+{
+	"id": "ilse_quest",
+	"conditions": {"if_flag": "blade_assassin_defeated", "use": "ilse_after"},
+	"lines": [
+		{"speaker": "Sister Ilse", "text": "You're going to the crypt. Take holy water: the dead there flinch from it, and so does whatever drives them."},
+		{"speaker": "Sister Ilse", "text": "Oswin sells it, though he charges like a bishop."}
+	]
+}

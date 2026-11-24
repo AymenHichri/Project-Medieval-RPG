@@ -3,7 +3,7 @@ extends Resource
 ## A status effect definition (Bleed, Burn, Curse, Blessed, Sleep, Stun…).
 ## Applying it again to a target that already has it refreshes its duration (no stacking).
 
-enum Kind { BLEED, BURN, CURSE, BLESSED, SLEEP, STUN, TAUNT }
+enum Kind { BLEED, BURN, CURSE, BLESSED, SLEEP, STUN, TAUNT, STAGGER }
 
 @export var id: StringName
 @export var display_name: String = ""
@@ -20,6 +20,10 @@ enum Kind { BLEED, BURN, CURSE, BLESSED, SLEEP, STUN, TAUNT }
 @export_range(0.0, 1.0, 0.01) var regen_percent: float = 0.0
 ## The holder loses its turns while the status lasts.
 @export var skip_turn: bool = false
+## A turn-skipping status that only starts blocking in the next round (Phase 10 Stagger: a boss that
+## acts twice keeps its second action of the round, then loses the whole next round). Its stat
+## multipliers apply at once.
+@export var starts_next_round: bool = false
 ## Multipliers applied to stats while active, e.g. `{&"attack": 0.75}`.
 @export var stat_mult: Dictionary[StringName, float] = {}
 ## Multiplier on healing the holder receives (Curse: 0.5).
@@ -33,3 +37,6 @@ enum Kind { BLEED, BURN, CURSE, BLESSED, SLEEP, STUN, TAUNT }
 ## Short HUD tag for statuses without an icon, e.g. "SLP".
 @export var tag_text: String = ""
 @export var tag_color: Color = Color.WHITE
+## Logical animation the holder's battle sprite rests in while the status lasts (Phase 10: the
+## boss's `stagger` loop). Empty, or not mapped by the visual = its ordinary idle.
+@export var rest_anim: StringName = &""

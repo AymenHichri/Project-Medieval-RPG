@@ -1,7 +1,8 @@
 {
 	"id": "elder_again_agreed",
+	"conditions": {"if_flag": "blade_assassin_defeated", "use": "elder_report"},
 	"lines": [
-		{ "speaker": "Elder Maren", "text": "The stones lie south, past the fence. Whatever took those names is out there still." },
-		{ "speaker": "Elder Maren", "text": "And if the well can't mend you, nothing in this village can." }
+		{"speaker": "Elder Maren", "text": "The opened graves lie south, past the fence: the widow's stone by the path, the old soldier's in the west field, and a fresh mound in the east."},
+		{"speaker": "Elder Maren", "text": "Search all three. And if the well can't mend you, nothing in this village can."}
 	]
 }

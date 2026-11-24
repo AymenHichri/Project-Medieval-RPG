@@ -14,6 +14,7 @@ var _flags: Dictionary[StringName, Variant] = {}
 var _items: Inventory
 var _party: Party
 var _speed: Settings.TextSpeed
+var _quests: QuestLog
 
 
 func before_each() -> void:
@@ -22,6 +23,8 @@ func before_each() -> void:
 	GameState.inventory = Inventory.new()
 	_party = GameState.party
 	_speed = Settings.text_speed
+	_quests = GameState.quests
+	GameState.quests = QuestLog.new()
 	GameState.flags = {}
 	GameState.party = Party.new()
 	GameState.ensure_party()
@@ -39,6 +42,7 @@ func after_each() -> void:
 	GameState.flags = _flags
 	GameState.inventory = _items
 	GameState.party = _party
+	GameState.quests = _quests
 	Settings.text_speed = _speed
 
 

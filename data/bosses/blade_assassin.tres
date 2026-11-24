@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BossEncounter" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/battle/backgrounds/graveyard_bg.tscn" id="1_rtvv6"]
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="2_hiage"]
+[ext_resource type="Resource" path="res://data/enemies/blade_assassin.tres" id="3_wpe7h"]
+[ext_resource type="Script" path="res://scripts/resources/encounter_group.gd" id="4_qh5ah"]
+[ext_resource type="Resource" path="res://data/audio/music/mus_boss_assassin.tres" id="5_gejvu"]
+[ext_resource type="Script" path="res://scripts/resources/boss_encounter.gd" id="6_j2vyy"]
+
+[sub_resource type="Resource" id="Resource_b3psu"]
+script = ExtResource("4_qh5ah")
+enemies = Array[ExtResource("2_hiage")]([ExtResource("3_wpe7h")])
+can_flee = false
+intro_text = "The crypt door swings wide. A blade gleams in the dark!"
+
+[resource]
+script = ExtResource("6_j2vyy")
+group = SubResource("Resource_b3psu")
+required_flags = Array[StringName]([&"grave_widow_searched", &"grave_soldier_searched", &"grave_fresh_searched"])
+defeated_flag = &"blade_assassin_defeated"
+background = ExtResource("1_rtvv6")
+music = ExtResource("5_gejvu")

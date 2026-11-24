@@ -1,0 +1,8 @@
+{
+	"id": "hollis_quest",
+	"conditions": {"if_flag": "blade_assassin_defeated", "use": "hollis_after"},
+	"lines": [
+		{"speaker": "Gravedigger Hollis", "text": "So Maren sent you. Mind the three I told her of: the widow's stone by the path, the old soldier in the west field, and the fresh mound in the east."},
+		{"speaker": "Gravedigger Hollis", "text": "That fresh one is mine. I dug it a week ago, and nobody ever told me who it was for."}
+	]
+}

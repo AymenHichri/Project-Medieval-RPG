@@ -19,6 +19,10 @@ const COURTYARD_ASH: String = "res://assets/vendor/sovdigital/castle_courtyard/C
 const COURTYARD_PROP_DIR: String = "res://scenes/world/props/courtyard"
 ## Placeholder portrait for the Elder (Gimble's has no elder; risk R5).
 const ELDER_PORTRAIT: String = "res://assets/vendor/gimbles/portraits/framed/256px/11_witch_hunter.png"
+## Phase 10: the example quest (the Elder gives it) and the villagers' placeholder looks.
+const QUEST_PATH: String = "res://data/quests/silence_in_the_graveyard.tres"
+const KNIGHT_FRAMES: String = "res://assets/vendor/sovdigital/knight/characters/knight/godot/knight_spriteframes.tres"
+const GOLD_FRAMES: String = "res://assets/vendor/sovdigital/knight/ColourVariations/gold/knight/godot/knight_spriteframes.tres"
 ## Phase 9: the merchant stands in front of the market stall.
 const MERCHANT_AT: Vector2 = Vector2(2420, 1700)
 const MERCHANT_STOCK: Array[StringName] = [
@@ -151,7 +155,8 @@ func _build_props(world: Node2D) -> void:
 	var well: Node2D = _courtyard_kit.prop(world, "well", "Well", Vector2(1800, 2110))
 	_kit.rest_point(well, Vector2(0, 10), 96.0, 210.0)
 	# Phase 7: the Elder waits in the square's north-east quarter, facing the start spawn.
-	_kit.npc(world, "Elder", Vector2(2270, 1560), &"elder_intro", "SW", ELDER_PORTRAIT)
+	var elder: Npc = _kit.npc(world, "Elder", Vector2(2270, 1560), &"elder_intro", "SW", ELDER_PORTRAIT)
+	_kit.quest_target(elder, QUEST_PATH, -1)
 	# Phase 8: the Warden waits by the road south to the graveyard and joins when asked.
 	_kit.recruit(world, "Warden", Vector2(2300, 2420), &"warden_meet", "W", "res://data/characters/warden.tres",
 			&"warden_joined", &"warden_agreed")
@@ -159,6 +164,10 @@ func _build_props(world: Node2D) -> void:
 	# the party's first weapon.
 	_kit.merchant(world, "Merchant", MERCHANT_AT, &"merchant_greeting", "S", MERCHANT_STOCK)
 	_kit.chest(world, "ChestLongsword", Vector2(3120, 1470), &"worn_longsword", 1, &"chest_village_longsword")
+	# Phase 10: villagers whose lines follow the quest (placeholder looks: Knight recolours, risk R5).
+	_kit.npc(world, "Hollis", Vector2(2470, 2250), &"hollis_talk", "W", "", KNIGHT_FRAMES)
+	_kit.npc(world, "Ilse", Vector2(1630, 2200), &"ilse_talk", "E", "", GOLD_FRAMES)
+	_kit.npc(world, "Brenna", Vector2(1080, 2790), &"brenna_talk", "E", "", KNIGHT_FRAMES)
 
 
 func _build_trees(world: Node2D) -> void:

@@ -16,6 +16,8 @@ extends Resource
 @export var visual: CombatantVisual
 ## Statuses that never stick to this enemy.
 @export var status_immunities: Array[StatusEffectData] = []
+## Actions it takes each round (Phase 10: the boss acts twice; each is chosen separately).
+@export_range(1, 3) var actions_per_round: int = 1
 ## Second form the enemy switches to once its HP falls to `phase_two_at_hp_pct`.
 @export var phase_two: EnemyData
 @export_range(0.0, 1.0, 0.05) var phase_two_at_hp_pct: float = 0.5

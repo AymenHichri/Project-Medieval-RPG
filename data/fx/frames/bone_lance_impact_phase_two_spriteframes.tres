@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/blade_assassin/effects/bone_lance_impact_phase_two/bone_lance_impact_phase_two.png" id="1_ilgdw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_162ge"]
+atlas = ExtResource("1_ilgdw")
+region = Rect2(0, 0, 320, 222)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afnsg"]
+atlas = ExtResource("1_ilgdw")
+region = Rect2(320, 0, 320, 222)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_av04s"]
+atlas = ExtResource("1_ilgdw")
+region = Rect2(640, 0, 320, 222)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6x05t"]
+atlas = ExtResource("1_ilgdw")
+region = Rect2(960, 0, 320, 222)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evv2j"]
+atlas = ExtResource("1_ilgdw")
+region = Rect2(1280, 0, 320, 222)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0k4a"]
+atlas = ExtResource("1_ilgdw")
+region = Rect2(1600, 0, 320, 222)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_162ge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afnsg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_av04s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6x05t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_evv2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0k4a")
+}],
+"loop": 0,
+"name": &"effect",
+"speed": 12.0
+}]

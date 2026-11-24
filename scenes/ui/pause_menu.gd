@@ -2,25 +2,28 @@ class_name PauseMenu
 extends CanvasLayer
 ## Exploration pause menu (PROJECT_PLAN.md Phase 7): opened with `menu` (or the HUD's MENU button)
 ## while the player can act. Pauses the game. Gimble's panel with a tab bar (Party: StatusPage,
-## Phase 8; Items: InventoryPage and Equipment: EquipmentPage, Phase 9; Journal arrives in
-## Phase 10 and is shown disabled), the gold, and Resume / Settings / Quit to Title. The tab bar
+## Phase 8; Items: InventoryPage and Equipment: EquipmentPage, Phase 9; Journal: JournalPage and
+## Map: MapPage, Phase 10), the gold, and Resume / Settings / Quit to Title. The tab bar
 ## takes focus (left/right switches tabs). `cancel` steps back inside a page first (choosing a
 ## target or a piece of gear), else closes the menu; `menu` always closes it.
 
 signal opened
 signal closed
 
-## Tabs in order (Journal arrives in Phase 10).
-const TABS: PackedStringArray = ["Party", "Items", "Equipment", "Journal"]
+## Tabs in order.
+const TABS: PackedStringArray = ["Party", "Items", "Equipment", "Journal", "Map"]
 const TAB_PARTY: int = 0
 const TAB_ITEMS: int = 1
 const TAB_EQUIPMENT: int = 2
 const TAB_JOURNAL: int = 3
+const TAB_MAP: int = 4
 
 @onready var _tabs: TabBar = %Tabs
 @onready var status_page: StatusPage = %StatusPage
 @onready var inventory_page: InventoryPage = %InventoryPage
 @onready var equipment_page: EquipmentPage = %EquipmentPage
+@onready var journal_page: JournalPage = %JournalPage
+@onready var map_page: MapPage = %MapPage
 @onready var _gold: Label = %Gold
 @onready var _resume: Button = %ResumeButton
 @onready var _settings_button: Button = %SettingsButton
@@ -33,7 +36,6 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i: int in TABS.size():
 		_tabs.add_tab(TABS[i])
-		_tabs.set_tab_disabled(i, i == TAB_JOURNAL)
 	_tabs.tab_changed.connect(show_tab)
 	_resume.pressed.connect(close)
 	_settings_button.pressed.connect(_on_settings_pressed)
@@ -77,7 +79,7 @@ func refresh() -> void:
 	show_tab(_tabs.current_tab)
 
 
-## Shows one tab's page (Party, Items or Equipment) and refreshes it.
+## Shows one tab's page and refreshes it.
 func show_tab(tab: int) -> void:
 	if _tabs.current_tab != tab:
 		_tabs.set_current_tab(tab)  # Emits tab_changed, which calls this again.
@@ -85,6 +87,8 @@ func show_tab(tab: int) -> void:
 	status_page.visible = tab == TAB_PARTY
 	inventory_page.visible = tab == TAB_ITEMS
 	equipment_page.visible = tab == TAB_EQUIPMENT
+	journal_page.visible = tab == TAB_JOURNAL
+	map_page.visible = tab == TAB_MAP
 	match tab:
 		TAB_PARTY:
 			status_page.refresh(status_page.shown)
@@ -92,6 +96,10 @@ func show_tab(tab: int) -> void:
 			inventory_page.refresh()
 		TAB_EQUIPMENT:
 			equipment_page.refresh()
+		TAB_JOURNAL:
+			journal_page.refresh()
+		TAB_MAP:
+			map_page.refresh()
 	_refresh_gold()
 
 

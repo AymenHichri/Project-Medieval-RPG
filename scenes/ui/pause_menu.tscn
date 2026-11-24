@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="1_pause"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menus/settings_menu.tscn" id="2_settings"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menus/status_page.tscn" id="3_status"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menus/inventory_page.tscn" id="4_inventory"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menus/equipment_page.tscn" id="5_equipment"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menus/journal_page.tscn" id="6_journal"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menus/map_page.tscn" id="7_map"]
 
 [node name="PauseMenu" type="CanvasLayer"]
 layer = 30
@@ -68,6 +70,16 @@ visible = false
 layout_mode = 2
 
 [node name="EquipmentPage" parent="Root/Center/Panel/Content/Body/Party" instance=ExtResource("5_equipment")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="JournalPage" parent="Root/Center/Panel/Content/Body/Party" instance=ExtResource("6_journal")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="MapPage" parent="Root/Center/Panel/Content/Body/Party" instance=ExtResource("7_map")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2

@@ -5,6 +5,7 @@ extends TestCase
 var _flags: Dictionary[StringName, Variant] = {}
 var _items: Inventory
 var _gold: int = 0
+var _quests: QuestLog
 
 
 func before_each() -> void:
@@ -12,6 +13,8 @@ func before_each() -> void:
 	_items = GameState.inventory
 	GameState.inventory = Inventory.new()
 	_gold = GameState.gold
+	_quests = GameState.quests
+	GameState.quests = QuestLog.new()
 	GameState.flags = {}
 	GameState.gold = 0
 
@@ -20,6 +23,7 @@ func after_each() -> void:
 	GameState.flags = _flags
 	GameState.inventory = _items
 	GameState.gold = _gold
+	GameState.quests = _quests
 
 
 func _data(lines: Array) -> Dictionary:
@@ -111,6 +115,7 @@ func test_elder_intro_accept_path() -> void:
 	runner.choose(0)
 	assert_eq(GameState.get_flag(&"elder_agreed"), true)
 	assert_eq(GameState.item_count(&"minor_potion"), 2, "the Elder's potions")
+	assert_true(GameState.quests.is_active(&"silence_in_the_graveyard"), "and her quest")
 	while not runner.is_finished():
 		runner.advance()
 	assert_eq(DialogueRunner.resolve_id(&"elder_intro", GameState), &"elder_again_agreed")

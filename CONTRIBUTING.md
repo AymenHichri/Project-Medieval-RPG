@@ -43,7 +43,10 @@ Applies to all code in this project. Source: `PROJECT_PLAN.md` §10. Visual and 
 | `godot --headless --path . -s res://tools/build_battle_data.gd` | Rebuild skills, items, enemies, the Knight and its growth curve (`data/`); source of truth for the numbers |
 | `godot --headless --path . -s res://tools/build_items.gd` | Rebuild the Phase 9 items (`data/items/`) and equipment (`data/equipment/`); run after `build_battle_data.gd` |
 | `godot --headless --path . -s res://tools/build_maps.gd -- village_01` | Rebuild a map and its props from `tools/map_builders/` |
+| `godot --headless --path . -s res://tools/build_boss.gd` | Rebuild the Phase 10 boss (stagger status, effect frames, skills, both forms, `data/bosses/`); run after `build_battle_data.gd` and `build_audio.gd` |
+| `godot --headless --path . -s res://tools/build_quests.gd` | Rebuild the quests (`data/quests/`); source of truth for stages and texts |
 | `tools/balance_sim.gd` (`BalanceSim.run`) | Slice balance simulation; checked by `tests/unit/test_balance.gd` (3–5 fights before resting) |
+| `tools/boss_sim.gd` (`BossSim.run`) | Boss balance simulation (3-member party at one level); checked by `tests/unit/test_boss_battle.gd` |
 | `godot --headless --path . -s res://tests/test_runner.gd -- --filter=<name>` | Run a subset of tests |
 
 - Every pure-logic class gets `tests/unit/test_<name>.gd`. Every scene type gets a smoke test.

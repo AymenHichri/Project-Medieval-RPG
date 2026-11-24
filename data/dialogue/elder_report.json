@@ -1,0 +1,10 @@
+{
+	"id": "elder_report",
+	"conditions": {"if_flag": "silence_reported", "use": "elder_after"},
+	"lines": [
+		{"speaker": "Elder Maren", "music": "mus_story_sorrow", "text": "You're back. Listen: the chapel bell. Nobody has rung it in three weeks, and this morning it rang on its own."},
+		{"speaker": "Elder Maren", "text": "Tell me plainly. What waited in the crypt?"},
+		{"speaker": "Elder Maren", "set_flag": "silence_reported", "give_item": "gold:300", "text": "A blade in the dark, carrying off names. Then the ones it took are free, wherever they are. Take this; it's what the village could gather. [Received 300 gold.]"},
+		{"speaker": "Elder Maren", "give_item": "soul_gem", "text": "And this. My father carried it through the old war and swore it brought him home. [Received a Soul Gem.]"}
+	]
+}

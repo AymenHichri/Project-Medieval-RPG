@@ -1,0 +1,7 @@
+{
+	"id": "examine_grave_soldier",
+	"conditions": {"if_flag": "elder_agreed", "use": "grave_soldier_search"},
+	"lines": [
+		{"text": "An old soldier's headstone. The regiment's crest has worn smooth."}
+	]
+}

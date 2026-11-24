@@ -1,5 +1,6 @@
 {
 	"id": "examine_headstone",
+	"conditions": { "if_flag": "elder_agreed", "use": "grave_widow_search" },
 	"lines": [
 		{ "text": "The name has been chiselled away, stroke by careful stroke." },
 		{ "text": "Someone has left fresh ash at the foot of the stone." }

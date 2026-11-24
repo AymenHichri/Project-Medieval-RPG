@@ -1,0 +1,8 @@
+{
+	"id": "grave_soldier_search",
+	"conditions": {"if_flag": "grave_soldier_searched", "use": "grave_searched"},
+	"lines": [
+		{"text": "This grave was dug out and filled again in haste. Through the loose earth you can see the coffin lid, split down the middle."},
+		{"set_flag": "grave_soldier_searched", "text": "The coffin is empty. Scratched into the wood, over and over: a blade, and a door."}
+	]
+}

@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vendor/sovdigital/blade_assassin/effects/phase_trail/phase_trail.png" id="1_13voh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8d7xk"]
+atlas = ExtResource("1_13voh")
+region = Rect2(0, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_catk7"]
+atlas = ExtResource("1_13voh")
+region = Rect2(320, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsfpr"]
+atlas = ExtResource("1_13voh")
+region = Rect2(640, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyljy"]
+atlas = ExtResource("1_13voh")
+region = Rect2(960, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yte5r"]
+atlas = ExtResource("1_13voh")
+region = Rect2(1280, 0, 320, 520)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77ej3"]
+atlas = ExtResource("1_13voh")
+region = Rect2(1600, 0, 320, 520)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8d7xk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_catk7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dsfpr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyljy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yte5r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77ej3")
+}],
+"loop": 0,
+"name": &"effect",
+"speed": 12.0
+}]

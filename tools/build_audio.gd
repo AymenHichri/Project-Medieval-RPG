@@ -22,6 +22,10 @@ const MUSIC: Dictionary = {
 	&"mus_town_hamlet": [-3.0, 4.0, 2.5, true],
 	&"mus_dungeon_graveyard": [0.0, 4.0, 2.5, true],
 	&"mus_battle": [0.0, 0.4, 1.0, false],
+	# Phase 10: the boss fight (battle loudness) and the story cues pushed by dialogue lines.
+	&"mus_boss_assassin": [0.0, 0.4, 1.5, false],
+	&"mus_story_dread": [0.0, 2.0, 2.0, false],
+	&"mus_story_sorrow": [0.0, 2.0, 2.0, false],
 	&"jng_victory": [0.0, 0.0, 0.0, false],
 	&"jng_gameover": [0.0, 0.0, 0.0, false],
 	&"jng_levelup": [0.0, 0.0, 0.0, false],

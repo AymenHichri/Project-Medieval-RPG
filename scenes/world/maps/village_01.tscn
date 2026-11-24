@@ -54,6 +54,9 @@
 [ext_resource type="Resource" path="res://data/equipment/silver_stake.tres" id="101_silver_stake"]
 [ext_resource type="Resource" path="res://data/equipment/pilgrims_chalice.tres" id="102_pilgrims_chalice"]
 [ext_resource type="Resource" path="res://data/equipment/worn_longsword.tres" id="103_worn_longsword"]
+[ext_resource type="Resource" path="res://data/quests/silence_in_the_graveyard.tres" id="110_quest"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/characters/knight/godot/knight_spriteframes.tres" id="111_knight_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/vendor/sovdigital/knight/ColourVariations/gold/knight/godot/knight_spriteframes.tres" id="112_gold_frames"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h2o4h"]
 normal = Vector2(1, 0)
@@ -229,6 +232,7 @@ facing = "SW"
 portrait = ExtResource("28_ldbp2")
 idle_animation_speed = 0.5
 dialogue_id = &"elder_intro"
+quest = ExtResource("110_quest")
 
 [node name="Warden" parent="World" instance=ExtResource("80_recruit")]
 position = Vector2(2300, 2420)
@@ -247,6 +251,24 @@ dialogue_id = &"merchant_greeting"
 position = Vector2(3120, 1470)
 item = ExtResource("103_worn_longsword")
 opened_flag = &"chest_village_longsword"
+
+[node name="Hollis" parent="World" instance=ExtResource("27_1vyu5")]
+position = Vector2(2470, 2250)
+facing = "W"
+sprite_frames = ExtResource("111_knight_frames")
+dialogue_id = &"hollis_talk"
+
+[node name="Ilse" parent="World" instance=ExtResource("27_1vyu5")]
+position = Vector2(1630, 2200)
+facing = "E"
+sprite_frames = ExtResource("112_gold_frames")
+dialogue_id = &"ilse_talk"
+
+[node name="Brenna" parent="World" instance=ExtResource("27_1vyu5")]
+position = Vector2(1080, 2790)
+facing = "E"
+sprite_frames = ExtResource("111_knight_frames")
+dialogue_id = &"brenna_talk"
 
 [node name="OakTree1" parent="World" unique_id=1091003060 instance=ExtResource("29_81qe0")]
 position = Vector2(170, 640)

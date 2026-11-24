@@ -40,6 +40,11 @@
 [ext_resource type="PackedScene" path="res://scenes/world/components/chest.tscn" id="91_chest"]
 [ext_resource type="Resource" path="res://data/items/soul_gem.tres" id="92_soul_gem"]
 [ext_resource type="Resource" path="res://data/items/gold_coins.tres" id="93_gold_coins"]
+[ext_resource type="Resource" path="res://data/quests/silence_in_the_graveyard.tres" id="100_quest"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/boss_trigger.tscn" id="101_boss_trigger"]
+[ext_resource type="Resource" path="res://data/bosses/blade_assassin.tres" id="102_boss"]
+[ext_resource type="Resource" path="res://data/items/skull_key.tres" id="103_skull_key"]
+[ext_resource type="Resource" path="res://data/equipment/pilgrims_chalice.tres" id="104_chalice"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2n12d"]
 normal = Vector2(1, 0)
@@ -211,6 +216,15 @@ position = Vector2(2291, 1438)
 [node name="Grave12" parent="World" unique_id=1455315394 instance=ExtResource("12_4sejv")]
 position = Vector2(778, 1460)
 
+[node name="Interactable" parent="World/Grave12" instance=ExtResource("14_3sdce")]
+position = Vector2(0, 8)
+dialogue_id = &"examine_grave_soldier"
+radius = 60.0
+prompt_offset = Vector2(0, -150)
+quest = ExtResource("100_quest")
+quest_stage = 0
+quest_done_flag = &"grave_soldier_searched"
+
 [node name="Grave13" parent="World" unique_id=656459128 instance=ExtResource("12_4sejv")]
 position = Vector2(2684, 1451)
 
@@ -244,6 +258,15 @@ position = Vector2(779, 2063)
 [node name="Grave23" parent="World" unique_id=1790196934 instance=ExtResource("13_gey56")]
 position = Vector2(2505, 2054)
 
+[node name="Interactable" parent="World/Grave23" instance=ExtResource("14_3sdce")]
+position = Vector2(0, 8)
+dialogue_id = &"examine_grave_fresh"
+radius = 72.0
+prompt_offset = Vector2(0, -120)
+quest = ExtResource("100_quest")
+quest_stage = 0
+quest_done_flag = &"grave_fresh_searched"
+
 [node name="Grave24" parent="World" unique_id=2136570595 instance=ExtResource("11_m33ch")]
 position = Vector2(951, 2045)
 
@@ -258,6 +281,9 @@ position = Vector2(0, 8)
 dialogue_id = &"examine_headstone"
 radius = 60.0
 prompt_offset = Vector2(0, -150)
+quest = ExtResource("100_quest")
+quest_stage = 0
+quest_done_flag = &"grave_widow_searched"
 
 [node name="BonePyre" parent="World" unique_id=1910063429 instance=ExtResource("15_cym5c")]
 position = Vector2(1150, 900)
@@ -331,6 +357,22 @@ position = Vector2(2300, 2260)
 item = ExtResource("93_gold_coins")
 count = 2
 opened_flag = &"chest_graveyard_coins"
+
+[node name="ChestCrypt" parent="World" instance=ExtResource("91_chest")]
+position = Vector2(1900, 640)
+item = ExtResource("104_chalice")
+opened_flag = &"chest_graveyard_crypt"
+required_key = ExtResource("103_skull_key")
+
+[node name="CryptDoor" parent="World" instance=ExtResource("101_boss_trigger")]
+position = Vector2(1536, 600)
+dialogue_id = &"crypt_door_open"
+encounter = ExtResource("102_boss")
+sealed_dialogue = &"crypt_door_sealed"
+after_dialogue = &"crypt_door_silent"
+quest = ExtResource("100_quest")
+quest_stage = 1
+quest_done_flag = &"blade_assassin_defeated"
 
 [node name="GnarledTree1" parent="World" unique_id=768431089 instance=ExtResource("24_taan8")]
 position = Vector2(240, 820)

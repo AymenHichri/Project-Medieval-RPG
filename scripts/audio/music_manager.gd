@@ -162,6 +162,11 @@ func stack_depth() -> int:
 	return _stack.size()
 
 
+## Forgets every track waiting for a `pop()` (the scene they belong to is gone: Game Over).
+func clear_stack() -> void:
+	_stack.clear()
+
+
 ## Players currently audible (playing above SILENT_DB, jingle excluded).
 func audible_players() -> Array[AudioStreamPlayer]:
 	var out: Array[AudioStreamPlayer] = []

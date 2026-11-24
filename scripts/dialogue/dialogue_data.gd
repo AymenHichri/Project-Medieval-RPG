@@ -5,20 +5,37 @@ extends RefCounted
 ##   { "id": String (= file name), "lines": [ line, ... ] (non-empty),
 ##     "conditions": { "if_flag": String, "use": String (another dialogue id) } (optional) }
 ##   line   = { "text": String (non-empty), "speaker": String?, "set_flag": String?,
-##              "give_item": String?, "goto": target?, "choices": [ choice, ... ]? }
+##              "give_item": spec?, "take_item": spec?, "require_item": spec?, "else_goto": target?,
+##              "start_quest": String?, "portrait": String?, "music": String?,
+##              "goto": target?, "choices": [ choice, ... ]? }
 ##   choice = { "text": String (non-empty), "goto": target?, "set_flag": String? }
 ##   target = a line index (integer, 0 ≤ i < lines.size()) or "end".
-##   give_item = "<item_id>", "<item_id>:<count>" or "gold:<amount>" (run by DialogueRunner).
+##   spec   = "<item_id>", "<item_id>:<count>" or "gold:<amount>" (run by DialogueRunner).
+## Phase 10 keys: `require_item` (the party must hold it, else the line is skipped for `else_goto`,
+## default "end"), `take_item` (removed on the line), `start_quest` (a `data/quests/<id>.tres`),
+## `portrait` (a Gimble's framed portrait file name, e.g. "43_vampire_lord", shown beside this line
+## instead of the NPC's own) and `music` (a `data/audio/music/<id>.tres` cue played from this line
+## until the dialogue closes; "stop" silences the music for the rest of it).
 ## Unknown keys are errors (they are almost always typos).
 
 const DIR: String = "res://data/dialogue"
 const END: String = "end"
 
 const ROOT_KEYS: Array[String] = ["id", "lines", "conditions"]
-const LINE_KEYS: Array[String] = ["text", "speaker", "set_flag", "give_item", "goto", "choices"]
+const LINE_KEYS: Array[String] = ["text", "speaker", "set_flag", "give_item", "take_item", "require_item",
+	"else_goto", "start_quest", "portrait", "music", "goto", "choices"]
 const CHOICE_KEYS: Array[String] = ["text", "goto", "set_flag"]
 const CONDITION_KEYS: Array[String] = ["if_flag", "use"]
-const OPTIONAL_STRING_LINE_KEYS: Array[String] = ["speaker", "set_flag", "give_item"]
+const OPTIONAL_STRING_LINE_KEYS: Array[String] = ["speaker", "set_flag", "give_item", "take_item",
+	"require_item", "start_quest", "portrait", "music"]
+## Keys whose value is an item spec ("<id>", "<id>:<count>", "gold:<amount>").
+const ITEM_SPEC_KEYS: Array[String] = ["give_item", "take_item", "require_item"]
+## Gimble's framed portraits (`portrait` key: the file name without `.png`).
+const PORTRAIT_DIR: String = "res://assets/vendor/gimbles/portraits/framed/256px"
+## Music cues (`music` key: the MusicTrack id).
+const MUSIC_DIR: String = "res://data/audio/music"
+## `music` value that silences the music until the dialogue closes.
+const MUSIC_STOP: String = "stop"
 
 
 static func path_for(id: StringName) -> String:
@@ -89,16 +106,43 @@ static func _validate_line(value: Variant, index: int, line_count: int, errors: 
 	for key: String in OPTIONAL_STRING_LINE_KEYS:
 		if line.has(key) and not line[key] is String:
 			errors.append("%s.%s must be a string" % [where, key])
-	if line.has("give_item") and line["give_item"] is String and not _is_give_spec(str(line["give_item"])):
-		errors.append("%s.give_item must be \"<id>\", \"<id>:<count>\" or \"gold:<amount>\" (got \"%s\")" % [where, line["give_item"]])
+	for key: String in ITEM_SPEC_KEYS:
+		if line.has(key) and line[key] is String and not _is_give_spec(str(line[key])):
+			errors.append("%s.%s must be \"<id>\", \"<id>:<count>\" or \"gold:<amount>\" (got \"%s\")" % [where, key, line[key]])
 	if line.has("goto"):
 		_check_target(line["goto"], line_count, where + ".goto", errors)
+	if line.has("else_goto"):
+		if not line.has("require_item"):
+			errors.append("%s.else_goto needs a require_item" % where)
+		_check_target(line["else_goto"], line_count, where + ".else_goto", errors)
+		if (line["else_goto"] is float or line["else_goto"] is int) and int(line["else_goto"]) == index:
+			errors.append("%s.else_goto points at its own line" % where)
+	_validate_references(line, where, errors)
 	if line.has("choices"):
 		var choices: Array = line["choices"] as Array if line["choices"] is Array else []
 		if choices.is_empty():
 			errors.append("%s.choices must be a non-empty array" % where)
 		for c: int in choices.size():
 			_validate_choice(choices[c], "%s.choices[%d]" % [where, c], line_count, errors)
+
+
+## `start_quest`, `portrait` and `music` must name files that exist.
+static func _validate_references(line: Dictionary, where: String, errors: Array[String]) -> void:
+	if line.get("start_quest") is String and not ResourceLoader.exists(QuestData.path_for(StringName(str(line["start_quest"])))):
+		errors.append("%s.start_quest '%s' is not a quest in %s" % [where, line["start_quest"], QuestData.DIR])
+	if line.get("portrait") is String and not ResourceLoader.exists(portrait_path(str(line["portrait"]))):
+		errors.append("%s.portrait '%s' is not a portrait in %s" % [where, line["portrait"], PORTRAIT_DIR])
+	if line.get("music") is String and str(line["music"]) != MUSIC_STOP \
+			and not ResourceLoader.exists(music_path(str(line["music"]))):
+		errors.append("%s.music '%s' is not a track in %s" % [where, line["music"], MUSIC_DIR])
+
+
+static func portrait_path(portrait_id: String) -> String:
+	return "%s/%s.png" % [PORTRAIT_DIR, portrait_id]
+
+
+static func music_path(track_id: String) -> String:
+	return "%s/%s.tres" % [MUSIC_DIR, track_id]
 
 
 static func _validate_choice(value: Variant, where: String, line_count: int, errors: Array[String]) -> void:

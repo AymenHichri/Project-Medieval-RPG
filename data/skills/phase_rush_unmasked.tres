@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_4bsja"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_uljjr"]
+[ext_resource type="Resource" path="res://data/fx/boss_phase_trail_two.tres" id="3_705b8"]
+[ext_resource type="Resource" path="res://data/status_effects/stagger.tres" id="4_tg8jr"]
+
+[resource]
+script = ExtResource("2_uljjr")
+id = &"phase_rush_unmasked"
+display_name = "Phase Rush"
+power = 190
+user_inflicts = ExtResource("4_tg8jr")
+user_fx = ExtResource("3_705b8")
+anim_key = &"phase_rush"
+description = "A blur of steel that leaves its wielder reeling."

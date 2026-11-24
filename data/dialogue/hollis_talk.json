@@ -1,0 +1,8 @@
+{
+	"id": "hollis_talk",
+	"conditions": {"if_flag": "elder_agreed", "use": "hollis_quest"},
+	"lines": [
+		{"speaker": "Gravedigger Hollis", "text": "Forty years I've filled graves. Never once had to fill one twice, until this month."},
+		{"speaker": "Gravedigger Hollis", "text": "Something digs them out at night. I've stopped going past the fence, and I'm not ashamed to say it."}
+	]
+}

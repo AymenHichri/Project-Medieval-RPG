@@ -40,9 +40,6 @@ const VICTORY_SECONDS: float = 0.4
 const HP_BAR_GAP: float = 16.0
 ## Height used when the combatant has no visual (fixtures).
 const DEFAULT_HEIGHT: float = 150.0
-## HP fractions below which an `idle_hp50` / `idle_hp25` animation (if mapped) replaces idle.
-const IDLE_HP50: float = 0.5
-const IDLE_HP25: float = 0.25
 
 var combatant: Combatant
 var visual: CombatantVisual
@@ -165,16 +162,25 @@ func rest() -> void:
 	if _defending:
 		_hold_first_frame(&"idle")
 		return
-	var idle: StringName = &"idle"
-	if combatant != null and has_logical(&"idle_hp25") and combatant.hp_ratio() <= IDLE_HP25:
-		idle = &"idle_hp25"
-	elif combatant != null and has_logical(&"idle_hp50") and combatant.hp_ratio() <= IDLE_HP50:
-		idle = &"idle_hp50"
+	var idle: StringName = resting_anim()
 	if has_logical(idle) and not instant:
 		_show(idle)
 	elif has_logical(idle):
 		body.sprite_frames = visual.frames_for(idle)
 		body.animation = visual.animation_for(idle)
+
+
+## The animation `rest()` shows: a status's `rest_anim` (Staggered), else the idle for the
+## combatant's HP (`CombatantVisual.idle_for`: injured idles), else `idle`.
+func resting_anim() -> StringName:
+	if visual == null:
+		return &"idle"
+	if combatant != null:
+		for status: ActiveStatus in combatant.statuses:
+			if status.data.rest_anim != &"" and has_logical(status.data.rest_anim):
+				return status.data.rest_anim
+		return visual.idle_for(combatant.hp_ratio())
+	return &"idle"
 
 
 ## Runs towards the enemy side (melee wind-up).

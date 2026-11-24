@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="1_d7c71"]
+[ext_resource type="Resource" path="res://data/fx/boss_bone_lance.tres" id="2_5k33m"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="3_fr581"]
+[ext_resource type="Resource" path="res://data/status_effects/stagger.tres" id="4_80ngl"]
+
+[resource]
+script = ExtResource("3_fr581")
+id = &"bone_lance"
+display_name = "Bone Lance"
+power = 230
+user_inflicts = ExtResource("4_80ngl")
+anim_key = &"bone_lance"
+impact_fx = ExtResource("2_5k33m")
+description = "A spear of black bone driven through the guard."

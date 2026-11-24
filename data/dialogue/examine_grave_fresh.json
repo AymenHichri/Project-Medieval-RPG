@@ -1,0 +1,7 @@
+{
+	"id": "examine_grave_fresh",
+	"conditions": {"if_flag": "elder_agreed", "use": "grave_fresh_search"},
+	"lines": [
+		{"text": "A fresh mound of grave soil. No stone marks it yet."}
+	]
+}

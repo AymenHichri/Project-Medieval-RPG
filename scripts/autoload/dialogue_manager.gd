@@ -5,6 +5,9 @@ extends Node
 ## Supports multi-line text, speaker names, an optional portrait (passed by the NPC), choices,
 ## `goto`, `set_flag`, `give_item` and conditional entry (`conditions.if_flag` → `use`).
 ## `say(lines)` shows plain lines without a JSON file (Phase 9: chests, "Found 2 Minor Potion!").
+## Phase 10: a line's `portrait` replaces the NPC's portrait for that line, and its `music` cue
+## (`mus_story_*`) is pushed over the map music until the dialogue closes, then the map music
+## returns. `start_quest`, `require_item` and `take_item` are run by the DialogueRunner.
 
 signal dialogue_started(dialogue_id: StringName)
 signal dialogue_finished(dialogue_id: StringName)
@@ -20,6 +23,8 @@ var is_active: bool = false
 var runner: DialogueRunner
 
 var _box: DialogueBox
+## True while a `music` cue of the open dialogue is pushed over the map music.
+var _music_pushed: bool = false
 
 
 func _ready() -> void:
@@ -60,7 +65,8 @@ func _run(opened: DialogueRunner, portrait: Texture2D) -> void:
 	while not runner.is_finished():
 		var speaker: String = runner.speaker()
 		var choices: PackedStringArray = runner.choices()
-		_box.show_line(speaker, runner.text(), portrait if not speaker.is_empty() else null, choices)
+		_play_cue(runner.music_id())
+		_box.show_line(speaker, runner.text(), line_portrait(runner, portrait), choices)
 		if choices.is_empty():
 			await _advanced
 			runner.advance()
@@ -69,9 +75,47 @@ func _run(opened: DialogueRunner, portrait: Texture2D) -> void:
 			runner.choose(index)
 	var played: StringName = runner.dialogue_id
 	runner = null
+	_end_cue()
 	_box.close()
 	is_active = false
 	dialogue_finished.emit(played)
+
+
+## The portrait beside the runner's current line: its own `portrait` key, else `fallback` (the
+## NPC's) when the line has a speaker, else none.
+static func line_portrait(on: DialogueRunner, fallback: Texture2D) -> Texture2D:
+	var portrait_id: String = on.portrait_id()
+	if not portrait_id.is_empty():
+		var path: String = DialogueData.portrait_path(portrait_id)
+		if ResourceLoader.exists(path):
+			return load(path) as Texture2D
+	return fallback if not on.speaker().is_empty() else null
+
+
+## Plays a line's `music` cue over the map music (pushed once per dialogue; later cues replace it).
+func _play_cue(cue: String) -> void:
+	if cue.is_empty():
+		return
+	var track: MusicTrack = null
+	if cue != DialogueData.MUSIC_STOP and ResourceLoader.exists(DialogueData.music_path(cue)):
+		track = load(DialogueData.music_path(cue)) as MusicTrack
+	if _music_pushed:
+		AudioManager.music.play(track)
+	else:
+		AudioManager.music.push(track, track.fade_in if track != null else 0.4)
+		_music_pushed = true
+
+
+## Back to the music that played before the dialogue's cue.
+func _end_cue() -> void:
+	if _music_pushed:
+		_music_pushed = false
+		AudioManager.music.pop()
+
+
+## True while a `music` cue of the open dialogue plays over the map music (tests).
+func is_cue_playing() -> bool:
+	return _music_pushed
 
 
 ## Moves past the current line (the box calls this on `accept`; tests call it directly).

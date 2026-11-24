@@ -124,12 +124,13 @@ func shown_hp(c: Combatant) -> int:
 	return _shown_hp.get(c, c.hp) as int
 
 
-## Battle intro: the enemies fade in under the intro line.
+## Battle intro: the enemies fade in under the intro line (a boss in its `entrance_fx`).
 func intro(text: String) -> void:
 	message.show_text(text)
 	for c: Combatant in sprites:
 		if c.side == Combatant.Team.ENEMY and sprites[c].visual != null:
 			_play_sfx(sprites[c].visual.cry_sfx, c)
+			_play_fx(sprites[c].visual.entrance_fx, c)
 	if not instant:
 		for c: Combatant in sprites:
 			if c.side == Combatant.Team.ENEMY:
@@ -181,6 +182,8 @@ func _play_action(start: BattleEvent, effects: Array[BattleEvent]) -> void:
 		else:
 			impact.append(e)
 	message.show_text(action_text(action))
+	if failed == null and action.skill != null:
+		_play_fx(action.skill.user_fx, actor)
 	if failed != null:
 		await _wait(MESSAGE_SECONDS)
 		await _on_action_failed(failed)
@@ -331,6 +334,8 @@ func _on_action_skipped(e: BattleEvent) -> void:
 				text = "%s is fast asleep." % who
 			StatusEffectData.Kind.STUN:
 				text = "%s is stunned and cannot act!" % who
+			StatusEffectData.Kind.STAGGER:
+				text = "%s reels, open to attack!" % who
 	message.show_text(text)
 	await _wait(MESSAGE_SECONDS)
 
@@ -439,6 +444,10 @@ func _on_status_applied(e: BattleEvent) -> void:
 	_popup(target, status.display_name, DamagePopup.Kind.INFO, _next_stack(target), status.tag_color)
 	if hud != null:
 		hud.refresh_statuses(target)
+	_rest_if_idle(target)
+	if status.kind == StatusEffectData.Kind.STAGGER:
+		message.show_text("%s reels, open to attack!" % target.display_name)
+		await _wait(MESSAGE_SECONDS)
 
 
 func _on_status_resisted(e: BattleEvent) -> void:
@@ -451,6 +460,7 @@ func _on_status_removed(e: BattleEvent) -> void:
 	var status: StatusEffectData = e.get_value(&"status") as StatusEffectData
 	if hud != null:
 		hud.refresh_statuses(target)
+	_rest_if_idle(target)
 	if e.get_value(&"reason") == &"expired" and target.is_alive():
 		_popup(target, "%s fades" % status.display_name, DamagePopup.Kind.INFO, _next_stack(target))
 		await _wait(TICK_SECONDS * 0.5)
@@ -480,6 +490,7 @@ func _on_phase_change(e: BattleEvent) -> void:
 			sprite.set_visual(data.visual)
 		if sprite.visual != null:
 			_play_sfx(sprite.visual.cry_sfx, target)
+			_play_fx(sprite.visual.phase_fx, target)
 	_shown_hp[target] = target.hp
 	_show_bars(target, false)
 	await _wait(MESSAGE_SECONDS)
@@ -535,6 +546,13 @@ func _on_battle_ended(e: BattleEvent) -> void:
 
 
 # --- helpers ------------------------------------------------------------------------------
+
+## A status that changes the resting pose (Staggered) shows at once on a sprite that is not busy.
+func _rest_if_idle(c: Combatant) -> void:
+	var sprite: BattleSprite = sprites.get(c) as BattleSprite
+	if sprite != null and not sprite.is_playing() and not sprite.is_fallen():
+		sprite.rest()
+
 
 func _run_handler_like(work: Callable) -> void:
 	_running += 1

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/quest_data.gd" id="1_0t2x1"]
+[ext_resource type="Script" path="res://scripts/resources/quest_stage.gd" id="2_h4118"]
+
+[sub_resource type="Resource" id="Resource_u8xlb"]
+script = ExtResource("2_h4118")
+text = "Elder Maren says three graves in the old graveyard were opened from below. Search them."
+flags = Array[StringName]([&"grave_widow_searched", &"grave_soldier_searched", &"grave_fresh_searched"])
+progress_label = "Graves searched"
+
+[sub_resource type="Resource" id="Resource_iw17k"]
+script = ExtResource("2_h4118")
+text = "Every trail ends at the crypt. Whatever sealed its door is waiting behind it."
+flags = Array[StringName]([&"blade_assassin_defeated"])
+
+[sub_resource type="Resource" id="Resource_a2d84"]
+script = ExtResource("2_h4118")
+text = "The crypt is silent. Tell Elder Maren what you found."
+flags = Array[StringName]([&"silence_reported"])
+turn_in = true
+
+[resource]
+script = ExtResource("1_0t2x1")
+id = &"silence_in_the_graveyard"
+title = "Silence in the Graveyard"
+giver = "Elder Maren"
+summary = "Villagers vanish on the graveyard road, and their own kin forget their faces."
+stages = Array[ExtResource("2_h4118")]([SubResource("Resource_u8xlb"), SubResource("Resource_iw17k"), SubResource("Resource_a2d84")])
+completed_text = "The Blade Assassin is dead and the graveyard is quiet. Elder Maren has your report, and the village has its names back, for now."

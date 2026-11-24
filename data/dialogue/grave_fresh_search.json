@@ -1,0 +1,9 @@
+{
+	"id": "grave_fresh_search",
+	"conditions": {"if_flag": "grave_fresh_searched", "use": "grave_searched"},
+	"lines": [
+		{"text": "The mound is soft. Someone dug into it from the top, then gave up."},
+		{"set_flag": "grave_fresh_searched", "give_item": "skull_key", "text": "Something pale lies in the loose earth: a key of yellowed bone, carved like a grinning skull. [Received the Skull Key.]"},
+		{"text": "Whoever buried it meant to come back for it."}
+	]
+}

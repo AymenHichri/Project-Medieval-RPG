@@ -1,0 +1,7 @@
+{
+	"id": "crypt_door_sealed_hexblade",
+	"lines": [
+		{"text": "The crypt door is sealed by a crust of grey ash, pressed into the shape of a ward."},
+		{"speaker": "Hexblade", "text": "The ward feeds on the graves around it. Find out what was taken from them and it will weaken."}
+	]
+}

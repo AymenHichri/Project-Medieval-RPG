@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FxSpec" format=3]
+
+[ext_resource type="SpriteFrames" path="res://data/fx/frames/bone_lance_impact_phase_two_spriteframes.tres" id="1_08la8"]
+[ext_resource type="Script" path="res://scripts/resources/fx_spec.gd" id="2_pwvyl"]
+
+[resource]
+script = ExtResource("2_pwvyl")
+frames = ExtResource("1_08la8")
+scale = 0.8
+mirror_for_facing = true

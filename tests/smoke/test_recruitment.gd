@@ -102,7 +102,8 @@ func test_accepting_adds_the_warden_and_it_leaves() -> void:
 	assert_eq(GameState.party.members[1].data.id, &"warden", "joins behind the Knight")
 	assert_eq(joined.size(), 1)
 	assert_true(GameState.get_flag(&"warden_joined") as bool)
-	for i: int in 60:
+	# The fade lasts RecruitNpc.LEAVE_SECONDS of real time: allow plenty of (fast headless) frames.
+	for i: int in 600:
 		await _tree.process_frame
 		if not is_instance_valid(warden):
 			break

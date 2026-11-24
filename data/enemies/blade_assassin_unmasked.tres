@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/ai_profile.gd" id="1_vvlwm"]
+[ext_resource type="Script" path="res://scripts/resources/skill_data.gd" id="2_mx2hw"]
+[ext_resource type="Resource" path="res://data/skills/blink_strike.tres" id="3_muaby"]
+[ext_resource type="Resource" path="res://data/skills/phase_rush_unmasked.tres" id="4_2fv3s"]
+[ext_resource type="Resource" path="res://data/skills/blood_mist.tres" id="5_6npud"]
+[ext_resource type="Resource" path="res://data/skills/bone_lance.tres" id="6_ee8er"]
+[ext_resource type="Script" path="res://scripts/resources/drop_entry.gd" id="7_cx27t"]
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="8_bssq7"]
+[ext_resource type="Script" path="res://scripts/resources/stat_block.gd" id="9_38l4d"]
+[ext_resource type="Script" path="res://scripts/resources/status_effect_data.gd" id="10_vu23u"]
+[ext_resource type="Resource" path="res://data/status_effects/sleep.tres" id="11_tkh0v"]
+[ext_resource type="Resource" path="res://data/status_effects/stun.tres" id="12_ypepa"]
+[ext_resource type="Resource" path="res://data/visuals/blade_assassin_unmasked.tres" id="13_m8tc3"]
+
+[sub_resource type="Resource" id="Resource_4jvpg"]
+script = ExtResource("1_vvlwm")
+attack_weight = 3
+skill_weights = Dictionary[ExtResource("2_mx2hw"), int]({
+ExtResource("3_muaby"): 2,
+ExtResource("4_2fv3s"): 2,
+ExtResource("5_6npud"): 2,
+ExtResource("6_ee8er"): 2
+})
+
+[sub_resource type="Resource" id="Resource_do18e"]
+script = ExtResource("9_38l4d")
+max_hp = 560
+attack = 51
+defense = 22
+magic = 28
+spirit = 22
+agility = 18
+luck = 12
+
+[resource]
+script = ExtResource("8_bssq7")
+id = &"blade_assassin_unmasked"
+display_name = "Blade Assassin"
+stats = SubResource("Resource_do18e")
+affinities = Dictionary[int, float]({
+4: 2.0,
+5: 0.5
+})
+skills = Array[ExtResource("2_mx2hw")]([ExtResource("3_muaby"), ExtResource("4_2fv3s"), ExtResource("5_6npud"), ExtResource("6_ee8er")])
+ai = SubResource("Resource_4jvpg")
+xp = 150
+gold = 200
+visual = ExtResource("13_m8tc3")
+status_immunities = Array[ExtResource("10_vu23u")]([ExtResource("11_tkh0v"), ExtResource("12_ypepa")])
+actions_per_round = 2

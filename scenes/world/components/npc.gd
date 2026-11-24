@@ -9,6 +9,9 @@ extends Interactable
 @export_enum("E", "SE", "S", "SW", "W", "NW", "N", "NE") var facing: String = "S"
 ## Framed portrait shown beside its lines (null = none).
 @export var portrait: Texture2D
+## Its look (null = the scene's default, the Knight black recolour). Placeholders until villager
+## sprites exist (risk R5).
+@export var sprite_frames: SpriteFrames
 ## Playback speed of the idle loop (the vendor speed reads as panting).
 @export_range(0.1, 2.0, 0.05) var idle_animation_speed: float = 0.5
 
@@ -19,8 +22,23 @@ var current_facing: StringName = &"S"
 
 func _ready() -> void:
 	super._ready()
+	if sprite_frames != null:
+		sprite.sprite_frames = sprite_frames
 	sprite.speed_scale = idle_animation_speed
 	face(StringName(facing))
+	if quest != null and quest_stage < 0:
+		GameState.flag_changed.connect(_on_state_changed.unbind(2))
+		GameState.quests_changed.connect(_on_state_changed.unbind(1))
+		refresh_quest_icon()
+
+
+## A quest giver shows the quest icon while it has a quest to give or is waiting for a report.
+func refresh_quest_icon() -> void:
+	set_icon(QUEST_ICON if is_quest_target() else null)
+
+
+func _on_state_changed() -> void:
+	refresh_quest_icon()
 
 
 ## Plays the idle of a direction name (unknown names are ignored).

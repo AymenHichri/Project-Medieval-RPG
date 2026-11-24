@@ -1,0 +1,8 @@
+{
+	"id": "brenna_talk",
+	"conditions": {"if_flag": "blade_assassin_defeated", "use": "brenna_after"},
+	"lines": [
+		{"speaker": "Widow Brenna", "text": "My Aldric walked out to the graveyard road at dusk. That was nine days ago."},
+		{"speaker": "Widow Brenna", "text": "Every morning I remember a little less of him. His voice is already gone."}
+	]
+}

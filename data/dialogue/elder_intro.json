@@ -9,8 +9,8 @@
 			{ "text": "I'll go.", "set_flag": "elder_agreed", "goto": 3 },
 			{ "text": "Not my concern.", "goto": 5 }
 		  ] },
-		{ "speaker": "Elder Maren", "give_item": "minor_potion:2", "text": "Then take these. My father swore by them. [Received 2 Minor Potions.]" },
-		{ "speaker": "Elder Maren", "goto": "end", "text": "Rest at the well when the road wears on you. The water still remembers being holy." },
+		{ "speaker": "Elder Maren", "give_item": "minor_potion:2", "start_quest": "silence_in_the_graveyard", "text": "Then take these. My father swore by them. [Received 2 Minor Potions.]" },
+		{ "speaker": "Elder Maren", "goto": "end", "text": "Three graves out there were opened from below. Search them, and mind the crypt. Rest at the well when the road wears on you; the water still remembers being holy." },
 		{ "speaker": "Elder Maren", "text": "Hm. Most say that. Most are gone by spring." },
 		{ "speaker": "Elder Maren", "text": "Change your mind and you know where I stand. The well in the square will rest you either way." }
 	]
